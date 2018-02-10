@@ -65,7 +65,7 @@
 
             $index++;
             $result[$index] = array();
-            if (isset($this -> value['demographics'])) {
+            if (isset($this -> value['demographics']) && isset($this -> value['persons'])) {
                 $raw_result['type'] = "spoiler";
                 $raw_result['name'] = "Совет (".count($this -> value['persons']).")";
                 $raw_result['value'] = $this -> getPersonsList($this -> value['persons']);
@@ -75,34 +75,95 @@
             unset($raw_result);
 
             $get_arr_attributes = $this -> getAttributesList($this -> value['attributes']['attributes']);
+            $get_arr_effects = $this -> getEffectsList($this -> value['attributes']['effects'], $this -> getPersonsNameList($this -> value['persons']));
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($get_arr_attributes[11])) ? Round($get_arr_attributes[11]*100,2)."%" : "";
+            if (isset($get_arr_attributes[11])) { 
+	            if (isset($get_arr_effects[11])) {
+	                $raw_result['type'] = "text";
+	                $raw_result['value'] = Round($get_arr_attributes[11]*100,2)."%";
+	                $law = ($get_arr_effects[11]['law'] != 0) ? $get_arr_effects[11]['law']."% записи ": "";
+	                $job = ($get_arr_effects[11]['job'] != 0) ? $get_arr_effects[11]['job']."% проекты ": "";
+	                $pers = $get_arr_effects[11]['person']."% Мастера ";
+	                $oth = ($get_arr_effects[11]['other'] != 0) ? $get_arr_effects[11]['other']."% остальное": "";
+	                $raw_result['title'] = $law.$job.$pers.$oth;
+	            } else 
+	            	$raw_result = Round($get_arr_attributes[11]*100,2)."%";
+			} else
+                $raw_result = "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($get_arr_attributes[9])) ? Round($get_arr_attributes[9]*100,2)."%" : "";
+            if (isset($get_arr_attributes[9])) { 
+	            if (isset($get_arr_effects[9])) {
+	                $raw_result['type'] = "text";
+	                $raw_result['value'] = Round($get_arr_attributes[9]*100,2)."%";
+	                $sta = ($get_arr_effects[9]['stability'] != 0) ? $get_arr_effects[9]['stability']."% стабильность ": "";
+	                $job = ($get_arr_effects[9]['job'] != 0) ? $get_arr_effects[9]['job']."% проекты ": "";
+	                $pers = $get_arr_effects[9]['person']."% Мастера ";
+	                $oth = ($get_arr_effects[9]['other'] != 0) ? $get_arr_effects[9]['other']."% остальное": "";
+	                $raw_result['title'] = $sta.$job.$pers.$oth;
+	            } else 
+	            	$raw_result = Round($get_arr_attributes[9]*100,2)."%";
+			} else
+                $raw_result = "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($get_arr_attributes[4])) ? Round($get_arr_attributes[4],2) : "";
+            if (isset($get_arr_attributes[4])) { 
+	            if (isset($get_arr_effects[4])) {
+	                $raw_result['type'] = "text";
+	                $raw_result['value'] = Round($get_arr_attributes[4],2);
+	                $sta = ($get_arr_effects[4]['stability'] != 0) ? $get_arr_effects[4]['stability']." стабильность ": "";
+	                $job = ($get_arr_effects[4]['job'] != 0) ? $get_arr_effects[4]['job']." проекты ": "";
+	                $pers = $get_arr_effects[4]['person']." Мастера ";
+	                $oth = ($get_arr_effects[4]['other'] != 0) ? $get_arr_effects[4]['other']." остальное": "";
+	                $raw_result['title'] = $sta.$job.$pers.$oth;
+	            } else 
+	            	$raw_result = Round($get_arr_attributes[4],2);
+			} else
+                $raw_result = "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($get_arr_attributes[8])) ? Round($get_arr_attributes[8]*100,2)."%" : "";
+            if (isset($get_arr_attributes[8])) { 
+	            if (isset($get_arr_effects[8])) {
+	                $raw_result['type'] = "text";
+	                $raw_result['value'] = Round($get_arr_attributes[8]*100,2)."%";
+	                $sta = ($get_arr_effects[8]['stability'] != 0) ? $get_arr_effects[8]['stability']."% стабильность ": "";
+	                $job = ($get_arr_effects[8]['job'] != 0) ? $get_arr_effects[8]['job']."% проекты ": "";
+	                $pers = $get_arr_effects[8]['person']."% Мастера ";
+	                $oth = ($get_arr_effects[8]['other'] != 0) ? $get_arr_effects[8]['other']."% остальное": "";
+	                $raw_result['title'] = $sta.$job.$pers.$oth;
+	            } else 
+	            	$raw_result = Round($get_arr_attributes[8]*100,2)."%";
+			} else
+                $raw_result = "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($get_arr_attributes[7])) ? Round($get_arr_attributes[7]*100,2)."%" : "";
+            if (isset($get_arr_attributes[7])) { 
+	            if (isset($get_arr_effects[7])) {
+	                $raw_result['type'] = "text";
+	                $raw_result['value'] = Round($get_arr_attributes[7]*100,2)."%";
+	                $sta = ($get_arr_effects[7]['stability'] != 0) ? $get_arr_effects[7]['stability']."% стабильность ": "";
+	                $job = ($get_arr_effects[7]['job'] != 0) ? $get_arr_effects[7]['job']."% проекты ": "";
+	                $pers = $get_arr_effects[7]['person']."% Мастера ";
+	                $oth = ($get_arr_effects[7]['other'] != 0) ? $get_arr_effects[7]['other']."% остальное": "";
+	                $raw_result['title'] = $sta.$job.$pers.$oth;
+	            } else 
+	            	$raw_result = Round($get_arr_attributes[7]*100,2)."%";
+			} else
+                $raw_result = "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
@@ -134,7 +195,19 @@
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($get_arr_attributes[33])) ? Round($get_arr_attributes[33]*100,2)."%" : "";
+            if (isset($get_arr_attributes[33])) { 
+	            if (isset($get_arr_effects[33])) {
+	                $raw_result['type'] = "text";
+	                $raw_result['value'] = Round($get_arr_attributes[33]*100,2)."%";
+	                $sta = ($get_arr_effects[33]['stability'] != 0) ? $get_arr_effects[33]['stability']."% стабильность ": "";
+	                $job = ($get_arr_effects[33]['job'] != 0) ? $get_arr_effects[33]['job']."% проекты ": "";
+	                $pers = $get_arr_effects[33]['person']."% Мастера ";
+	                $oth = ($get_arr_effects[33]['other'] != 0) ? $get_arr_effects[33]['other']."% остальное": "";
+	                $raw_result['title'] = $sta.$job.$pers.$oth;
+	            } else 
+	            	$raw_result = Round($get_arr_attributes[33]*100,2)."%";
+			} else
+                $raw_result = "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
@@ -225,6 +298,14 @@
             $this -> value['city'] = $city;
         }
 
+        private function getPersonsNameList($arr_of_persons) {
+            $arr_name = array();
+            foreach ($arr_of_persons as $key => $value) {
+            	array_push($arr_name, $value['name']);                  
+            }
+            return $arr_name;
+        }
+
         private function getPersonsList($arr_of_persons) {
             $result = "<ul>";
             foreach ($arr_of_persons as $key => $value) {
@@ -241,7 +322,70 @@
                 $arr_attr[$value['id']] = $value['value'];
             }
             return $arr_attr;
-        } 
+        }
+
+        private function getEffectsList($array_of_effects, $array_of_persons) {
+            $arr_eff = array(4 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
+        					 7 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
+        					 8 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
+        					 9 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
+        					 11 => array("law" => 0, "job" => 0, "person" => 0, "other" => 0),
+        					 33 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0));                            
+            foreach ($array_of_effects as $key => $value) {
+            	if ($value['attribute'] == 11) {
+            		if ($this -> findLaw($value['name']))
+	                	$arr_eff[$value['attribute']]['law'] += Round($value['value']*100,2);
+	                else if ($this -> findJob($value['name']))
+	                	$arr_eff[$value['attribute']]['job'] += Round($value['value']*100,2);
+	                else if ($this -> findMaster($array_of_persons, $value['name']))
+	                	$arr_eff[$value['attribute']]['person'] += Round($value['value']*100,2);
+	                else
+	                	$arr_eff[$value['attribute']]['other'] += Round($value['value']*100,2);
+            	} else if ($value['attribute'] == 4) {
+            		if ($this -> findStability($value['name']))
+	                	$arr_eff[$value['attribute']]['stability'] += Round($value['value'],2);
+	                else if ($this -> findJob($value['name']))
+	                	$arr_eff[$value['attribute']]['job'] += Round($value['value'],2);
+	                else if ($this -> findMaster($array_of_persons, $value['name']))
+	                	$arr_eff[$value['attribute']]['person'] += Round($value['value'],2);
+	                else
+	                	$arr_eff[$value['attribute']]['other'] += Round($value['value'],2);
+            	} else if ($value['attribute'] == 7 || $value['attribute'] == 8 || $value['attribute'] == 9 || $value['attribute'] == 33) {
+	            	if ($this -> findStability($value['name']))
+	                	$arr_eff[$value['attribute']]['stability'] += Round($value['value']*100,2);
+	                else if ($this -> findJob($value['name']))
+	                	$arr_eff[$value['attribute']]['job'] += Round($value['value']*100,2);
+	                else if ($this -> findMaster($array_of_persons, $value['name']))
+	                	$arr_eff[$value['attribute']]['person'] += Round($value['value']*100,2);
+	                else
+	                	$arr_eff[$value['attribute']]['other'] += Round($value['value']*100,2);
+	            }
+            }
+            return $arr_eff;
+        }
+
+        private function findMaster($array_of_persons, $person) {
+        	foreach ($array_of_persons as $key => $value) {
+                if ($value == $person)
+                	return true;
+            }
+            return false;
+        }
+
+        private function findJob($job) {
+        	$result = strpos($job, "Проект");
+        	return ($result === false) ? false : true;
+        }
+
+        private function findLaw($law) {
+        	$result = strpos($law, "запись");
+        	return ($result === false) ? false : true;
+        }
+
+        private function findStability($stability) {
+        	$result = strpos($stability, "стабильность");
+        	return ($result === false) ? false : true;
+        }
 
         private function getBillsList($arr_of_bills) {
             $result = "<ul>";
