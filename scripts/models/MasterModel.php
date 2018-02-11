@@ -36,13 +36,13 @@
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($this -> value['building'])) ? Dictionary::getProfession($this -> value['building']['type']) : "";
+            $raw_result = (isset($this -> value['profession'])) ? Dictionary::getProfession($this -> value['profession']) : "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($this -> value['race'])) ? Dictionary::getRace($this -> value['race']) : "";
+            $raw_result = (isset($this -> value['gender']) && isset($this -> value['race'])) ? Dictionary::getRace($this -> value['gender'],  $this -> value['race']) : "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
@@ -137,12 +137,21 @@
         }
 
         public function getJobType() {
-
+        	if (isset($this -> value['profession']) && isset($this -> value['gender']) && isset($this -> value['race'])) {
+        		$result['profession'] = $this -> value['profession'];
+                $result['race'] = $this -> value['race'];
+                $result['gender'] = $this -> value['gender'];
+                return $result;
+            }
             return 0;
         }
 
         public function getRace() {
-
+        	if (isset($this -> value['gender']) && isset($this -> value['race'])) {
+                $result['race'] = $this -> value['race'];
+                $result['gender'] = $this -> value['gender'];
+                return $result;
+            }
             return 0;
         }
 
