@@ -84,10 +84,11 @@
 	                $raw_result['type'] = "text";
 	                $raw_result['value'] = Round($get_arr_attributes[11]*100,2)."%";
 	                $law = ($get_arr_effects[11]['law'] != 0) ? $get_arr_effects[11]['law']."% записи ": "";
+	                $ang = ($get_arr_effects[11]['angel'] != 0) ? $get_arr_effects[11]['angel']."% Хранители ": "";
 	                $job = ($get_arr_effects[11]['job'] != 0) ? $get_arr_effects[11]['job']."% проекты ": "";
 	                $pers = $get_arr_effects[11]['person']."% Мастера ";
 	                $oth = ($get_arr_effects[11]['other'] != 0) ? $get_arr_effects[11]['other']."% остальное": "";
-	                $raw_result['title'] = $law.$job.$pers.$oth;
+	                $raw_result['title'] = $law.$ang.$job.$pers.$oth;
 	            } else 
 	            	$raw_result = Round($get_arr_attributes[11]*100,2)."%";
 			} else
@@ -329,12 +330,14 @@
         					 7 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
         					 8 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
         					 9 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
-        					 11 => array("law" => 0, "job" => 0, "person" => 0, "other" => 0),
+        					 11 => array("angel" => 0, "law" => 0, "job" => 0, "person" => 0, "other" => 0),
         					 33 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0));                            
             foreach ($array_of_effects as $key => $value) {
             	if ($value['attribute'] == 11) {
             		if ($this -> findLaw($value['name']))
 	                	$arr_eff[$value['attribute']]['law'] += Round($value['value']*100,2);
+	                else if ($this -> findAngel($value['name']))
+	                	$arr_eff[$value['attribute']]['angel'] += Round($value['value']*100,2);
 	                else if ($this -> findJob($value['name']))
 	                	$arr_eff[$value['attribute']]['job'] += Round($value['value']*100,2);
 	                else if ($this -> findMaster($array_of_persons, $value['name']))
@@ -374,6 +377,11 @@
 
         private function findJob($job) {
         	$result = strpos($job, "Проект");
+        	return ($result === false) ? false : true;
+        }
+
+        private function findAngel($angel) {
+        	$result = strpos($angel, "Хранитель");
         	return ($result === false) ? false : true;
         }
 
