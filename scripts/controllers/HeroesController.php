@@ -1,9 +1,8 @@
 <?php
-	include_once("config/cfg.php");
-	include_once("scripts/controllers/Controller.php");
-    include_once("scripts/models/PlacesModel.php");
-	include_once("scripts/models/HeroModel.php");
-	include_once("scripts/models/GetInfoByURLModel.php");
+	include_once("../scripts/controllers/Controller.php");
+    include_once("../scripts/models/PlacesModel.php");
+	include_once("../scripts/models/HeroModel.php");
+	include_once("../scripts/models/GetInfoByURLModel.php");
 
 	class HeroesController extends Controller {
 		public $heroes;

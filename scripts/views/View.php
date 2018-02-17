@@ -53,8 +53,8 @@ $(document).ready(function() {
 		 		echo "<input id='refresh' type='hidden' name='refresh' value='false' />";
  			echo "</div>";
 			echo "<div id='controls'>";
-		 		echo "<img src='img/back_control.png' alt='вернуться' title='вернуться' class='back_btn control_img control'>";
-		 		echo "<img src='img/refresh_control.png' alt='обновить' title='обновить' class='refresh_btn control_img control'>";
+		 		echo "<img src='../img/back_control.png' alt='вернуться' title='вернуться' class='back_btn control_img control'>";
+		 		echo "<img src='../img/refresh_control.png' alt='обновить' title='обновить' class='refresh_btn control_img control'>";
 			echo "</div>";
 		}
 
@@ -110,7 +110,7 @@ $(document).ready(function() {
 					} else if ($data['type'] == "img") {
 						$src = (isset($data['src'])) ? $data['src'] : "";
 						$alt = (isset($data['alt'])) ? $data['alt'] : "";
-						echo "<img src='img/".$src."' alt='".$alt."' title='".$alt."' class='small_img'>";
+						echo "<img src='../img/".$src."' alt='".$alt."' title='".$alt."' class='small_img'>";
 					} else if ($data['type'] == "spoiler") {
 						echo "<div>";
 							echo "<span class='spoiler_links'>";

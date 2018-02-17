@@ -549,7 +549,7 @@
         public function getPower() {
             if (isset($this -> value['politic_power']['power']['fraction'])) {
                 $result['frontier'] = (isset($this -> value['frontier']) && (!$this -> value['frontier'])) ? 1 : 0;
-                $result['power'] =  Round($this -> value['politic_power']['power']['fraction']*100,1);
+                $result['power'] =  Round($this -> value['politic_power']['power']['fraction']*100,2);
                 return $result;
             }
             return 0;

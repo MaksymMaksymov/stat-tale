@@ -1,8 +1,7 @@
 <?php
-	include_once("config/cfg.php");
-	include_once("scripts/controllers/Controller.php");
-	include_once("scripts/models/MasterModel.php");
-	include_once("scripts/models/GetInfoByURLModel.php");
+	include_once("../scripts/controllers/Controller.php");
+	include_once("../scripts/models/MasterModel.php");
+	include_once("../scripts/models/GetInfoByURLModel.php");
 
 	class MastersController extends Controller {
 		public $masters;

@@ -1,5 +1,5 @@
 <?php
-	if (isset($_REQUEST['controller'])) {
+	if (isset($_REQUEST['controller']) && !empty($_REQUEST['controller'])) {
 		if ($_REQUEST['controller'] == "Heroes") {
 			if (isset($_REQUEST['ids']))
 	    		$arr_ids = $_REQUEST['ids'];
@@ -51,5 +51,8 @@
 	    	$arr_dict_places = $get_info -> getPlacesDictionary();
 	    
 	    include "views/".$_REQUEST['controller']."View.php";
+	} else {
+		header('Location: ../index.php', true, $statusCode);
+   		die();
 	}
 ?>
