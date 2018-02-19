@@ -28,4 +28,16 @@
 	$ANGELS_PATH = "accounts/<account>/api/show";
 	$ANGELS_VERSION = "1.0";
 	$ANGELS_URL =  $HOST.$ANGELS_PATH."?api_version=".$ANGELS_VERSION."&api_client=".$API_CLIENT;
+
+	$dbHost='localhost';
+	$dbName='tale_db';
+	$dbUser='root';
+	$dbPass='';
+
+	$mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+	$mysqli->query("SET NAMES utf8 COLLATE utf8_general_ci"); // з кодуванням завжди проблеми
+	if (mysqli_connect_errno()) {
+		$dbError = true;
+	    exit();
+	}
 ?>

@@ -1,8 +1,7 @@
 <?php
-	include_once("../scripts/controllers/Controller.php");
-    include_once("../scripts/models/PlacesModel.php");
-	include_once("../scripts/models/HeroModel.php");
-	include_once("../scripts/models/GetInfoByURLModel.php");
+	include_once("Controller.php");
+	include_once("../models/HeroModel.php");
+	include_once("../models/GetInfoByURLModel.php");
 
 	class HeroesController extends Controller {
 		public $heroes;
@@ -10,43 +9,16 @@
         function __construct() {}
            
 	    public function getArrayToParse($array_of_ids = null) {
-            if ($array_of_ids == null)  {
-                Messages::showNoData("Heroes");
-            } else {
-                $curlGet = new GetInfoByURLModel();
-                $this -> heroes = array();
-                foreach ($array_of_ids as $key => $value) {
-                    $hero = new HeroModel();
-                    $tmp_url =  str_replace("<account>", $value, $GLOBALS["HEROES_URL"]);
-                    $arr_heroes = $curlGet -> getInformation($tmp_url); 
-                    if (!$hero -> setValues($arr_heroes)) continue;
-
-                    $angel = new AngelModel();
-                    $tmp_url =  str_replace("<account>", $value, $GLOBALS["ANGELS_URL"]);
-                    $arr_angels = $curlGet -> getInformation($tmp_url); 
-                    if (!$angel -> setValues($arr_angels)) continue;
-                    if ($angel != null) {
-                        $hero -> setAngel($angel);
-                    }
-                    array_push($this -> heroes, $hero);
-                    unset($hero);
-                }
-                unset($curlGet);
+            if ($array_of_ids == null) { 
+                $array_of_ids = HeroModel::dbSelectAll();
             }
-        }
-
-        public function getPlacesDictionary() {
-            $curlGetDict = new GetInfoByURLModel(); 
-            $arr_all_places = $curlGetDict -> getInformation($GLOBALS["PLACES_URL_LIST"]); 
-
-            $arr_places = new PlacesModel();
-            if (!$arr_places -> setValues($arr_all_places)) 
-                return NULL;
-            $arr_make_places = array();
-            for ($i = 0; $i < $arr_places -> countValues(); $i++) {
-                $arr_make_places[$arr_places -> getId($i)] = $arr_places -> getName($i);
+            
+            $this -> heroes = array();
+            foreach ($array_of_ids as $key => $value) {
+                $hero = new HeroModel();
+                if (!$hero -> setValue($value)) continue;
+                array_push($this -> heroes, $hero);
             }
-            return $arr_make_places;
         }
 
         public function sortByClass($class, $direction = "false") {
@@ -122,4 +94,14 @@
 
         function __destruct() {}
     }
+
+    $class_sorted = (isset($_REQUEST['class'])) ? $_REQUEST['class'] : "";
+    $sort_direction = (isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false";
+    $arr_ids = null;
+
+    $get_info = new HeroesController();
+    $get_info -> getArrayToParse($arr_ids);
+    $get_info -> sortByClass($class_sorted,$sort_direction);
+        
+    include "../views/HeroesView.php";
 ?>

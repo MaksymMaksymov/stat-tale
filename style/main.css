@@ -150,47 +150,6 @@ table.data_table {
 	width: 100%;
 }
 
-img.control_img {
-	height: 20px;
-	width: 20px;
-}
-
-.control {
-	cursor: pointer;
-	background: #9FA9F0;
-	-webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-	border-radius: 4px;
-	-webkit-box-shadow: 0 2px 2px 0px #bfbfbf;
-    -moz-box-shadow: 0 2px 2px 0px #bfbfbf;
-    box-shadow: 0 2px 2px 0px #bfbfbf;
-	padding: 5px;
-	margin: 0 3px;
-}
-
-input.control {
-	color: #625C55;
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-weight: bold;
-}
-
-img.control {
-	border-bottom: 2px solid #DDEBF3;
-	border-right: 2px solid #DDEBF3;
-}
-
-.control:hover { 
-	border-bottom: 2px solid #9FA9F0;
-	border-right: 2px solid #9FA9F0;
-	-webkit-box-shadow: 0 0px 0px 0px #bfbfbf;
-    -moz-box-shadow: 0 0px 0px 0px #bfbfbf;
-    box-shadow: 0 0px 0px 0px #bfbfbf;
-}
-
-#controls {
-	float: right;
-}
-
 footer {
 	color: black;
 	text-align: center;

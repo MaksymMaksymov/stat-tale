@@ -1,7 +1,7 @@
 <?php
-	include_once("../scripts/controllers/Controller.php");
-	include_once("../scripts/models/PlacesAddModel.php");
-	include_once("../scripts/models/GetInfoByURLModel.php");
+	include_once("Controller.php");
+	include_once("../models/PlaceModel.php");
+	include_once("../models/GetInfoByURLModel.php");
 
 	class PlacesController extends Controller {
 		public $places;
@@ -9,30 +9,16 @@
         function __construct() {}
            
 	    public function getArrayToParse($array_of_ids = null) {
-            $curlGet = new GetInfoByURLModel(); 
-            $arr_all_places = $curlGet -> getInformation($GLOBALS["PLACES_URL_LIST"]); 
-
-            $arr_places = new PlacesModel();
-            if (!$arr_places -> setValues($arr_all_places)) return;
-
-            $this -> places = array();
-            if ($arr_places -> countValues() > 0) { 
-                for ($i = 0; $i < $arr_places -> countValues(); $i++) {
-                	if (($array_of_ids == null) || (in_array($arr_places -> getId($i), $array_of_ids))) {
-                		$place = new PlacesAddModel();
-                		$tmp_url =  str_replace("<place>", $arr_places -> getId($i), $GLOBALS["PLACES_URL_DETAILED"]);
-                        $arr_place_add_info = $curlGet -> getInformation($tmp_url); 
-                        
-                        if (!$place -> setValues($arr_place_add_info)) continue;
-                        $place -> setCity($arr_places -> getValuesByIndex($i));
-                        array_push($this -> places, $place);
-                        unset($place);
-                    }
-    			}
-            } else {
-                Messages::showNoData("Places");
+            if ($array_of_ids == null) {
+                $array_of_ids = PlaceModel::dbSelectAll();
             }
-            unset($curlGet); 
+            
+            $this -> places = array();
+            foreach ($array_of_ids as $key => $value) {
+                $place = new PlaceModel();
+                if (!$place -> setValue($value)) continue;
+                array_push($this -> places, $place);
+            }
         }
 
         public function sortByClass($class, $direction = "false") {
@@ -111,4 +97,14 @@
 
         function __destruct() {}
     }
+
+    $class_sorted = (isset($_REQUEST['class'])) ? $_REQUEST['class'] : "";
+    $sort_direction = (isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false";
+    $arr_ids = null;
+
+    $get_info = new PlacesController();
+    $get_info -> getArrayToParse($arr_ids);
+    $get_info -> sortByClass($class_sorted,$sort_direction);
+        
+    include "../views/PlacesView.php";
 ?>

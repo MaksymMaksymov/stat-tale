@@ -4,9 +4,9 @@
 <head>
     <title>Мастера Сказки</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-    <link rel="stylesheet" type="text/css" href="../style/main.css">
-    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
-    <script src="../js/jquery-3.1.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../style/main.css">
+    <link rel="shortcut icon" href="../../img/favicon.ico" type="image/x-icon">
+    <script src="../../js/jquery-3.1.0.min.js"></script>
 </head>
 <body>
   <?php

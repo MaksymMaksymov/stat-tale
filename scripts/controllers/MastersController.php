@@ -1,7 +1,6 @@
 <?php
-	include_once("../scripts/controllers/Controller.php");
-	include_once("../scripts/models/MasterModel.php");
-	include_once("../scripts/models/GetInfoByURLModel.php");
+	include_once("Controller.php");
+	include_once("../models/MasterModel.php");
 
 	class MastersController extends Controller {
 		public $masters;
@@ -9,20 +8,15 @@
         function __construct() {}
            
 	    public function getArrayToParse($array_of_ids = null) {
-            if ($array_of_ids == null)  {
-                Messages::showNoData("Masters");
-            } else {
-                $curlGet = new GetInfoByURLModel();
-                $this -> masters = array();
-                foreach ($array_of_ids as $key => $value) {
-                    $master = new MasterModel();
-                    $tmp_url =  str_replace("<person>", $value, $GLOBALS["MASTERS_URL"]);
-                    $arr_masters = $curlGet -> getInformation($tmp_url); 
-                    if (!$master -> setValues($arr_masters)) continue;
-                    array_push($this -> masters, $master);
-                    unset($master);
-                }
-                unset($curlGet); 
+            if ($array_of_ids == null) {
+                $array_of_ids = MasterModel::dbSelectAll();
+            }
+            
+            $this -> masters = array();
+            foreach ($array_of_ids as $key => $value) {
+                $master = new MasterModel();
+                if (!$master -> setValue($value)) continue;
+                array_push($this -> masters, $master);
             }
         }   
 
@@ -84,4 +78,14 @@
 
         function __destruct() {}
     }
+
+    $class_sorted = (isset($_REQUEST['class'])) ? $_REQUEST['class'] : "";
+    $sort_direction = (isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false";
+    $arr_ids = null;
+
+    $get_info = new MastersController();
+    $get_info -> getArrayToParse($arr_ids);
+    $get_info -> sortByClass($class_sorted,$sort_direction);
+        
+    include "../views/MastersView.php";
 ?>

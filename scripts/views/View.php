@@ -4,8 +4,6 @@ $(document).ready(function() {
 		$(this).next('.spoiler_body').slideToggle();
 	});
 
-	var hid_refresh = document.getElementById('refresh');
-
 	$('.sort').click(function() {
 		var hid_class = document.getElementById('class');
 		var hid_direction = document.getElementById('direction');
@@ -22,20 +20,8 @@ $(document).ready(function() {
 			}
 		}
 		$(hid_class).attr('value', get_class);
-		$(hid_refresh).attr('value', 'false');
 
-		document.getElementById('get_info').submit();
-	});
-
-	$('.refresh_btn').click(function() {
-		$(hid_refresh).attr('value', 'true');
-		document.getElementById('get_info').submit();
-	});
-
-	$('.back_btn').click(function() {
-		var hid_controller = document.getElementById('controller');
-		$(hid_controller).attr('value', '');
-		document.getElementById('get_info').submit();
+		document.getElementById('tbl_form').submit();
 	});
 });
 </script>
@@ -45,17 +31,11 @@ $(document).ready(function() {
 		function __construct() {}
 
 		public static function getForm($controller,$class,$direction,$title) {
-			echo "<form id='get_info' action='' method='post'>";
+			echo "<form id='tbl_form' action='' method='post'>";
 			echo "<div id='hidden_inputs'>";
-				echo "<input id='controller' type='hidden' name='controller' value='".$controller."' />";
 		 		echo "<input id='class' type='hidden' name='class' value='".$class."' />";
 		 		echo "<input id='direction' type='hidden' name='direction' value='".$direction."' />";
-		 		echo "<input id='refresh' type='hidden' name='refresh' value='false' />";
  			echo "</div>";
-			echo "<div id='controls'>";
-		 		echo "<img src='../img/back_control.png' alt='вернуться' title='вернуться' class='back_btn control_img control'>";
-		 		echo "<img src='../img/refresh_control.png' alt='обновить' title='обновить' class='refresh_btn control_img control'>";
-			echo "</div>";
 		}
 
 		public static function getFormEnd() {
@@ -110,7 +90,7 @@ $(document).ready(function() {
 					} else if ($data['type'] == "img") {
 						$src = (isset($data['src'])) ? $data['src'] : "";
 						$alt = (isset($data['alt'])) ? $data['alt'] : "";
-						echo "<img src='../img/".$src."' alt='".$alt."' title='".$alt."' class='small_img'>";
+						echo "<img src='../../img/".$src."' alt='".$alt."' title='".$alt."' class='small_img'>";
 					} else if ($data['type'] == "spoiler") {
 						echo "<div>";
 							echo "<span class='spoiler_links'>";
