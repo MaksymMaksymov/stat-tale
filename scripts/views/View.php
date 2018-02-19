@@ -1,29 +1,29 @@
 <script type="text/javascript">
-$(document).ready(function() {
-	$('.spoiler_links').click(function() {
-		$(this).next('.spoiler_body').slideToggle();
-	});
+	$(document).ready(function() {
+		$('.spoiler_links').click(function() {
+			$(this).next('.spoiler_body').slideToggle();
+		});
 
-	$('.sort').click(function() {
-		var hid_class = document.getElementById('class');
-		var hid_direction = document.getElementById('direction');
-		var get_class = $(this).attr('class');
-		get_class = get_class.substr(0,get_class.indexOf('sort'));
-		get_class = get_class.trim();
-		if (hid_direction.getAttribute('value') == 'false') {
-			$(hid_direction).attr('value', 'true');
-		} else {
-			if (hid_class.getAttribute('value') == get_class) {
-				$(hid_direction).attr('value', 'false');
-			} else {
+		$('.sort').click(function() {
+			var hid_class = document.getElementById('class');
+			var hid_direction = document.getElementById('direction');
+			var get_class = $(this).attr('class');
+			get_class = get_class.substr(0,get_class.indexOf('sort'));
+			get_class = get_class.trim();
+			if (hid_direction.getAttribute('value') == 'false') {
 				$(hid_direction).attr('value', 'true');
+			} else {
+				if (hid_class.getAttribute('value') == get_class) {
+					$(hid_direction).attr('value', 'false');
+				} else {
+					$(hid_direction).attr('value', 'true');
+				}
 			}
-		}
-		$(hid_class).attr('value', get_class);
+			$(hid_class).attr('value', get_class);
 
-		document.getElementById('tbl_form').submit();
+			document.getElementById('tbl_form').submit();
+		});
 	});
-});
 </script>
 
 <?php

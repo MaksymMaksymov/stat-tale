@@ -1,0 +1,181 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-size: 15px;
+	font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+	margin: 0;
+	padding: 0;
+}
+
+.header-logo {
+	display: flex;
+	justify-content: center;
+	padding-top: 15px;
+}
+
+.header-logo img {
+	padding: 5px 0 0 0;
+	position: relative;
+	z-index: 999;
+}
+
+.menu {
+	text-align: center;
+	padding: 10px 20px;
+}
+
+.burg a {
+	display: block;
+	width: 70px;
+}
+
+#burg {
+	width: 98%;
+	background: #ffffff;
+	padding: 7.5px 0 7.5px 2%;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+#burg span {
+	display: flex;
+	margin: 8px;
+	width: 30px;
+	height: 1px;
+	background: #e1b400;
+	z-index: 100;
+}
+
+.mobile-tab {
+	display: flex;
+	width: 100%;
+	background: #ffffff;
+	flex-direction: column;
+	transition: ease 0.2s;
+}
+
+.mobile-tab a {
+	color: #000000;
+	text-decoration: none;
+	font-weight: lighter;
+	font-size: 18px;
+	font-weight: bold;
+	letter-spacing: 3px;
+	font-size: 28px;
+}
+
+.mobile-tab li {
+	list-style-type: none;
+	padding: 5% 0 5% 0; 
+	text-align: center;
+}
+
+.mobile-tab li:hover{
+	background-color:#e1b400;
+	color: #ffffff;
+}
+
+.mobile-tab ul {
+	padding: 1% 0;
+}
+
+.content {
+  padding: 5% 10% 0 10%;
+  font-size: 14px;
+}
+
+@media screen and (min-device-width: 768px) {
+	.mobile-tab, #burg, #mobile {
+		display: none;
+	}
+
+	.bar {
+		background: #ffffff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 15px 15px;
+	}
+
+	.mobile-bar {
+		display: none;
+	}
+
+	#desktop {
+		display: flex;
+	}
+
+	.bar a, .content a {
+		text-decoration: none;
+		color: #000000;
+		margin: 0;
+	}
+
+	.bar ul {
+		display: inline-flex;
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.bar li {
+		color: #ffffff;
+		cursor: pointer;
+		font-weight: lighter;
+		padding: 20px 20px;
+		text-align: center;
+		width: 70px;
+		letter-spacing: 1px;
+		transition: all .2s ease-in-out;
+	}
+
+	.bar li:hover {
+		background: #e1b400;
+		opacity: .8;
+		box-shadow: inset 1px 1px 5px grey;
+		color: #ffffff;
+	}
+
+	.bar li:hover a {
+		color: #ffffff;
+	}
+
+	.bar li a {
+		font-size: 16px;
+		font-weight: bold;
+	}
+
+	.content {
+		font-size: 18px;
+	}
+
+	.header-logo img {
+		padding-right: 15px;
+	}
+} 
+
+@media screen and (max-device-width: 768px) {
+	#desktop {
+		display: none;
+	}
+
+	.header-logo {
+		flex-direction: column;
+		text-align: center;
+	}
+
+	.header-logo h1 {
+		font-size: 40px;
+	}
+
+	.content a {
+		text-decoration: none;
+		color: #000000;
+	}
+}
+
+
