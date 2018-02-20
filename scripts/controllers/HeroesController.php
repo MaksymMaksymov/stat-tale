@@ -86,7 +86,7 @@
             $new_array = array();
             foreach ($arr_to_sort as $key => $value) {
                 $model = $this -> model_array[$key];
-                array_push($new_heroes, $model);
+                array_push($new_array, $model);
             }
             unset($this -> model_array);
             $this -> model_array = $new_array;

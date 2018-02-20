@@ -620,7 +620,7 @@
             if (isset($row)) {
                 return $row['name'];
             } else
-                return false;
+                return "-";
         }
 
 		function __destruct() {}           
