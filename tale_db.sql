@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 20 2018 г., 18:49
+-- Время создания: Фев 20 2018 г., 19:00
 -- Версия сервера: 10.1.26-MariaDB
 -- Версия PHP: 7.1.8
 
@@ -22,7 +22,6 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
-<<<<<<< HEAD
 --
 -- Структура таблицы heroes
 --
@@ -59,40 +58,6 @@ CREATE TABLE heroes (
   position varchar(10) COLLATE utf8_bin DEFAULT NULL,
   quest varchar(100) COLLATE utf8_bin DEFAULT NULL,
   quest_list varchar(500) COLLATE utf8_bin DEFAULT NULL
-=======
-CREATE TABLE `heroes` (
-  `id` int(11) NOT NULL,
-  `angel_name` varchar(250) COLLATE utf8_bin NOT NULL,
-  `name` varchar(250) COLLATE utf8_bin NOT NULL,
-  `might` int(11) DEFAULT NULL,
-  `can_affect_game` tinyint(1) DEFAULT NULL,
-  `last_visit` datetime DEFAULT NULL,
-  `alive` tinyint(1) DEFAULT NULL,
-  `clan_name` varchar(250) COLLATE utf8_bin DEFAULT NULL,
-  `clan_id` int(11) DEFAULT NULL,
-  `gender` int(11) DEFAULT NULL,
-  `race` int(11) DEFAULT NULL,
-  `level` int(11) DEFAULT NULL,
-  `exp` int(11) DEFAULT NULL,
-  `power` int(11) DEFAULT NULL,
-  `companion` varchar(40) COLLATE utf8_bin DEFAULT NULL,
-  `peacefulness` int(11) DEFAULT NULL,
-  `peacefulness_verbose` varchar(40) COLLATE utf8_bin DEFAULT NULL,
-  `honor` int(11) DEFAULT NULL,
-  `honor_verbose` varchar(40) COLLATE utf8_bin DEFAULT NULL,
-  `money` int(11) DEFAULT NULL,
-  `strength` int(11) DEFAULT NULL,
-  `physic` int(11) DEFAULT NULL,
-  `magic` int(11) DEFAULT NULL,
-  `lvl_equip` int(11) DEFAULT NULL,
-  `lvl_equip_title` varchar(100) COLLATE utf8_bin DEFAULT NULL,
-  `avg_equip` int(11) DEFAULT NULL,
-  `speed` float DEFAULT NULL,
-  `initiative` float DEFAULT NULL,
-  `position` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `quest` varchar(100) COLLATE utf8_bin DEFAULT NULL,
-  `quest_list` varchar(500) COLLATE utf8_bin DEFAULT NULL
->>>>>>> 0a5381be3eeb0e72e071eaaa8ebeea17a2458a93
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
