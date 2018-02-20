@@ -3,7 +3,7 @@
 	include_once("../models/MasterModel.php");
 
 	class MastersController extends Controller {
-		public $masters;
+		public $model_array;
 
         function __construct() {}
            
@@ -12,18 +12,18 @@
                 $array_of_ids = MasterModel::dbSelectAll();
             }
             
-            $this -> masters = array();
+            $this -> model_array = array();
             foreach ($array_of_ids as $key => $value) {
-                $master = new MasterModel();
-                if (!$master -> setValue($value)) continue;
-                array_push($this -> masters, $master);
+                $model = new MasterModel();
+                if (!$model -> setValue($value)) continue;
+                array_push($this -> model_array, $model);
             }
         }   
 
         public function sortByClass($class, $direction = "false") {
             if ($class == "") return;
             $arr_to_sort = array();
-            foreach ($this -> masters as $key => $value) {
+            foreach ($this -> model_array as $key => $value) {
                 switch ($class) {
                     case "master": 
                         $arr_to_sort[$key] = $value -> getMaster();
@@ -55,37 +55,27 @@
                     case "power_out": 
                         $arr_to_sort[$key] = $value -> getPowerOut();
                         break;
-                    case "positive": 
-                        $arr_to_sort[$key] = $value -> getPositive();
-                        break;
-                    case "negative": 
-                        $arr_to_sort[$key] = $value -> getNegative();
-                        break;
                 }    
             }
             if ($direction == "false")
                 asort($arr_to_sort);
             else 
                 arsort($arr_to_sort);
-            $new_masters = array();
+            $new_array = array();
             foreach ($arr_to_sort as $key => $value) {
-                $master = $this -> masters[$key];
-                array_push($new_masters, $master);
+                $model = $this -> model_array[$key];
+                array_push($new_array, $model);
             }
-            unset($this -> masters);
-            $this -> masters = $new_masters;
+            unset($this -> model_array);
+            $this -> model_array = $new_array;
         }
 
         function __destruct() {}
     }
 
-    $class_sorted = (isset($_REQUEST['class'])) ? $_REQUEST['class'] : "";
-    $sort_direction = (isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false";
     $arr_ids = null;
-
     $get_info = new MastersController();
-    $get_info -> getArrayToParse($arr_ids);
-    $get_info -> sortByClass($class_sorted,$sort_direction);
+    $get_info -> main($arr_ids);
         
     include "../views/MastersView.php";
 ?>

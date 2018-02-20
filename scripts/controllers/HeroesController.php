@@ -4,7 +4,7 @@
 	include_once("../models/GetInfoByURLModel.php");
 
 	class HeroesController extends Controller {
-		public $heroes;
+		public $model_array;
 
         function __construct() {}
            
@@ -13,18 +13,18 @@
                 $array_of_ids = HeroModel::dbSelectAll();
             }
             
-            $this -> heroes = array();
+            $this -> model_array = array();
             foreach ($array_of_ids as $key => $value) {
-                $hero = new HeroModel();
-                if (!$hero -> setValue($value)) continue;
-                array_push($this -> heroes, $hero);
+                $model = new HeroModel();
+                if (!$model -> setValue($value)) continue;
+                array_push($this -> model_array, $model);
             }
         }
 
         public function sortByClass($class, $direction = "false") {
             if ($class == "") return;
             $arr_to_sort = array();
-            foreach ($this -> heroes as $key => $value) {
+            foreach ($this -> model_array as $key => $value) {
                 switch ($class) {
                     case "angel": 
                         $arr_to_sort[$key] = $value -> getAngel();
@@ -83,25 +83,21 @@
                 asort($arr_to_sort);
             else 
                 arsort($arr_to_sort);
-            $new_heroes = array();
+            $new_array = array();
             foreach ($arr_to_sort as $key => $value) {
-                $hero = $this -> heroes[$key];
-                array_push($new_heroes, $hero);
+                $model = $this -> model_array[$key];
+                array_push($new_heroes, $model);
             }
-            unset($this -> heroes);
-            $this -> heroes = $new_heroes;
+            unset($this -> model_array);
+            $this -> model_array = $new_array;
         }
 
         function __destruct() {}
     }
 
-    $class_sorted = (isset($_REQUEST['class'])) ? $_REQUEST['class'] : "";
-    $sort_direction = (isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false";
     $arr_ids = null;
-
     $get_info = new HeroesController();
-    $get_info -> getArrayToParse($arr_ids);
-    $get_info -> sortByClass($class_sorted,$sort_direction);
+    $get_info -> main($arr_ids);
         
     include "../views/HeroesView.php";
 ?>

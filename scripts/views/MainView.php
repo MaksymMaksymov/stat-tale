@@ -1,4 +1,6 @@
-﻿<?php 
+﻿<!DOCTYPE html>
+<html>
+<?php 
 	include_once("HeadView.html");
 	include_once("View.php");
 ?>

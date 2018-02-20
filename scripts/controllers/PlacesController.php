@@ -4,7 +4,7 @@
 	include_once("../models/GetInfoByURLModel.php");
 
 	class PlacesController extends Controller {
-		public $places;
+		public $model_array;
 
         function __construct() {}
            
@@ -13,18 +13,18 @@
                 $array_of_ids = PlaceModel::dbSelectAll();
             }
             
-            $this -> places = array();
+            $this -> model_array = array();
             foreach ($array_of_ids as $key => $value) {
-                $place = new PlaceModel();
-                if (!$place -> setValue($value)) continue;
-                array_push($this -> places, $place);
+                $model = new PlaceModel();
+                if (!$model -> setValue($value)) continue;
+                array_push($this -> model_array, $model);
             }
         }
 
         public function sortByClass($class, $direction = "false") {
             if ($class == "") return;
             $arr_to_sort = array();
-            foreach ($this -> places as $key => $value) {
+            foreach ($this -> model_array as $key => $value) {
                 switch ($class) {
                     case "specialization": 
                         $arr_to_sort[$key] = $value -> getSpecialization();
@@ -74,37 +74,27 @@
                     case "power_out": 
                         $arr_to_sort[$key] = $value -> getPowerOut();
                         break;
-                    case "positive": 
-                        $arr_to_sort[$key] = $value -> getPositive();
-                        break;
-                    case "negative": 
-                        $arr_to_sort[$key] = $value -> getNegative();
-                        break;
                 }    
             }
             if ($direction == "false")
                 asort($arr_to_sort);
             else 
                 arsort($arr_to_sort);
-            $new_places = array();
+            $new_array = array();
             foreach ($arr_to_sort as $key => $value) {
-                $place = $this -> places[$key];
-                array_push($new_places, $place);
+                $model = $this -> model_array[$key];
+                array_push($new_array, $model);
             }
-            unset($this -> places);
-            $this -> places = $new_places;
+            unset($this -> model_array);
+            $this -> model_array = $new_array;
         }
 
         function __destruct() {}
     }
 
-    $class_sorted = (isset($_REQUEST['class'])) ? $_REQUEST['class'] : "";
-    $sort_direction = (isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false";
     $arr_ids = null;
-
     $get_info = new PlacesController();
-    $get_info -> getArrayToParse($arr_ids);
-    $get_info -> sortByClass($class_sorted,$sort_direction);
+    $get_info -> main($arr_ids);
         
     include "../views/PlacesView.php";
 ?>

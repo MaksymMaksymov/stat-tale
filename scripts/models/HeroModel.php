@@ -9,7 +9,6 @@
 		function __construct() {}   
 		
 		public function setValue($id) {
-            $arr_result = array();  
             $this -> value["id"] = $id;
             return $this -> dbSelectById(); 	
 		}

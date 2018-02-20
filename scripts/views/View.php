@@ -30,7 +30,7 @@
 	class View {
 		function __construct() {}
 
-		public static function getForm($controller,$class,$direction,$title) {
+		public static function getForm($class,$direction) {
 			echo "<form id='tbl_form' action='' method='post'>";
 			echo "<div id='hidden_inputs'>";
 		 		echo "<input id='class' type='hidden' name='class' value='".$class."' />";
@@ -150,6 +150,19 @@
 
         public static function getFooter() {
             echo "</div><footer>Copyright by <a href='http://the-tale.org/accounts/56706?referral=56706'>Mefi</a> &copy 2018</footer>";
+        }
+
+        public static function getTablePage($info,$table_name,$arr_classes,$arr_headers) {
+		    View::getContent();
+		    include_once("MenuView.php");
+		    View::getForm((isset($_REQUEST['class'])) ? $_REQUEST['class'] : "",(isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false");
+		    View::getHeaderTable($table_name,$arr_classes,$arr_headers);
+        	$array_out = array();
+		    View::getModelData($info -> model_array,$array_out);
+		    View::getTableData($table_name,$arr_classes,$array_out);
+		    View::getFooterTable();
+		    View::getFormEnd();
+		    View::getFooter();
         }
 
         function __destruct() {}

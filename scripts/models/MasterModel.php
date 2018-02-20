@@ -9,7 +9,6 @@
 		function __construct() {}   
 		
 		public function setValue($id) {
-            $arr_result = array();  
             $this -> value["id"] = $id;
             return $this -> dbSelectById();	
 		}
@@ -220,31 +219,6 @@
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
-            $index++;
-            $result[$index] = array();
-            $raw_result = "";
-            if (isset($this -> value['job_effect']) && isset($this -> value['job_name'])) {
-                $heroes_bonus = ($this -> value['job_effect'] >= 6 && $this -> value['job_effect'] <= 9) ? true : false;
-                if ($heroes_bonus)
-                    $raw_result .= "<b>";
-                $raw_result .= $this -> value['job_name'];
-                if ($heroes_bonus)
-                    $raw_result .= "</b>";
-            }
-            array_push($result[$index], $raw_result);
-            unset($raw_result);
-
-            $index++;
-            $result[$index] = array();
-            $raw_result = (isset($this -> value['positive_job'])) ? $this -> value['positive_job'] : "";
-            array_push($result[$index], $raw_result);
-            unset($raw_result);
-
-            $index++;
-            $result[$index] = array();
-            $raw_result = (isset($this -> value['negative_job'])) ? $this -> value['negative_job'] : "";
-            array_push($result[$index], $raw_result);
-
             return $result; 
 		}
 
@@ -324,24 +298,6 @@
         public function getPowerOut() {
             if (isset($this -> value['power_outer'])) {
                 return $this -> value['power_outer'];
-            }
-            return 0;
-        }
-
-        public function getPositive() {
-            if (isset($this -> value['job_effect'])) {
-                $result['effect'] = ($this -> value['job_effect'] > 9) ? 10 - $this -> value['job_effect'] : $this -> value['job_effect'];
-                $result['positive'] = -($this -> value['positive_job']);
-                return $result;
-            }
-            return 0;
-        }
-
-        public function getNegative() {
-            if (isset($this -> value['job_effect'])) {
-                $result['effect'] = ($this -> value['job_effect'] > 9) ? 10 - $this -> value['job_effect'] : $this -> value['job_effect'];
-                $result['negative'] = -($this -> value['negative_job']);
-                return $result;
             }
             return 0;
         }
