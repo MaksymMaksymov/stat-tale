@@ -38,7 +38,7 @@ CREATE TABLE `heroes` (
   `initiative` float DEFAULT NULL,
   `position` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `quest` varchar(100) COLLATE utf8_bin DEFAULT NULL,
-  `quest_list` varchar(250) COLLATE utf8_bin DEFAULT NULL
+  `quest_list` varchar(500) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `masters` (
