@@ -52,4 +52,10 @@
 	  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	  crossorigin="anonymous">
 	</script>
-	<script src = "../../js/script.js"></script>
+	<script>
+		$('.mobile-tab').hide();
+
+		$('#burg').on('click', function() {
+			$('.mobile-tab').slideToggle();
+		})
+	</script>

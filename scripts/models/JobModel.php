@@ -36,8 +36,18 @@
 
             $result[$index] = array();
             if (isset($this -> value['type']) && isset($this -> value['data']['id']) && isset($this -> value['data']['name'])) {
-                if ($this -> value['type'] == "master")
+                if ($this -> value['type'] == "master") {
                     $raw_result = PrepareToView::createUrl("http://the-tale.org/game/persons/".$this -> value['data']['id'],$this -> value['data']['name']);
+                    array_push($result[$index], $raw_result);
+                    unset($raw_result);
+                    $raw_result = " (";
+                    array_push($result[$index], $raw_result);
+                    unset($raw_result);
+                    $raw_result = PrepareToView::createUrl("http://the-tale.org/game/places/".$this -> value['data']['city_id'],PlaceModel::getNameById($this -> value['data']['city_id']));
+                    array_push($result[$index], $raw_result);
+                    unset($raw_result);
+                    $raw_result = ")";
+                }
                 else
                     $raw_result = PrepareToView::createUrl("http://the-tale.org/game/places/".$this -> value['data']['id'],$this -> value['data']['name']);
             } else

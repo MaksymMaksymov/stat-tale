@@ -40,8 +40,12 @@
 
             if ($this -> dbSelectById()) {
                 return $this -> dbUpdate($arr_result);
-            } else 
-                return $this -> dbInsert($arr_result);
+            } else {
+                if ($this -> dbInsert($arr_result))
+                    return $this -> dbUpdate($arr_result);
+                else
+                    return false;
+            }
         }
 
         public function dbSelectById()
@@ -63,46 +67,6 @@
             $db_values = $arrayData['id'];
             $db_names .= (!isset($arrayData['name'])) ? "" : ",name";
             $db_values .= (!isset($arrayData['name'])) ? "" : ",N'".str_replace("'","\'",$arrayData['name'])."'";
-            $db_names .= ",city_id";
-            $db_values .= ",N'".$arrayData['place']['id']."'";
-            $db_names .= (!isset($arrayData['profession'])) ? "" : ",profession";
-            $db_values .= (!isset($arrayData['profession'])) ? "" : ",".$arrayData['profession'];
-            $db_names .= (!isset($arrayData['gender'])) ? "" : ",gender";
-            $db_values .= (!isset($arrayData['gender'])) ? "" : ",".$arrayData['gender'];
-            $db_names .= (!isset($arrayData['race'])) ? "" : ",race";
-            $db_values .= (!isset($arrayData['race'])) ? "" : ",".$arrayData['race'];
-            $db_names .= (!isset($arrayData['attributes']['effects'][0]['name'])) ? "" : ",practic";
-            $db_values .= (!isset($arrayData['attributes']['effects'][0]['name'])) ? "" : ",N'".str_replace("'","\'",$arrayData['attributes']['effects'][0]['name'])."'";
-            $db_names .= (!isset($arrayData['attributes']['effects'][1]['name'])) ? "" : ",cosmetic";
-            $db_values .= (!isset($arrayData['attributes']['effects'][1]['name'])) ? "" : ",N'".str_replace("'","\'",$arrayData['attributes']['effects'][1]['name'])."'";
-            $db_names .= ",building";
-            $db_values .= (!isset($arrayData['building'])) ? ",false" : ",true";
-            $db_names .= (!isset($arrayData['building']['integrity'])) ? "" : ",integrity";
-            $db_values .= (!isset($arrayData['building']['integrity'])) ? "" : ",".Round($arrayData['building']['integrity']*100,2);
-            $db_names .= (!isset($arrayData['politic_power']['power']['fraction'])) ? "" : ",politic_power";
-            $db_values .= (!isset($arrayData['politic_power']['power']['fraction'])) ? "" : ",".Round($arrayData['politic_power']['power']['fraction']*100,0);
-            $db_names .= (!isset($arrayData['politic_power']['power']['outer']['value'])) ? "" : ",power_outer";
-            $db_values .= (!isset($arrayData['politic_power']['power']['outer']['value'])) ? "" : ",".$arrayData['politic_power']['power']['outer']['value'];
-            $db_names .= (!isset($arrayData['politic_power']['power']['outer']['fraction'])) ? "" : ",power_outer_fraction";
-            $db_values .= (!isset($arrayData['politic_power']['power']['outer']['fraction'])) ? "" : ",".Round($arrayData['politic_power']['power']['outer']['fraction']*100,0);
-            $db_names .= (!isset($arrayData['politic_power']['power']['inner']['fraction'])) ? "" : ",power_inner";
-            $db_values .= (!isset($arrayData['politic_power']['power']['inner']['value'])) ? "" : ",".$arrayData['politic_power']['power']['inner']['value'];
-            $db_names .= (!isset($arrayData['politic_power']['power']['inner']['fraction'])) ? "" : ",power_inner_fraction";
-            $db_values .= (!isset($arrayData['politic_power']['power']['inner']['fraction'])) ? "" : ",".Round($arrayData['politic_power']['power']['inner']['fraction']*100,0);
-            $db_names .= (!isset($arrayData['job']['effect'])) ? "" : ",job_effect";
-            $db_values .= (!isset($arrayData['job']['effect'])) ? "" : ",".$arrayData['job']['effect'];
-            $db_names .= (!isset($arrayData['job']['name'])) ? "" : ",job_name";
-            $db_values .= (!isset($arrayData['job']['name'])) ? "" : ",N'".str_replace("'","\'",$arrayData['job']['name'])."'";
-            if (isset($arrayData['job']['power_required']) && isset($arrayData['job']['positive_power'])) {
-                $tmp = $arrayData['job']['power_required'] - $arrayData['job']['positive_power'];
-                $db_values .= ",".$tmp;
-                $db_names .= ",positive_job";
-            }
-            if (isset($arrayData['job']['power_required']) && isset($arrayData['job']['negative_power'])) {
-                $tmp = $arrayData['job']['power_required'] - $arrayData['job']['negative_power'];
-                $db_values .= ",".$tmp;
-                $db_names .= ",negative_job";
-            }
 
             $mysqli = $GLOBALS["mysqli"];
             $query = $mysqli->query("INSERT INTO masters(".$db_names.") VALUES (".$db_values.")");

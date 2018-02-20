@@ -39,8 +39,12 @@
 
             if ($this -> dbSelectById()) {
                 return $this -> dbUpdate($arr_result);
-            } else 
-                return $this -> dbInsert($arr_result);
+            } else {
+                if ($this -> dbInsert($arr_result))
+                    return $this -> dbUpdate($arr_result);
+                else
+                    return false;
+            }
         }
 
         public function dbSelectById()
@@ -62,119 +66,6 @@
             $db_values = $arrayData['id'];
             $db_names .= (!isset($arrayData['name'])) ? "" : ",name";
             $db_values .= (!isset($arrayData['name'])) ? "" : ",N'".str_replace("'","\'",$arrayData['name'])."'";
-            $db_names .= ",frontier";
-            $db_values .= (isset($arrayData['frontier']) && $arrayData['frontier']) ? ",true" : ",false";
-            $db_names .= (!isset($arrayData['specialization'])) ? "" : ",specialization";
-            $db_values .= (!isset($arrayData['specialization'])) ? "" : ",".$arrayData['specialization'];
-            if (isset($arrayData['demographics'])) {
-	            $get_race = $this -> getDemographic($arrayData['demographics']);
-	            $db_names .= ",demographics,demographics_title";
-	            $db_values .= ",N'".$get_race["race"]."',N'".Round($get_race["percent"]*100,1)."%'";
-        	}
-
-            $get_arr_attributes = $this -> getAttributesList($arrayData['attributes']['attributes']); 
-            $get_arr_effects = $this -> getEffectsList($arrayData['attributes']['effects'], $this -> getPersonsNameList($arrayData['persons']));
-            if (isset($get_arr_attributes[11]) && isset($get_arr_effects[11])) {
-	            $db_names .= ",stability,stability_title";
-	            $db_values .= ",".Round($get_arr_attributes[11]*100,2);
-	            $law = ($get_arr_effects[11]['law'] != 0) ? $get_arr_effects[11]['law']."% записи ": "";
-	            $ang = ($get_arr_effects[11]['angel'] != 0) ? $get_arr_effects[11]['angel']."% Хранители ": "";
-	            $job = ($get_arr_effects[11]['job'] != 0) ? $get_arr_effects[11]['job']."% проекты ": "";
-	            $pers = $get_arr_effects[11]['person']."% Мастера ";
-	            $oth = ($get_arr_effects[11]['other'] != 0) ? $get_arr_effects[11]['other']."% остальное": "";
-	            $db_values .= ",N'".$law.$ang.$job.$pers.$oth."'";
-			}
-			if (isset($get_arr_attributes[9]) && isset($get_arr_effects[9])) {
-	            $db_names .= ",freedom,freedom_title";
-	            $db_values .= ",".Round($get_arr_attributes[9]*100,2);
-	            $sta = ($get_arr_effects[9]['stability'] != 0) ? $get_arr_effects[9]['stability']."% стабильность ": "";
-	            $job = ($get_arr_effects[9]['job'] != 0) ? $get_arr_effects[9]['job']."% проекты ": "";
-	            $pers = $get_arr_effects[9]['person']."% Мастера ";
-	            $oth = ($get_arr_effects[9]['other'] != 0) ? $get_arr_effects[9]['other']."% остальное": "";
-	            $db_values .= ",N'".$sta.$job.$pers.$oth."'";
-	        }
-	        if (isset($get_arr_attributes[4]) && isset($get_arr_effects[4])) {
-	        	$db_names .= ",production,production_title";
-	            $db_values .= ",".Round($get_arr_attributes[4],0);
-	            $sta = ($get_arr_effects[4]['stability'] != 0) ? $get_arr_effects[4]['stability']." стабильность ": "";
-	            $job = ($get_arr_effects[4]['job'] != 0) ? $get_arr_effects[4]['job']." проекты ": "";
-	            $pers = $get_arr_effects[4]['person']." Мастера ";
-	            $oth = ($get_arr_effects[4]['other'] != 0) ? $get_arr_effects[4]['other']." остальное": "";
-	            $db_values .= ",N'".$sta.$job.$pers.$oth."'";	        
-	        }
-	        if (isset($get_arr_attributes[8]) && isset($get_arr_effects[8])) {
-	        	$db_names .= ",transport,transport_title";
-	            $db_values .= ",".Round($get_arr_attributes[8]*100,2);
-	            $sta = ($get_arr_effects[8]['stability'] != 0) ? $get_arr_effects[8]['stability']."% стабильность ": "";
-	            $job = ($get_arr_effects[8]['job'] != 0) ? $get_arr_effects[8]['job']."% проекты ": "";
-	            $pers = $get_arr_effects[8]['person']."% Мастера ";
-	            $oth = ($get_arr_effects[8]['other'] != 0) ? $get_arr_effects[8]['other']."% остальное": "";
-	            $db_values .= ",N'".$sta.$job.$pers.$oth."'";
-	        }
-	        if (isset($get_arr_attributes[7]) && isset($get_arr_effects[7])) {
-	        	$db_names .= ",safety,safety_title";
-	            $db_values .= ",".Round($get_arr_attributes[7]*100,2);
-	            $sta = ($get_arr_effects[7]['stability'] != 0) ? $get_arr_effects[7]['stability']."% стабильность ": "";
-	            $job = ($get_arr_effects[7]['job'] != 0) ? $get_arr_effects[7]['job']."% проекты ": "";
-	            $pers = $get_arr_effects[7]['person']."% Мастера ";
-	            $oth = ($get_arr_effects[7]['other'] != 0) ? $get_arr_effects[7]['other']."% остальное": "";
-	            $db_values .= ",N'".$sta.$job.$pers.$oth."'";
-	        }
-	        if (isset($get_arr_attributes[7]) && isset($get_arr_attributes[8])) {
-	        	$db_names .= ",time";
-                $time = (160 / $get_arr_attributes[7]-150) / ($get_arr_attributes[8]*0.1);
-                $time = Round($time,0);
-                $db_values .= ",".$time;
-            }
-            if (isset($get_arr_attributes[33]) && isset($get_arr_effects[33])) {
-            	$db_names .= ",culture,culture_title";
-	            $db_values .= ",".Round($get_arr_attributes[33]*100,2);
-	            $sta = ($get_arr_effects[33]['stability'] != 0) ? $get_arr_effects[33]['stability']."% стабильность ": "";
-	            $job = ($get_arr_effects[33]['job'] != 0) ? $get_arr_effects[33]['job']."% проекты ": "";
-	            $pers = $get_arr_effects[33]['person']."% Мастера ";
-	            $oth = ($get_arr_effects[33]['other'] != 0) ? $get_arr_effects[33]['other']."% остальное": "";
-	            $db_values .= ",N'".$sta.$job.$pers.$oth."'";
-	        }
-	        $db_names .= (isset($get_arr_attributes[34])) ? ",area" : "";
-	        $db_values .= (isset($get_arr_attributes[34])) ? ",".$get_arr_attributes[34] : "";
-            $db_names .= (isset($get_arr_attributes[0])) ? ",size" : "";
-            $db_values .= (isset($get_arr_attributes[0])) ? ",".$get_arr_attributes[0] : "";
-            $db_names .= (isset($get_arr_attributes[22])) ? ",economy" : "";
-            $db_values .= (isset($get_arr_attributes[22])) ? ",".$get_arr_attributes[22] : "";
-
-            if (isset($arrayData['persons'])) {
-            	$db_names .= ",persons_count,persons";
-            	$db_values .= ",".count($arrayData['persons']).",N'".str_replace("'","\'",$this -> getPersonsList($arrayData['persons']))."'";
-            }
-            if (isset($arrayData['bills'])) {
-            	$db_names .= ",bills_count,bills";
-            	$db_values .= ",".count($arrayData['bills']).",N'".str_replace("'","\'",$this -> getBillsList($arrayData['bills']))."'";
-            }
-
-            $db_names .= (!isset($arrayData['politic_power']['power']['fraction'])) ? "" : ",politic_power";
-            $db_values .= (!isset($arrayData['politic_power']['power']['fraction'])) ? "" : ",".Round($arrayData['politic_power']['power']['fraction']*100,0);
-            $db_names .= (!isset($arrayData['politic_power']['power']['outer']['value'])) ? "" : ",power_outer";
-            $db_values .= (!isset($arrayData['politic_power']['power']['outer']['value'])) ? "" : ",".$arrayData['politic_power']['power']['outer']['value'];
-            $db_names .= (!isset($arrayData['politic_power']['power']['outer']['fraction'])) ? "" : ",power_outer_fraction";
-            $db_values .= (!isset($arrayData['politic_power']['power']['outer']['fraction'])) ? "" : ",".Round($arrayData['politic_power']['power']['outer']['fraction']*100,0);
-            $db_names .= (!isset($arrayData['politic_power']['power']['inner']['fraction'])) ? "" : ",power_inner";
-            $db_values .= (!isset($arrayData['politic_power']['power']['inner']['value'])) ? "" : ",".$arrayData['politic_power']['power']['inner']['value'];
-            $db_names .= (!isset($arrayData['politic_power']['power']['inner']['fraction'])) ? "" : ",power_inner_fraction";
-            $db_values .= (!isset($arrayData['politic_power']['power']['inner']['fraction'])) ? "" : ",".Round($arrayData['politic_power']['power']['inner']['fraction']*100,0);
-            $db_names .= (!isset($arrayData['job']['effect'])) ? "" : ",job_effect";
-            $db_values .= (!isset($arrayData['job']['effect'])) ? "" : ",".$arrayData['job']['effect'];
-            $db_names .= (!isset($arrayData['job']['name'])) ? "" : ",job_name";
-            $db_values .= (!isset($arrayData['job']['name'])) ? "" : ",N'".str_replace("'","\'",$arrayData['job']['name'])."'";
-            if (isset($arrayData['job']['power_required']) && isset($arrayData['job']['positive_power'])) {
-                $tmp = $arrayData['job']['power_required'] - $arrayData['job']['positive_power'];
-                $db_values .= ",".$tmp;
-                $db_names .= ",positive_job";
-            }
-            if (isset($arrayData['job']['power_required']) && isset($arrayData['job']['negative_power'])) {
-                $tmp = $arrayData['job']['power_required'] - $arrayData['job']['negative_power'];
-                $db_values .= ",".$tmp;
-                $db_names .= ",negative_job";
-            }
 
             $mysqli = $GLOBALS["mysqli"];
             $query = $mysqli->query("INSERT INTO places(".$db_names.") VALUES (".$db_values.")");
@@ -194,7 +85,7 @@
             $db_values .= (!isset($arrayData['specialization'])) ? "" : ",specialization=".$arrayData['specialization'];
             if (isset($arrayData['demographics'])) {
 	            $get_race = $this -> getDemographic($arrayData['demographics']);
-	            $db_values .= ",demographics=N'".$get_race["race"]."',demographics_title=N'".Round($get_race["percent"]*100,1)."%'";
+	            $db_values .= ",demographics=N'".$get_race["race"]."'";
         	}
 
             $get_arr_attributes = $this -> getAttributesList($arrayData['attributes']['attributes']); 
@@ -221,54 +112,50 @@
 	            $sta = ($get_arr_effects[4]['stability'] != 0) ? $get_arr_effects[4]['stability']." стабильность ": "";
 	            $job = ($get_arr_effects[4]['job'] != 0) ? $get_arr_effects[4]['job']." проекты ": "";
 	            $pers = $get_arr_effects[4]['person']." Мастера ";
+                $city = ($get_arr_effects[4]['city'] != 0) ? $get_arr_effects[4]['city']." обмены ": "";
 	            $oth = ($get_arr_effects[4]['other'] != 0) ? $get_arr_effects[4]['other']." остальное": "";
-	            $db_values .= ",production_title=N'".$sta.$job.$pers.$oth."'";	        
+	            $db_values .= ",production_title=N'".$sta.$job.$pers.$city.$oth."'";	        
 	        }
 	        if (isset($get_arr_attributes[8]) && isset($get_arr_effects[8])) {
 	            $db_values .= ",transport=".Round($get_arr_attributes[8]*100,2);
 	            $sta = ($get_arr_effects[8]['stability'] != 0) ? $get_arr_effects[8]['stability']."% стабильность ": "";
 	            $job = ($get_arr_effects[8]['job'] != 0) ? $get_arr_effects[8]['job']."% проекты ": "";
 	            $pers = $get_arr_effects[8]['person']."% Мастера ";
+                $city = ($get_arr_effects[8]['city'] != 0) ? $get_arr_effects[8]['city']."% обмены ": "";
 	            $oth = ($get_arr_effects[8]['other'] != 0) ? $get_arr_effects[8]['other']."% остальное": "";
-	            $db_values .= ",transport_title=N'".$sta.$job.$pers.$oth."'";
+	            $db_values .= ",transport_title=N'".$sta.$job.$pers.$city.$oth."'";
 	        }
 	        if (isset($get_arr_attributes[7]) && isset($get_arr_effects[7])) {
 	            $db_values .= ",safety=".Round($get_arr_attributes[7]*100,2);
 	            $sta = ($get_arr_effects[7]['stability'] != 0) ? $get_arr_effects[7]['stability']."% стабильность ": "";
 	            $job = ($get_arr_effects[7]['job'] != 0) ? $get_arr_effects[7]['job']."% проекты ": "";
 	            $pers = $get_arr_effects[7]['person']."% Мастера ";
+                $city = ($get_arr_effects[7]['city'] != 0) ? $get_arr_effects[7]['city']."% обмены ": "";
 	            $oth = ($get_arr_effects[7]['other'] != 0) ? $get_arr_effects[7]['other']."% остальное": "";
-	            $db_values .= ",safety_title=N'".$sta.$job.$pers.$oth."'";
+	            $db_values .= ",safety_title=N'".$sta.$job.$pers.$city.$oth."'";
 	        }
-	        if (isset($get_arr_attributes[7]) && isset($get_arr_attributes[8])) {
-                $time = (160 / $get_arr_attributes[7]-150) / ($get_arr_attributes[8]*0.1);
-                $time = Round($time,0);
-                $db_values .= ",time=".$time;
-            }
             if (isset($get_arr_attributes[33]) && isset($get_arr_effects[33])) {
 	            $db_values .= ",culture=".Round($get_arr_attributes[33]*100,2);
 	            $sta = ($get_arr_effects[33]['stability'] != 0) ? $get_arr_effects[33]['stability']."% стабильность ": "";
 	            $job = ($get_arr_effects[33]['job'] != 0) ? $get_arr_effects[33]['job']."% проекты ": "";
 	            $pers = $get_arr_effects[33]['person']."% Мастера ";
+                $city = ($get_arr_effects[33]['city'] != 0) ? $get_arr_effects[33]['city']."% обмены ": "";
 	            $oth = ($get_arr_effects[33]['other'] != 0) ? $get_arr_effects[33]['other']."% остальное": "";
-	            $db_values .= ",culture_title=N'".$sta.$job.$pers.$oth."'";
+	            $db_values .= ",culture_title=N'".$sta.$job.$pers.$city.$oth."'";
 	        }
 	        $db_values .= (isset($get_arr_attributes[34])) ? ",area=".$get_arr_attributes[34] : "";
             $db_values .= (isset($get_arr_attributes[0])) ? ",size=".$get_arr_attributes[0] : "";
             $db_values .= (isset($get_arr_attributes[22])) ? ",economy=".$get_arr_attributes[22] : "";
 
             if (isset($arrayData['persons'])) {
-            	$db_values .= ",persons_count=".count($arrayData['persons']).",persons=N'".str_replace("'","\'",$this -> getPersonsList($arrayData['persons']))."'";
-            }
-            if (isset($arrayData['bills'])) {
-            	$db_values .= ",bills_count=".count($arrayData['bills']).",bills=N'".str_replace("'","\'",$this -> getBillsList($arrayData['bills']))."'";
+            	$db_values .= ",persons=N'".str_replace("'","\'",$this -> getPersonsList($arrayData['persons']))."'";
             }
 
-            $db_values .= (!isset($arrayData['politic_power']['power']['fraction'])) ? "" : ",politic_power=".Round($arrayData['politic_power']['power']['fraction']*100,0);
+            $db_values .= (!isset($arrayData['politic_power']['power']['fraction'])) ? "" : ",politic_power=".Round($arrayData['politic_power']['power']['fraction']*100,2);
             $db_values .= (!isset($arrayData['politic_power']['power']['outer']['value'])) ? "" : ",power_outer=".$arrayData['politic_power']['power']['outer']['value'];
-            $db_values .= (!isset($arrayData['politic_power']['power']['outer']['fraction'])) ? "" : ",power_outer_fraction=".Round($arrayData['politic_power']['power']['outer']['fraction']*100,0);
+            $db_values .= (!isset($arrayData['politic_power']['power']['outer']['fraction'])) ? "" : ",power_outer_fraction=".Round($arrayData['politic_power']['power']['outer']['fraction']*100,2);
             $db_values .= (!isset($arrayData['politic_power']['power']['inner']['value'])) ? "" : ",power_inner=".$arrayData['politic_power']['power']['inner']['value'];
-            $db_values .= (!isset($arrayData['politic_power']['power']['inner']['fraction'])) ? "" : ",power_inner_fraction=".Round($arrayData['politic_power']['power']['inner']['fraction']*100,0);
+            $db_values .= (!isset($arrayData['politic_power']['power']['inner']['fraction'])) ? "" : ",power_inner_fraction=".Round($arrayData['politic_power']['power']['inner']['fraction']*100,2);
             $db_values .= (!isset($arrayData['job']['effect'])) ? "" : ",job_effect=".$arrayData['job']['effect'];
             $db_values .= (!isset($arrayData['job']['name'])) ? "" : ",job_name=N'".str_replace("'","\'",$arrayData['job']['name'])."'";
             $db_values .= (!isset($arrayData['job'])) ? "" : ",positive_job=".($arrayData['job']['power_required'] - $arrayData['job']['positive_power']);
@@ -313,17 +200,8 @@
 
             $index++;
             $result[$index] = array();
-            if (isset($this -> value['demographics']) && isset($this -> value['demographics_title'])) {
-            	$raw_result = PrepareToView::createText($this -> value['demographics_title'],$this -> value['demographics']);
-            } else
-                $raw_result = "";
-            array_push($result[$index], $raw_result);
-            unset($raw_result);
-
-            $index++;
-            $result[$index] = array();
-            if (isset($this -> value['persons'])) {
-                $raw_result = PrepareToView::createSpoiler("Совет (".$this -> value['persons_count'].")",$this -> value['persons']);
+            if (isset($this -> value['demographics']) && isset($this -> value['persons'])) {
+                $raw_result = PrepareToView::createSpoiler($this -> value['demographics'],$this -> value['persons']);
             } else
                 $raw_result = "";
             array_push($result[$index], $raw_result);
@@ -376,8 +254,10 @@
 
             $index++;
             $result[$index] = array();
-            if (isset($this -> value['time'])) {
-                $time = $this -> value['time'];
+            if (isset($this -> value['safety']) && isset($this -> value['transport'])) {
+                $time = (160 / $this -> value['safety'] * 100 - 150) / ($this -> value['transport']*0.1 / 100);
+                $time = Round($time,0);
+                $tmp_time = $time;
                 $secs = $time % 60;
                 $time -= $secs;
                 $time /= 60;
@@ -391,7 +271,7 @@
                 $h = ($hs > 0) ? $hs."h " : "";
                 $m = ($mins > 0) ? $mins."m " : "";
                 $s = ($secs > 0) ? $secs."s " : "";
-                $raw_result = PrepareToView::createText($d.$h.$m.$s,$this -> value['time']);
+                $raw_result = PrepareToView::createText($d.$h.$m.$s,$tmp_time);
             } else 
                 $raw_result = "";
             array_push($result[$index], $raw_result);
@@ -485,12 +365,12 @@
         }
 
         private function getEffectsList($array_of_effects, $array_of_persons) {
-            $arr_eff = array(4 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
-        					 7 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
-        					 8 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
-        					 9 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0),
+            $arr_eff = array(4 => array("stability" => 0, "job" => 0, "person" => 0, "city" => 0, "other" => 0),
+        					 7 => array("stability" => 0, "job" => 0, "person" => 0, "city" => 0, "other" => 0),
+        					 8 => array("stability" => 0, "job" => 0, "person" => 0, "city" => 0, "other" => 0),
+        					 9 => array("stability" => 0, "job" => 0, "person" => 0, "city" => 0, "other" => 0),
         					 11 => array("angel" => 0, "law" => 0, "job" => 0, "person" => 0, "other" => 0),
-        					 33 => array("stability" => 0, "job" => 0, "person" => 0, "other" => 0));                            
+        					 33 => array("stability" => 0, "job" => 0, "person" => 0, "city" => 0, "other" => 0));                            
             foreach ($array_of_effects as $key => $value) {
             	if ($value['attribute'] == 11) {
             		if ($this -> findLaw($value['name']))
@@ -510,6 +390,8 @@
 	                	$arr_eff[$value['attribute']]['job'] += Round($value['value'],0);
 	                else if ($this -> findMaster($array_of_persons, $value['name']))
 	                	$arr_eff[$value['attribute']]['person'] += Round($value['value'],0);
+                    else if ($this -> findCity($value['name']))
+                        $arr_eff[$value['attribute']]['city'] += Round($value['value'],0);
 	                else
 	                	$arr_eff[$value['attribute']]['other'] += Round($value['value'],0);
             	} else if ($value['attribute'] == 7 || $value['attribute'] == 8 || $value['attribute'] == 9 || $value['attribute'] == 33) {
@@ -519,11 +401,22 @@
 	                	$arr_eff[$value['attribute']]['job'] += Round($value['value']*100,2);
 	                else if ($this -> findMaster($array_of_persons, $value['name']))
 	                	$arr_eff[$value['attribute']]['person'] += Round($value['value']*100,2);
+                    else if ($this -> findCity($value['name']))
+                        $arr_eff[$value['attribute']]['city'] += Round($value['value']*100,2);
 	                else
 	                	$arr_eff[$value['attribute']]['other'] += Round($value['value']*100,2);
 	            }
             }
             return $arr_eff;
+        }
+
+        private function findCity($city) {
+            $array_of_ids = PlaceModel::dbSelectAll();
+            foreach ($array_of_ids as $key => $value) {
+                if (PlaceModel::getNameById($value) == $city)
+                    return true;
+            }
+            return false;
         }
 
         private function findMaster($array_of_persons, $person) {
@@ -648,9 +541,10 @@
         }
 
         public function getTime() {
-            if (isset($this -> value['time'])) {
+            if (isset($this -> value['safety']) && isset($this -> value['transport'])) {
                 $result['frontier'] = (isset($this -> value['frontier']) && (!$this -> value['frontier'])) ? 1 : 0;
-                $result['attr'] = -($this -> value['time']);
+                $time = Round((160 / $this -> value['safety'] * 100 - 150) / ($this -> value['transport']*0.1 / 100),0);
+                $result['attr'] = -$time;
                 return $result;
             }
             return 0;

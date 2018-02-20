@@ -40,8 +40,12 @@
 
             if ($this -> dbSelectById()) {
                 return $this -> dbUpdate($arr_result);
-            } else 
-                return $this -> dbInsert($arr_result);
+            } else {
+                if ($this -> dbInsert($arr_result))
+                    return $this -> dbUpdate($arr_result);
+                else
+                    return false;
+            }
         }
 
         public function dbSelectById()
@@ -65,103 +69,6 @@
             $db_values .= (!isset($arrayData['account']['hero']['base']['name'])) ? "" : ",N'".str_replace("'","\'",$arrayData['account']['hero']['base']['name'])."'";
             $db_names .= (!isset($arrayData['angel']['name'])) ? "" : ",angel_name";
             $db_values .= (!isset($arrayData['angel']['name'])) ? "" : ",N'".str_replace("'","\'",$arrayData['angel']['name'])."'";
-            $db_names .= (!isset($arrayData['account']['hero']['might'])) ? "" : ",might";
-            $db_values .= (!isset($arrayData['account']['hero']['might'])) ? "" : ",".Round($arrayData['account']['hero']['might']['value'],1);
-            $db_names .= ",can_affect_game";
-            $db_values .= (isset($arrayData['angel']['permissions']['can_affect_game']) && $arrayData['angel']['permissions']['can_affect_game']) ? ",true" : ",false";
-            $db_names .= (!isset($arrayData['account']['last_visit'])) ? "" : ",last_visit";
-            $db_values .= (!isset($arrayData['account']['last_visit'])) ? "" : ",N'".date('Y-m-d H:i:s', $arrayData['account']['last_visit'])."'";
-            $db_names .= ",alive";
-            $db_values .= (isset($arrayData['account']['hero']['base']['alive']) && $arrayData['account']['hero']['base']['alive']) ? ",true" : ",false";
-            $db_names .= (!isset($arrayData['angel']['clan']['id'])) ? "" : ",clan_id";
-            $db_values .= (!isset($arrayData['angel']['clan']['id'])) ? "" : ",".$arrayData['angel']['clan']['id'];
-            $db_names .= (!isset($arrayData['angel']['clan']['abbr'])) ? "" : ",clan_name";
-             $db_values .= (!isset($arrayData['angel']['clan']['abbr'])) ? "" : ",N'".str_replace("'","\'",$arrayData['angel']['clan']['abbr'])."'";
-            $db_names .= (!isset($arrayData['account']['hero']['base']['gender'])) ? "" : ",gender";
-            $db_values .= (!isset($arrayData['account']['hero']['base']['gender'])) ? "" : ",".$arrayData['account']['hero']['base']['gender'];
-            $db_names .= (!isset($arrayData['account']['hero']['base']['race'])) ? "" : ",race";
-            $db_values .= (!isset($arrayData['account']['hero']['base']['race'])) ? "" : ",".$arrayData['account']['hero']['base']['race'];
-            $db_names .= (!isset($arrayData['account']['hero']['base']['level'])) ? "" : ",level";
-            $db_values .= (!isset($arrayData['account']['hero']['base']['level'])) ? "" : ",".$arrayData['account']['hero']['base']['level'];
-            $db_names .= (!isset($arrayData['account']['hero']['base']['experience_to_level']) || !isset($arrayData['account']['hero']['base']['experience'])) ? "" : ",exp";
-            $db_values .= (!isset($arrayData['account']['hero']['base']['experience_to_level']) || !isset($arrayData['account']['hero']['base']['experience'])) ? "" : ",".($arrayData['account']['hero']['base']['experience_to_level'] - $arrayData['account']['hero']['base']['experience']);
-            $db_names .= (!isset($arrayData['angel']['permissions']['can_affect_game'])) ? "" : ",power";
-            $db_values .= (!isset($arrayData['angel']['permissions']['can_affect_game'])) ? "" : ",".Round($arrayData['angel']['ratings']['politics_power']['value']*100,0);
-            $db_names .= (!isset($arrayData['account']['hero']['companion']['name'])) ? "" : ",companion";
-            $db_values .= (!isset($arrayData['account']['hero']['companion']['name'])) ? "" : ",N'".str_replace("'","\'",$arrayData['account']['hero']['companion']['name'])."'";
-            $db_names .= (!isset($arrayData['account']['hero']['habits']['peacefulness']['raw'])) ? "" : ",peacefulness";
-            $db_values .= (!isset($arrayData['account']['hero']['habits']['peacefulness']['raw'])) ? "" : ",".$arrayData['account']['hero']['habits']['peacefulness']['raw'];
-            $db_names .= (!isset($arrayData['account']['hero']['habits']['peacefulness']['verbose'])) ? "" : ",peacefulness_verbose";
-            $db_values .= (!isset($arrayData['account']['hero']['habits']['peacefulness']['verbose'])) ? "" : ",N'".$arrayData['account']['hero']['habits']['peacefulness']['verbose']."'";
-            $db_names .= (!isset($arrayData['account']['hero']['habits']['honor']['raw'])) ? "" : ",honor";
-            $db_values .= (!isset($arrayData['account']['hero']['habits']['honor']['raw'])) ? "" : ",".$arrayData['account']['hero']['habits']['honor']['raw'];
-            $db_names .= (!isset($arrayData['account']['hero']['habits']['honor']['verbose'])) ? "" : ",honor_verbose";
-            $db_values .= (!isset($arrayData['account']['hero']['habits']['honor']['verbose'])) ? "" : ",N'".$arrayData['account']['hero']['habits']['honor']['verbose']."'";
-            $db_names .= (!isset($arrayData['account']['hero']['base']['money'])) ? "" : ",money";
-            $db_values .= (!isset($arrayData['account']['hero']['base']['money'])) ? "" : ",".$arrayData['account']['hero']['base']['money'];
-            $db_names .= (!isset($arrayData['account']['hero']['secondary']['power'][0])) ? "" : ",physic";
-            $db_values .= (!isset($arrayData['account']['hero']['secondary']['power'][0])) ? "" : ",".$arrayData['account']['hero']['secondary']['power'][0];
-            $db_names .= (!isset($arrayData['account']['hero']['secondary']['power'][1])) ? "" : ",magic";
-            $db_values .= (!isset($arrayData['account']['hero']['secondary']['power'][1])) ? "" : ",".$arrayData['account']['hero']['secondary']['power'][1];
-            $db_names .= (!isset($arrayData['account']['hero']['secondary']['power'][1]) || !isset($arrayData['account']['hero']['secondary']['power'][0])) ? "" : ",strength";
-            $db_values .= (!isset($arrayData['account']['hero']['secondary']['power'][1]) || !isset($arrayData['account']['hero']['secondary']['power'][0])) ? "" : ",".($arrayData['account']['hero']['secondary']['power'][1] + $arrayData['account']['hero']['secondary']['power'][0]);
-            if (isset($arrayData['account']['hero']['equipment'])) {
-                $db_names .= ",lvl_equip,lvl_equip_title";
-                $equip = $this -> computeLvlEquip($arrayData['account']['hero']['equipment']);
-                $db_values .= ",".$equip['value'].",N'".$equip['title']."'";
-            }
-            $db_names .= (!isset($arrayData['account']['hero']['equipment'])) ? "" : ",avg_equip";
-            $db_values .= (!isset($arrayData['account']['hero']['equipment'])) ? "" : ",".$this -> computeAvgPreference($arrayData['account']['hero']['equipment']);
-            $db_names .= (!isset($arrayData['account']['hero']['secondary']['move_speed'])) ? "" : ",speed";
-            $db_values .= (!isset($arrayData['account']['hero']['secondary']['move_speed'])) ? "" : ",".Round($arrayData['account']['hero']['secondary']['move_speed'],3);
-            $db_names .= (!isset($arrayData['account']['hero']['secondary']['initiative'])) ? "" : ",initiative";
-            $db_values .= (!isset($arrayData['account']['hero']['secondary']['initiative'])) ? "" : ",".Round($arrayData['account']['hero']['secondary']['initiative'],3);
-            $db_names.= (!isset($arrayData['account']['hero']['position']['x']) || !isset($arrayData['account']['hero']['position']['y'])) ? "" : ",position";
-            $db_values .= (!isset($arrayData['account']['hero']['position']['x']) || !isset($arrayData['account']['hero']['position']['y'])) ? "" : ",N'".Round($arrayData['account']['hero']['position']['x'],0).",".Round($arrayData['account']['hero']['position']['y'],0)."'";
-            if (isset($arrayData['account']['hero']['quests'])) {
-                $quests = $arrayData['account']['hero']['quests']['quests']; 
-                $is_no_quest = false;
-                foreach ($quests as $qk => $qv) {
-                    if ($qk == 0) continue; // don't need this quest
-                    $lines = $qv['line'];
-                    $raw_result['value'] = "<ul>";
-                    foreach ($lines as $lk => $lv) { 
-                        $actors = $lv['actors'];
-                        if ($qk == 1) {
-                            if ($lv['uid'] == "no-quest") {
-                                unset($raw_result['value']);
-                                $raw_result['name'] = $lv['name'];
-                                $is_no_quest = true;
-                                break;
-                            }
-                            else {
-                                $raw_result['name'] = $lv['name'];
-                            }
-                        }
-                        $raw_result['value'] .= "<li title='".$lv['experience']." ед. опыта'>".$lv['name']." (".$lv['power'].")";
-                        foreach ($actors as $ak => $av) {
-                            if ($av[1] != 2) {
-                                if ($ak == 0)
-                                    $raw_result['value'] .= ": ";
-                                else
-                                    $raw_result['value'] .= " — ";
-                            }
-                            if ($av[1] == 0) {
-                                $raw_result['value'] .= "<b>".$av[2]['name']."</b>";
-                                $raw_result['value'] .= " (".PlaceModel::getNameById($av[2]['place']).")";
-                            } else if ($av[1] == 1) {
-                                $raw_result['value'] .= "<b>".$av[2]['name']."</b>";
-                            }
-                        }
-                        $raw_result['value'] .= "</li>";
-                    } 
-                }
-                if (!$is_no_quest)
-                    $raw_result['value'] .= "</ul>";
-                $db_names.= ",quest,quest_list";
-                $db_values .= (isset($raw_result['name'])) ? ",N'".str_replace("'","\'",$raw_result['name'])."'" : ",NULL";
-                $db_values .= (isset($raw_result['value'])) ? ",N'".str_replace("'","\'",$raw_result['value'])."'" : ",NULL";
-            }
 
             $mysqli = $GLOBALS["mysqli"];
             $query = $mysqli->query("INSERT INTO heroes(".$db_names.") VALUES (".$db_values.")");

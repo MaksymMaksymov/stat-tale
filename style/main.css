@@ -159,7 +159,8 @@ footer {
 	min-height: calc(100vh - 50px);
 }
 
-#logo_img {
-	float: left;
+.error_msg {
+	font-weight: bold;
+	color: red;
+	text-align: center;
 }
-
