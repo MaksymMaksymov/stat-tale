@@ -110,7 +110,7 @@
 							var_dump($data);
 					}
 					else
-						echo var_dump($data); // sometimes it isset
+						echo var_dump($data);
 				}
 			} else 
 				echo $data;
@@ -144,17 +144,15 @@
             echo "</table>";
         }
 
-        public static function getContent() {
-            echo "<div id='content'>";
+        public static function getHeader() {
+            include_once("MenuView.php");
         }
 
         public static function getFooter() {
-            echo "</div><footer>Copyright by <a href='http://the-tale.org/accounts/56706?referral=56706'>Mefi</a> &copy 2018</footer>";
+            echo "<hr/><footer><span>Copyright by</span> <a href='http://the-tale.org/accounts/56706?referral=56706'>Mefi</a> <span>&copy 2018</span></footer>";
         }
 
         public static function getTablePage($info,$table_name,$arr_classes,$arr_headers) {
-		    View::getContent();
-		    include_once("MenuView.php");
 		    View::getForm((isset($_REQUEST['class'])) ? $_REQUEST['class'] : "",(isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false");
 		    View::getHeaderTable($table_name,$arr_classes,$arr_headers);
         	$array_out = array();
@@ -162,7 +160,6 @@
 		    View::getTableData($table_name,$arr_classes,$array_out);
 		    View::getFooterTable();
 		    View::getFormEnd();
-		    View::getFooter();
         }
 
         function __destruct() {}
