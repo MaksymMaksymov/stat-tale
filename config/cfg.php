@@ -35,7 +35,7 @@
 	$dbPass='';
 
 	$mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-	$mysqli->query("SET NAMES utf8 COLLATE utf8_general_ci"); // з кодуванням завжди проблеми
+	$mysqli->query("SET NAMES utf8 COLLATE utf8_general_ci");
 	if (mysqli_connect_errno()) {
 		$dbError = true;
 	    exit();
