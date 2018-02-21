@@ -4,6 +4,7 @@
 	class PlaceModel extends GameModel   
     {
         private $value;
+        private static $places_names;
 
 		function __construct() {}   
 		
@@ -15,14 +16,16 @@
 		public static function dbSelectAll()
         {
             $mysqli = $GLOBALS["mysqli"];
-            $result = $mysqli->query("SELECT id FROM places");
+            $result = $mysqli->query("SELECT id, name FROM places");
             
             if ($result === false) {
                 return false;
             } else {
                 $ids = array();
+                self::$places_names = array();
                 while ($row = $result->fetch_assoc()) {
                     array_push($ids, $row['id']);
+                    array_push(self::$places_names, $row['name']);
                 }
                 return $ids;
             } 
@@ -411,10 +414,11 @@
         }
 
         private function findCity($city) {
-            $array_of_ids = PlaceModel::dbSelectAll();
-            foreach ($array_of_ids as $key => $value) {
-                if (PlaceModel::getNameById($value) == $city)
-                    return true;
+            if (isset(self::$places_names) && self::$places_names != NULL) {
+                foreach (self::$places_names as $key => $value) {
+                    if ($value == $city)
+                        return true;
+                }
             }
             return false;
         }

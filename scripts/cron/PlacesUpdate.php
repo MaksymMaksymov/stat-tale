@@ -21,6 +21,7 @@
         }       
     }
 
+    PlaceModel::dbSelectAll();
     foreach ($array_of_ids as $key => $value) {
         $place = new PlaceModel();
         $tmp_url =  str_replace("<place>", $value['id'], $GLOBALS["PLACES_URL_DETAILED"]);
