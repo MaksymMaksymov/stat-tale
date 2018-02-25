@@ -1,11 +1,14 @@
 ﻿table.data_table {
-	width: 100%;
 	font-size: 10pt;
 	color: #413D39;
 	border-spacing: 0;
-	width: 80%;
+}
+
+#tbl_form {
+	width: 100%;
 	display: flex;
-	align-self: center;
+	justify-content: center;
+	position: relative;
 }
 
 .data_table td {
@@ -157,4 +160,10 @@
 	font-weight: bold;
 	color: red;
 	text-align: center;
+}
+.fixTableHead {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
 }
