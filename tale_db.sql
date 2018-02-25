@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 25 2018 г., 15:21
+-- Время создания: Фев 25 2018 г., 21:09
 -- Версия сервера: 10.1.26-MariaDB
 -- Версия PHP: 7.1.8
 
@@ -131,6 +131,20 @@ CREATE TABLE `places` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `places_history`
+--
+
+CREATE TABLE `places_history` (
+  `angel_id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `angel_name` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `clan_name` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `clan_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `powered_ids`
 --
 
@@ -170,6 +184,12 @@ ALTER TABLE `masters`
 --
 ALTER TABLE `places`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `places_history`
+--
+ALTER TABLE `places_history`
+  ADD PRIMARY KEY (`city_id`,`angel_id`);
 
 --
 -- Индексы таблицы `powered_ids`

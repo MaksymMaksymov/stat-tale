@@ -14,11 +14,13 @@
 				<li onclick="getAction('masters_form')"><a href="#">Мастера</a></li>
 				<li onclick="getAction('heroes_form')"><a href="#">Герои</a></li>
 				<li onclick="getAction('jobs_form')"><a href="#">Проекты</a></li>
+				<li onclick="getAction('voices_form')"><a href="#">Голоса</a></li>
 				<form id = "main_form" action="MainController.php" method="POST"></form>
 				<form id = "places_form" action="PlacesController.php" method="POST"></form>
 				<form id = "masters_form" action="MastersController.php" method="POST"></form>
 				<form id = "heroes_form" action="HeroesController.php" method="POST"></form>
 				<form id = "jobs_form" action="JobsController.php" method="POST"></form>
+				<form id = "voices_form" action="VoicesController.php" method="POST"></form>
 			</ul>
 		</nav>
 	</div>

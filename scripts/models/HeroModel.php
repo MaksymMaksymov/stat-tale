@@ -16,7 +16,7 @@
         public static function dbSelectAll()
         {
             $mysqli = $GLOBALS["mysqli"];
-            $result = $mysqli->query("SELECT id FROM heroes WHERE level > 85");
+            $result = $mysqli->query("SELECT id FROM heroes WHERE level > 68");
             
             if ($result === false) {
                 return false;
@@ -162,6 +162,32 @@
             
             if ($query)
                 RegisterUpdates::dbUpdateValues("heroes");
+            if ($arrayData['angel']['permissions']['can_affect_game'])
+                $this -> dbUpdatePlacesHistory($arrayData);
+
+            return $query;
+        }
+
+        public function dbUpdatePlacesHistory($arrayData) {
+            if ($arrayData == null || !isset($this -> value['id']) || !isset($arrayData['angel']['places_history'])) return false;
+
+            $db_values = "";
+            $i = 1;
+            foreach ($arrayData['angel']['places_history'] as $key => $value) {
+                if (!empty($db_values))
+                    $db_values .= ",";
+                if (!isset($value['place']['id']))
+                    return false;
+                $db_values .= "(".$this -> value['id'].",".$value['place']['id'].",N'".$arrayData['angel']['name']."',";
+                $db_values .= (!isset($arrayData['angel']['clan'])) ? "NULL, NULL" : "N'".$arrayData['angel']['clan']['abbr']."',".$arrayData['angel']['clan']['id'];
+                $db_values .= ")";
+                ++$i;
+                if ($i > 10)
+                    break;
+            }
+
+            $mysqli = $GLOBALS["mysqli"];
+            $query = $mysqli->query("INSERT INTO places_history(angel_id,city_id,angel_name,clan_name,clan_id) VALUES ".$db_values);
 
             return $query;
         }

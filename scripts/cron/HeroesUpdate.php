@@ -3,12 +3,14 @@
 	include_once("../models/GetInfoByURLModel.php");
 	include_once("../models/HeroModel.php");
     include_once("../models/RatingModel.php");
+    include_once("../models/VoiceModel.php");
 
     $rate = new RatingModel();
     $rate -> setPoweredIds();
 	$array_of_ids = $rate -> dbSelectAll();
 
-    if (isset($array_of_ids))
+    if (isset($array_of_ids)) {
+        VoiceModel::dbDeletePlacesHistory();
         foreach ($array_of_ids as $key => $value) {
         	$hero = new HeroModel();
             $tmp_url = str_replace("<account>", $value, $GLOBALS["HEROES_URL"]);
@@ -19,6 +21,8 @@
             $tmp_url =  str_replace("<account>", $value, $GLOBALS["ANGELS_URL"]);
             $arr_angels = $curlGet -> getInformation($tmp_url);
             $arr_heroes['data']['angel'] = $arr_angels['data'];
+
             $result = $hero -> dbUpdateValues($arr_heroes);
         }
+    }
 ?>

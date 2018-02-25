@@ -140,6 +140,13 @@
 			}
 		}
 
+		public static function getArrayBR($data) {
+			foreach ($data as $key => $value) {
+				View::getData($value);
+				echo "<br />";
+			}
+		}
+
 		public static function getFooterTable() {
             echo "</table>";
         }
@@ -175,6 +182,42 @@
 		    View::getTableData($table_name,$arr_classes,$array_out_part2);
 		    View::getFooterTable();
 		    View::getFormEnd();
+        }
+
+        public static function getTablesPage($info,$table_name) {
+        	$array_out = array();
+		    View::getModelData($info -> model_array,$array_out);
+		    echo "<div class='container_voice'>";
+		    foreach ($array_out as $key => $out) {
+			    echo "<table class='".$table_name." data_table'>";
+	            echo "<tr class='thr_".$table_name."'><th>";
+	            View::getArray($out[0]);
+	            echo "</th></tr><tr><td><div><span class='spoiler_links'>";
+	            if (isset($out[1][0])) {
+	            	if ($out[1][0] == 0)
+	            		echo "Отсутствуют голоса";
+	            	else {
+	            		echo "Голосов: ";
+	            		View::getData($out[1][0]);
+	            	}
+	            } else
+					View::getArray($out[1]);
+				echo "</span><div class='spoiler_body'>";
+				if (is_array($out[2])) {
+					foreach ($out[2] as $out_key => $clan) {
+						echo "<div><b>";
+						View::getData($clan['clan']);
+						echo "</b> <span class='spoiler_links'>(<font title='Показать'>".$clan['count']."</font>)";
+						echo "</span><div class='spoiler_body'>";
+						View::getArrayBR($clan['heroes']);
+						echo "</div></div>";
+					}
+				} else 
+					echo ":-)";
+				echo "</div></div></td></tr>";
+			    echo "</table>";
+			}
+			echo "</div>";
         }
 
         function __destruct() {}

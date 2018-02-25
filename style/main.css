@@ -160,6 +160,20 @@
 	font-weight: bold;
 }
 
+.container_voice {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.voice_table {
+	display: flex;
+	padding: 5px 10px;
+}
+
+.voice_table th {
+	width: 200px;
+}
+
 .error_msg {
 	font-weight: bold;
 	color: red;
