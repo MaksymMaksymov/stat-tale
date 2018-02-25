@@ -1,10 +1,13 @@
 <?php
 	include_once("../../config/cfg.php");
-    include_once("../../config/heroes.php");
 	include_once("../models/GetInfoByURLModel.php");
 	include_once("../models/HeroModel.php");
+    include_once("../models/RatingModel.php");
 
-	$array_of_ids = $GLOBALS["ARRAY_OF_HERO_IDS"];
+    $rate = new RatingModel();
+    $rate -> setPoweredIds();
+	$array_of_ids = $rate -> dbSelectAll();
+
     if (isset($array_of_ids))
         foreach ($array_of_ids as $key => $value) {
         	$hero = new HeroModel();

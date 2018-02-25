@@ -3,13 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 21 2018 г., 10:31
+-- Время создания: Фев 25 2018 г., 15:21
 -- Версия сервера: 10.1.26-MariaDB
 -- Версия PHP: 7.1.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -133,6 +131,16 @@ CREATE TABLE `places` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `powered_ids`
+--
+
+CREATE TABLE `powered_ids` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `table_updates`
 --
 
@@ -164,11 +172,16 @@ ALTER TABLE `places`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `powered_ids`
+--
+ALTER TABLE `powered_ids`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `table_updates`
 --
 ALTER TABLE `table_updates`
   ADD PRIMARY KEY (`table_name`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

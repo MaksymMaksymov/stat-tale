@@ -29,6 +29,8 @@
 	$ANGELS_VERSION = "1.0";
 	$ANGELS_URL =  $HOST.$ANGELS_PATH."?api_version=".$ANGELS_VERSION."&api_client=".$API_CLIENT;
 
+	$RATE_POWER = "http://the-tale.org/game/ratings/politics_power";
+
 	$dbHost='localhost';
 	$dbName='tale_db';
 	$dbUser='root';

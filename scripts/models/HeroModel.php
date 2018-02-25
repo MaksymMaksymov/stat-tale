@@ -16,7 +16,7 @@
         public static function dbSelectAll()
         {
             $mysqli = $GLOBALS["mysqli"];
-            $result = $mysqli->query("SELECT id FROM heroes");// " WHERE level > 85" - there are to many of heroes
+            $result = $mysqli->query("SELECT id FROM heroes WHERE level > 85");
             
             if ($result === false) {
                 return false;
