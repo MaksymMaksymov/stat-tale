@@ -31,6 +31,9 @@
             $arr_to_sort = array();
             foreach ($this -> model_array as $key => $value) {
                 switch ($class) {
+                    case "name": 
+                        $arr_to_sort[$key] = $value -> getName();
+                        break;
                     case "positive": 
                         $arr_to_sort[$key] = $value -> getPositive();
                         break;
@@ -40,9 +43,9 @@
                 }    
             }
             if ($direction == "false")
-                asort($arr_to_sort);
-            else 
                 arsort($arr_to_sort);
+            else 
+                asort($arr_to_sort);
             $new_array = array();
             foreach ($arr_to_sort as $key => $value) {
                 $model = $this -> model_array[$key];

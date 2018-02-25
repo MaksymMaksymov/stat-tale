@@ -134,6 +134,31 @@
                 }
             }
         }
+
+        public static function getJobEffect($effect) {
+            switch ($effect) {
+                case 1:
+                    return "Производство";
+                case 2:
+                    return "Безопасность";
+                case 3:
+                    return "Транспорт";
+                case 4:
+                    return "Свобода";
+                case 5:           
+                    return "Стабильность";          
+                case 6:
+                    return "Золото";      
+                case 7:
+                    return "Артефакты";     
+                case 8:
+                    return "Опыт";     
+                case 9:
+                    return "Энергия";
+                case 10:
+                    return "Культура";
+            }  
+        }
     }
 
     class Messages {

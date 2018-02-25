@@ -132,6 +132,10 @@
 	border-bottom: none;
 }
 
+.data_table td.job {
+	width: 300px;
+}
+
 #main {
 	flex: 1;
 	flex-shrink:1;
@@ -161,6 +165,7 @@
 	color: red;
 	text-align: center;
 }
+
 .fixTableHead {
 	position: fixed;
 	top: 0;

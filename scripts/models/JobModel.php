@@ -59,12 +59,14 @@
             $result[$index] = array();
             $raw_result = "";
             if (isset($this -> value['data']['job_effect']) && isset($this -> value['data']['job_name'])) {
+                $tmp = $raw_result;
                 $heroes_bonus = ($this -> value['data']['job_effect'] >= 6 && $this -> value['data']['job_effect'] <= 9) ? true : false;
                 if ($heroes_bonus)
-                    $raw_result .= "<b>";
-                $raw_result .= $this -> value['data']['job_name'];
+                    $tmp .= "<b>";
+                $tmp .= $this -> value['data']['job_name'];
                 if ($heroes_bonus)
-                    $raw_result .= "</b>";
+                    $tmp .= "</b>";
+                $raw_result = PrepareToView::createText(Dictionary::getJobEffect($this -> value['data']['job_effect']), $tmp);
             }
             array_push($result[$index], $raw_result);
             unset($raw_result);
@@ -83,10 +85,25 @@
             return $result; 
 		}
 
+        public function getName() {
+            if (isset($this -> value['type']) && isset($this -> value['data']['id']) && isset($this -> value['data']['name'])) {
+                if ($this -> value['type'] == "master") {
+                    $result['name'] = PlaceModel::getNameById($this -> value['data']['city_id']);
+                    $result['order'] = 1;
+                }
+                else {
+                    $result['name'] = $this -> value['data']['name'];
+                    $result['order'] = 0;
+                }
+                return $result;
+            }
+            return 0;
+        }
+
         public function getPositive() {
             if (isset($this -> value['data']['job_effect'])) {
                 $result['effect'] = ($this -> value['data']['job_effect'] > 9) ? 10 - $this -> value['data']['job_effect'] : $this -> value['data']['job_effect'];
-                $result['positive'] = -($this -> value['data']['positive_job']);
+                $result['positive'] = $this -> value['data']['positive_job'];
                 return $result;
             }
             return 0;
@@ -95,7 +112,7 @@
         public function getNegative() {
             if (isset($this -> value['data']['job_effect'])) {
                 $result['effect'] = ($this -> value['data']['job_effect'] > 9) ? 10 - $this -> value['data']['job_effect'] : $this -> value['data']['job_effect'];
-                $result['negative'] = -($this -> value['data']['negative_job']);
+                $result['negative'] = $this -> value['data']['negative_job'];
                 return $result;
             }
             return 0;

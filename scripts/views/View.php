@@ -162,6 +162,21 @@
 		    View::getFormEnd();
         }
 
+        public static function getTwoTablePage($info,$table_name,$arr_classes,$arr_headers) {
+		    View::getForm((isset($_REQUEST['class'])) ? $_REQUEST['class'] : "",(isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false");
+		    View::getHeaderTable($table_name,$arr_classes,$arr_headers);
+        	$array_out = array();
+		    View::getModelData($info -> model_array,$array_out);
+		    $array_out_part1 = array_slice($array_out, 0, count($array_out) / 2);
+		    $array_out_part2 = array_slice($array_out, count($array_out) / 2);
+		    View::getTableData($table_name,$arr_classes,$array_out_part1);
+		    View::getFooterTable();
+		    View::getHeaderTable($table_name,$arr_classes,$arr_headers);
+		    View::getTableData($table_name,$arr_classes,$array_out_part2);
+		    View::getFooterTable();
+		    View::getFormEnd();
+        }
+
         function __destruct() {}
 	}
 ?>
