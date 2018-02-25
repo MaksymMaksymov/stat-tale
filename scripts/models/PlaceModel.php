@@ -410,6 +410,9 @@
 	                	$arr_eff[$value['attribute']]['other'] += Round($value['value']*100,2);
 	            }
             }
+            foreach ($arr_eff as $key => $value) {
+                $arr_eff[$key]['person'] = Round($arr_eff[$key]['person'],2);
+            }
             return $arr_eff;
         }
 
