@@ -233,7 +233,7 @@
         public function getCity() {
             if (isset($this -> value['city_id'])) {
                 $result['name'] = PlaceModel::getNameById($this -> value['city_id']);
-                $result['integrity'] = $this -> value['integrity'];
+                $result['power'] = $this -> value['politic_power'];
                 return $result;
             }
             return 0;
