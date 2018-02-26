@@ -26,9 +26,9 @@
                 return false;
         }
 
-        public static function dbDeletePlacesHistory() {
+        public static function dbDeletePlacesHistory($id) {
             $mysqli = $GLOBALS["mysqli"];
-            $query = $mysqli->query("DELETE FROM places_history");
+            $query = $mysqli->query("DELETE FROM places_history WHERE angel_id = ".$id);
             return $query;
         }
 

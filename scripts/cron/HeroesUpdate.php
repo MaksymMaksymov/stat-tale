@@ -10,7 +10,6 @@
 	$array_of_ids = $rate -> dbSelectAll();
 
     if (isset($array_of_ids)) {
-        VoiceModel::dbDeletePlacesHistory();
         foreach ($array_of_ids as $key => $value) {
         	$hero = new HeroModel();
             $tmp_url = str_replace("<account>", $value, $GLOBALS["HEROES_URL"]);
@@ -22,6 +21,7 @@
             $arr_angels = $curlGet -> getInformation($tmp_url);
             $arr_heroes['data']['angel'] = $arr_angels['data'];
 
+            VoiceModel::dbDeletePlacesHistory($arr_angels['data']['id']);
             $result = $hero -> dbUpdateValues($arr_heroes);
         }
     }
