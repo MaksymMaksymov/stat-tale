@@ -162,7 +162,7 @@
             
             if ($query)
                 RegisterUpdates::dbUpdateValues("heroes");
-            if ($arrayData['angel']['permissions']['can_affect_game'])
+            if ($arrayData['angel']['permissions']['can_affect_game'] && (time() - $arrayData['account']['last_visit'] < 84600 * 4))
                 $this -> dbUpdatePlacesHistory($arrayData);
 
             return $query;

@@ -5,15 +5,6 @@
   include_once("View.php");
 ?>
 
-<script type="text/javascript">
-  $(document).ready(function() {
-    var quest_width = $('td.barter').width();
-    if (quest_width < 300) {
-      document.getElementsByClassName('barter')[0].style.width = '300px';
-    }
-  });
-</script>
-
 <body>
   <?php
     View::getHeader();

@@ -7,10 +7,6 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    var barter_width = $('td.barter').width();
-    if (barter_width < 200) {
-      document.getElementsByClassName('barter')[0].style.width = '200px';
-    }
     var persons_width = $('td.race').width();
     if (persons_width < 220) {
       document.getElementsByClassName('race')[0].style.width = '220px';

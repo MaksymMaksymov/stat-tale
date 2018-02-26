@@ -205,12 +205,20 @@
 				echo "</span><div class='spoiler_body'>";
 				if (is_array($out[2])) {
 					foreach ($out[2] as $out_key => $clan) {
-						echo "<div><b>";
-						View::getData($clan['clan']);
-						echo "</b> <span class='spoiler_links'>(<font title='Показать'>".$clan['count']."</font>)";
-						echo "</span><div class='spoiler_body'>";
-						View::getArrayBR($clan['heroes']);
-						echo "</div></div>";
+						if ($clan['count'] == 1 && $out_key != 0) {
+							echo "<b>";
+							View::getData($clan['clan']);
+							echo "</b> ";
+							View::getArray($clan['heroes']);
+							echo "<br />";
+						} else {
+							echo "<div><b>";
+							View::getData($clan['clan']);
+							echo "</b> <span class='spoiler_links'>(<font title='Показать'>".$clan['count']."</font>)";
+							echo "</span><div class='spoiler_body'>";
+							View::getArrayBR($clan['heroes']);
+							echo "</div></div>";
+						}
 					}
 				} else 
 					echo ":-)";

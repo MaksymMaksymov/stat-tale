@@ -48,34 +48,6 @@
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
-            /*$index++;
-            $result[$index] = array();
-            if (isset($this -> value['data'])) {
-                foreach ($this -> value['data'] as $key => $value) {
-                    $raw_result = PrepareToView::createUrl("http://the-tale.org/accounts/".$value['angel_id'],$value['angel_name']);
-                    array_push($result[$index], $raw_result);
-                    unset($raw_result);
-                    if ($value['clan_id'] != null)
-                    {
-                        $raw_result = "[";
-                        array_push($result[$index], $raw_result);
-                        unset($raw_result);
-                        $raw_result = PrepareToView::createUrl("http://the-tale.org/accounts/clans/".$value['clan_id'],$value['clan_name']);
-                        array_push($result[$index], $raw_result);
-                        unset($raw_result);
-                        $raw_result = "]";
-                        array_push($result[$index], $raw_result);
-                        unset($raw_result);
-                    }
-                    $raw_result = "<br />";
-                    array_push($result[$index], $raw_result);
-                    unset($raw_result);
-                }
-            } else {
-                $raw_result = "";
-                array_push($result[$index], $raw_result);
-            }*/
-
             $index++;
             if (isset($this -> value['data'])) {
                 $raw_result = $this -> getClansData($this -> value['data']);
@@ -99,11 +71,10 @@
                         $result[$index]['count'] += 1; 
                         array_push($result[$index]['heroes'], PrepareToView::createUrl("http://the-tale.org/accounts/".$value['angel_id'],$value['angel_name']));
                     } else {
-                        $result[$index] = array("clan" => PrepareToView::createUrl("http://the-tale.org/accounts/".$value['clan_id'],$value['clan_name']), "count" => 1, "heroes" => array(PrepareToView::createUrl("http://the-tale.org/accounts/".$value['angel_id'],$value['angel_name'])));
+                        $result[$index] = array("clan" => PrepareToView::createUrl("http://the-tale.org/accounts/clans/".$value['clan_id'],$value['clan_name']), "count" => 1, "heroes" => array(PrepareToView::createUrl("http://the-tale.org/accounts/".$value['angel_id'],$value['angel_name'])));
                     }
                 }
             }
-            //var_dump($result);
             return $result;
         }
 
