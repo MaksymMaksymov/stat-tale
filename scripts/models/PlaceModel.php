@@ -16,7 +16,7 @@
 		public static function dbSelectAll()
         {
             $mysqli = $GLOBALS["mysqli"];
-            $result = $mysqli->query("SELECT id, name FROM places");
+            $result = $mysqli->query("SELECT id, name FROM places ORDER BY name");
             
             if ($result === false) {
                 return false;
