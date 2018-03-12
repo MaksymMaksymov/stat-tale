@@ -365,14 +365,14 @@
             $power_sum = 0;     
             $rare_count = 0;
             $epic_count = 0;
-            for ($i = 0; $i < count($artifacts); $i++) {
-                $power_sum += $artifacts[$i]['power'][0] + $artifacts[$i]['power'][1];  
-                if ($artifacts[$i]['rarity'] == 2)
+            foreach ($artifacts as $i => $artifact) {
+                $power_sum += $artifact['power'][0] + $artifact['power'][1];  
+                if ($artifact['rarity'] == 2)
                         $epic_count++;
-                else if ($artifacts[$i]['rarity'] == 1)
+                else if ($artifact['rarity'] == 1)
                     $rare_count++;
             }
-            $compute_level['value'] = Round($power_sum/(count($artifacts) + 1),0);
+            $compute_level['value'] = Round($power_sum/12,0);
             $compute_level['title'] = ($epic_count > 0) ? $epic_count." epic ": "";
             $compute_level['title'] .= ($rare_count > 0) ? $rare_count." rare": "";
             return $compute_level;
@@ -380,8 +380,8 @@
 
         private function computeAvgPreference($artifacts) {
             $preference_sum = 0;     
-            for ($i = 0; $i < count($artifacts); $i++)
-                $preference_sum += $artifacts[$i]['preference_rating'];    
+            foreach ($artifacts as $i => $artifact) 
+                $preference_sum += $artifact['preference_rating'];    
             $compute_avg = Round($preference_sum/count($artifacts),0);      
             return $compute_avg;
         }
