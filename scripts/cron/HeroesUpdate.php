@@ -10,6 +10,7 @@
 	$array_of_ids = $rate -> dbSelectAll();
 
     if (isset($array_of_ids)) {
+        VoiceModel::dbDeleteNotAllPlacesHistory($array_of_ids);
         foreach ($array_of_ids as $key => $value) {
         	$hero = new HeroModel();
             $tmp_url = str_replace("<account>", $value, $GLOBALS["HEROES_URL"]);

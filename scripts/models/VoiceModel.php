@@ -32,6 +32,19 @@
             return $query;
         }
 
+        public static function dbDeleteNotAllPlacesHistory($ids) {
+            if (is_array($ids)) {
+                $mysqli = $GLOBALS["mysqli"];
+                $query_str = "DELETE FROM places_history WHERE angel_id <> 0 ";
+                foreach ($ids as $k => $id) {
+                    $query_str .= " AND angel_id <> ".$id;
+                }
+                $query = $mysqli->query($query_str);
+                return $query;
+            } else 
+                return false;
+        }
+
         public function getValues() {
             $result = array();
             $row_result = "";
