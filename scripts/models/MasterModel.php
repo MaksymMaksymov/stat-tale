@@ -188,16 +188,21 @@
 
         public function getMaster() {
             if (isset($this -> value['id'])) {
-                return $this -> value['id'];
+                $result['name'] = $this -> value['name'];
+                $result['city'] = PlaceModel::getNameById($this -> value['city_id']);
+                return $result;
             }
             return 0;
         }
 
         public function getJobType() {
         	if (isset($this -> value['profession']) && isset($this -> value['gender']) && isset($this -> value['race'])) {
-        		$result['profession'] = $this -> value['profession'];
+        		$result['profession'] = Dictionary::getProfession($this -> value['profession']);
+                $result['city'] = PlaceModel::getNameById($this -> value['city_id']);
+                /*
                 $result['race'] = $this -> value['race'];
                 $result['gender'] = $this -> value['gender'];
+                */
                 return $result;
             }
             return 0;
