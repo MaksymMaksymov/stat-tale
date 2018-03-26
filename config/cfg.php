@@ -6,8 +6,8 @@
 	//client_id — идентификатор клиентского приложения;
 	//method_arguments — аргументы, необходимые методу.
 	
-	$HOST = "http://the-tale.org/";
-	$API_CLIENT = "1-0.3.25.5"; // use http://the-tale.org/api/info?api_version=1.0&api_client=1-0.3.25.5 to find current
+	$HOST = "https://the-tale.org/";
+	$API_CLIENT = "1-0.3.25.5"; // use https://the-tale.org/api/info?api_version=1.0&api_client=1-0.3.25.5 to find current
 
 	$PLACES_PATH = "game/places/api/list";
 	$PLACES_VERSION = "1.1";
@@ -29,7 +29,7 @@
 	$ANGELS_VERSION = "1.0";
 	$ANGELS_URL =  $HOST.$ANGELS_PATH."?api_version=".$ANGELS_VERSION."&api_client=".$API_CLIENT;
 
-	$RATE_POWER = "http://the-tale.org/game/ratings/politics_power";
+	$RATE_POWER = $HOST."game/ratings/politics_power";
 
 	$dbHost='localhost';
 	$dbName='tale_db';
