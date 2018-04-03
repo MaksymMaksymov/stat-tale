@@ -173,7 +173,15 @@
 
             $db_values = "";
             $i = 1;
+            $last_value = 100;
             foreach ($arrayData['angel']['places_history'] as $key => $value) {
+                if ($i == 10) {
+                    if (isset($value['count']))
+                        $last_value = $value['count'];
+                } else if ($i > 10) {
+                    if ($value['count'] != $last_value)
+                        break;
+                }
                 if (!empty($db_values))
                     $db_values .= ",";
                 if (!isset($value['place']['id']))
@@ -182,8 +190,6 @@
                 $db_values .= (!isset($arrayData['angel']['clan'])) ? "NULL, NULL" : "N'".$arrayData['angel']['clan']['abbr']."',".$arrayData['angel']['clan']['id'];
                 $db_values .= ")";
                 ++$i;
-                if ($i > 10)
-                    break;
             }
 
             $mysqli = $GLOBALS["mysqli"];
