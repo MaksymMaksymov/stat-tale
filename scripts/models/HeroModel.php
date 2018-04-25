@@ -16,7 +16,7 @@
         public static function dbSelectAll()
         {
             $mysqli = $GLOBALS["mysqli"];
-            $result = $mysqli->query("SELECT id FROM heroes WHERE level > 68");
+            $result = $mysqli->query("SELECT id FROM heroes WHERE level > 1 AND can_affect_game = 1");
             
             if ($result === false) {
                 return false;
@@ -89,8 +89,16 @@
             $db_values .= (isset($arrayData['angel']['permissions']['can_affect_game']) && $arrayData['angel']['permissions']['can_affect_game']) ? ",can_affect_game=true" : ",can_affect_game=false";
             $db_values .= (!isset($arrayData['account']['last_visit'])) ? "" : ",last_visit=N'".date('Y-m-d H:i:s', $arrayData['account']['last_visit'])."'";
             $db_values .= (isset($arrayData['account']['hero']['base']['alive']) && $arrayData['account']['hero']['base']['alive']) ? ",alive=true" : ",alive=false";
-            $db_values .= (!isset($arrayData['angel']['clan']['id'])) ? "" : ",clan_id=".$arrayData['angel']['clan']['id'];
-            $db_values .= (!isset($arrayData['angel']['clan']['abbr'])) ? "" : ",clan_name=N'".str_replace("'","\'",$arrayData['angel']['clan']['abbr'])."'";
+            if ($this -> value['id'] == "27216" || $this -> value['id'] == "27217" || $this -> value['id'] == "27239" || $this -> value['id'] == "27241" || $this -> value['id'] == "27248" || $this -> value['id'] == "35056" || $this -> value['id'] == "35058" || $this -> value['id'] == "35059" || $this -> value['id'] == "35060" || $this -> value['id'] == "35061" || $this -> value['id'] == "51117" || $this -> value['id'] == "51208") {
+                $db_values .= ",clan_id=100500";
+                $db_values .= ",clan_name=N'ArgoF'";
+            } else if ($this -> value['id'] == "51221" || $this -> value['id'] == "51400" || $this -> value['id'] == "51401" || $this -> value['id'] == "51402" || $this -> value['id'] == "51403" || $this -> value['id'] == "51405" || $this -> value['id'] == "51407" || $this -> value['id'] == "51409" || $this -> value['id'] == "59328" || $this -> value['id'] == "59361" || $this -> value['id'] == "59362" || $this -> value['id'] == "59388" || $this -> value['id'] == "59398" || $this -> value['id'] == "59399" || $this -> value['id'] == "59975" || $this -> value['id'] == "59976" || $this -> value['id'] == "59978" || $this -> value['id'] == "59979") {
+                $db_values .= ",clan_id=100501";
+                $db_values .= ",clan_name=N'ArgoT'";
+            } else {
+                $db_values .= (!isset($arrayData['angel']['clan']['id'])) ? "" : ",clan_id=".$arrayData['angel']['clan']['id'];
+                $db_values .= (!isset($arrayData['angel']['clan']['abbr'])) ? "" : ",clan_name=N'".str_replace("'","\'",$arrayData['angel']['clan']['abbr'])."'";
+            }
             $db_values .= (!isset($arrayData['account']['hero']['base']['gender'])) ? "" : ",gender=".$arrayData['account']['hero']['base']['gender'];
             $db_values .= (!isset($arrayData['account']['hero']['base']['race'])) ? "" : ",race=".$arrayData['account']['hero']['base']['race'];
             $db_values .= (!isset($arrayData['account']['hero']['base']['level'])) ? "" : ",level=".$arrayData['account']['hero']['base']['level'];
