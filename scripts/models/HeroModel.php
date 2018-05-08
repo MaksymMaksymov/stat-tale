@@ -416,7 +416,9 @@
 
         public function getClan() {
             if (isset($this -> value['clan_id'])) {
-                return $this -> value['clan_id'];
+                $result['clan'] = $this -> value['clan_id'];
+                $result['lvl'] = $this -> value['level'];
+                return $result;
             }
             return 0;
         }
