@@ -96,8 +96,8 @@
                 $db_values .= ",clan_id=100501";
                 $db_values .= ",clan_name=N'ArgoT'";
             } else {
-                $db_values .= (!isset($arrayData['angel']['clan']['id'])) ? "" : ",clan_id=".$arrayData['angel']['clan']['id'];
-                $db_values .= (!isset($arrayData['angel']['clan']['abbr'])) ? "" : ",clan_name=N'".str_replace("'","\'",$arrayData['angel']['clan']['abbr'])."'";
+                $db_values .= (!isset($arrayData['angel']['clan']['id'])) ? ",clan_id=NULL" : ",clan_id=".$arrayData['angel']['clan']['id'];
+                $db_values .= (!isset($arrayData['angel']['clan']['abbr'])) ? ",clan_name=NULL" : ",clan_name=N'".str_replace("'","\'",$arrayData['angel']['clan']['abbr'])."'";
             }
             $db_values .= (!isset($arrayData['account']['hero']['base']['gender'])) ? "" : ",gender=".$arrayData['account']['hero']['base']['gender'];
             $db_values .= (!isset($arrayData['account']['hero']['base']['race'])) ? "" : ",race=".$arrayData['account']['hero']['base']['race'];
