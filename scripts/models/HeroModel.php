@@ -292,29 +292,11 @@
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
-            $index++;
-            $result[$index] = array();
-            if (isset($this -> value['peacefulness']) && isset($this -> value['peacefulness_verbose']) && isset($this -> value['honor']) && isset($this -> value['honor_verbose'])) {
-                if ($this -> value['peacefulness'] > 0)
-                    $raw_result = PrepareToView::createImg("good.png",$this -> value['peacefulness_verbose']);
-                else 
-                    $raw_result = PrepareToView::createImg("bad.png",$this -> value['peacefulness_verbose']);
-                array_push($result[$index], $raw_result);
-                unset($raw_result);
-                if ($this -> value['honor'] > 0)
-                    $raw_result = PrepareToView::createImg("good.png",$this -> value['honor_verbose']);
-                else 
-                    $raw_result = PrepareToView::createImg("bad.png",$this -> value['honor_verbose']);
-            } else 
-                $raw_result = "";
-            array_push($result[$index], $raw_result);
-            unset($raw_result);
-
-            $index++;
+            /*$index++;
             $result[$index] = array();
             $raw_result = (isset($this -> value['money'])) ? $this -> value['money'] : "";
             array_push($result[$index], $raw_result);
-            unset($raw_result);
+            unset($raw_result);*/
 
             $index++;
             $result[$index] = array();
@@ -363,6 +345,24 @@
 
             $index++;
             $result[$index] = array();
+            if (isset($this -> value['peacefulness']) && isset($this -> value['peacefulness_verbose']) && isset($this -> value['honor']) && isset($this -> value['honor_verbose'])) {
+                if ($this -> value['peacefulness'] > 0)
+                    $raw_result = PrepareToView::createImg("good.png",$this -> value['peacefulness_verbose']);
+                else 
+                    $raw_result = PrepareToView::createImg("bad.png",$this -> value['peacefulness_verbose']);
+                array_push($result[$index], $raw_result);
+                unset($raw_result);
+                if ($this -> value['honor'] > 0)
+                    $raw_result = PrepareToView::createImg("good.png",$this -> value['honor_verbose']);
+                else 
+                    $raw_result = PrepareToView::createImg("bad.png",$this -> value['honor_verbose']);
+            } else 
+                $raw_result = "";
+            array_push($result[$index], $raw_result);
+            /*unset($raw_result);
+
+            $index++;
+            $result[$index] = array();
             $raw_result = (isset($this -> value['position'])) ? $this -> value['position'] : "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
@@ -376,7 +376,7 @@
                     $raw_result = $this -> value['quest'];
             } else
                 $raw_result = "";
-            array_push($result[$index], $raw_result);
+            array_push($result[$index], $raw_result);*/
 
             return $result;
         } 
