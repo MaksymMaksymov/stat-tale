@@ -68,9 +68,6 @@
                     case "equiment": 
                         $arr_to_sort[$key] = $value -> getEquiment();
                         break;
-                    case "preference": 
-                        $arr_to_sort[$key] = $value -> getPreference();
-                        break;
                     case "speed": 
                         $arr_to_sort[$key] = $value -> getSpeed();
                         break;

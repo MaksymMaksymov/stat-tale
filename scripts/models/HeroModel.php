@@ -119,11 +119,11 @@
             $db_values .= (!isset($arrayData['account']['hero']['secondary']['power'][0])) ? "" : ",physic=".$arrayData['account']['hero']['secondary']['power'][0];
             $db_values .= (!isset($arrayData['account']['hero']['secondary']['power'][1])) ? "" : ",magic=".$arrayData['account']['hero']['secondary']['power'][1];
             $db_values .= (!isset($arrayData['account']['hero']['secondary']['power'][1]) || !isset($arrayData['account']['hero']['secondary']['power'][0])) ? "" : ",strength=".($arrayData['account']['hero']['secondary']['power'][1] + $arrayData['account']['hero']['secondary']['power'][0]);
-            if (isset($arrayData['account']['hero']['equipment'])) {
-                $equip = $this -> computeLvlEquip($arrayData['account']['hero']['equipment']);
-                $db_values .= ",lvl_equip=".$equip['value'].",lvl_equip_title=N'".$equip['title']."'";
-            }
             $db_values .= (!isset($arrayData['account']['hero']['equipment'])) ? "" : ",avg_equip=".$this -> computeAvgPreference($arrayData['account']['hero']['equipment']);
+            if (isset($arrayData['account']['hero']['equipment'])) {
+                $equip = $this -> computeRareEquip($arrayData['account']['hero']['equipment']);
+                $db_values .= ",rare_equip_title=N'".$equip."'";
+            }
             $db_values .= (!isset($arrayData['account']['hero']['secondary']['move_speed'])) ? "" : ",speed=".Round($arrayData['account']['hero']['secondary']['move_speed'],3);
             $db_values .= (!isset($arrayData['account']['hero']['secondary']['initiative'])) ? "" : ",initiative=".Round($arrayData['account']['hero']['secondary']['initiative'],3);
             $db_values .= (!isset($arrayData['account']['hero']['position']['x']) || !isset($arrayData['account']['hero']['position']['y'])) ? "" : ",position=N'".Round($arrayData['account']['hero']['position']['x'],0).",".Round($arrayData['account']['hero']['position']['y'],0)."'";
@@ -318,7 +318,13 @@
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($this -> value['strength'])) ? $this -> value['strength'] : "";
+            if (isset($this -> value['strength']) && isset($this -> value['level'])) {
+                $equip_level = Round($this -> value['strength']/12,0);
+                $diff_level = $equip_level - $this -> value['level'];
+                $diff_level = ($diff_level > 0) ? "+".$diff_level : $diff_level;
+                $raw_result = PrepareToView::createText($equip_level." уровень экипировки(".$diff_level.")", $this -> value['strength']);
+            } else 
+                $raw_result = "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
@@ -336,16 +342,10 @@
 
             $index++;
             $result[$index] = array();
-            if (isset($this -> value['lvl_equip']) && isset($this -> value['lvl_equip_title'])) {
-                $raw_result = PrepareToView::createText($this -> value['lvl_equip_title'],$this -> value['lvl_equip']);
+            if (isset($this -> value['avg_equip']) && isset($this -> value['rare_equip_title'])) {
+                $raw_result = PrepareToView::createText($this -> value['rare_equip_title'],$this -> value['avg_equip']);
             } else 
                 $raw_result = "";
-            array_push($result[$index], $raw_result);
-            unset($raw_result);
-
-            $index++;
-            $result[$index] = array();
-            $raw_result = (isset($this -> value['avg_equip'])) ? $this -> value['avg_equip'] : "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
@@ -381,20 +381,17 @@
             return $result;
         } 
 
-        private function computeLvlEquip($artifacts) {
-            $power_sum = 0;     
+        private function computeRareEquip($artifacts) {    
             $rare_count = 0;
             $epic_count = 0;
             foreach ($artifacts as $i => $artifact) {
-                $power_sum += $artifact['power'][0] + $artifact['power'][1];  
                 if ($artifact['rarity'] == 2)
                         $epic_count++;
                 else if ($artifact['rarity'] == 1)
                     $rare_count++;
             }
-            $compute_level['value'] = Round($power_sum/12,0);
-            $compute_level['title'] = ($epic_count > 0) ? $epic_count." epic ": "";
-            $compute_level['title'] .= ($rare_count > 0) ? $rare_count." rare": "";
+            $compute_level = ($epic_count > 0) ? $epic_count." epic ": "";
+            $compute_level .= ($rare_count > 0) ? $rare_count." rare": "";
             return $compute_level;
         }
 
@@ -506,13 +503,6 @@
         }
 
         public function getEquiment() {
-            if (isset($this -> value['lvl_equip'])) {
-                return $this -> value['lvl_equip'];
-            }
-            return 0;
-        }
-
-        public function getPreference() {
             if (isset($this -> value['avg_equip'])) {
                 return $this -> value['avg_equip'];
             }
