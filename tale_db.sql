@@ -3,11 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 25 2018 г., 21:09
+-- Время создания: Май 22 2018 г., 19:58
 -- Версия сервера: 10.1.26-MariaDB
 -- Версия PHP: 7.1.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -50,8 +52,7 @@ CREATE TABLE `heroes` (
   `strength` int(11) DEFAULT NULL,
   `physic` int(11) DEFAULT NULL,
   `magic` int(11) DEFAULT NULL,
-  `lvl_equip` int(11) DEFAULT NULL,
-  `lvl_equip_title` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `rare_equip_title` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `avg_equip` int(11) DEFAULT NULL,
   `speed` float DEFAULT NULL,
   `initiative` float DEFAULT NULL,
@@ -202,6 +203,7 @@ ALTER TABLE `powered_ids`
 --
 ALTER TABLE `table_updates`
   ADD PRIMARY KEY (`table_name`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
