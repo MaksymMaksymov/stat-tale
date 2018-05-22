@@ -159,6 +159,69 @@
                     return "Культура";
             }  
         }
+
+        public static function getHonor($tmp) { 
+            switch ($tmp) {
+                case 'бесчестный':
+                case 'бесчестная':
+                case 'бесчестное':
+                    return 1;
+                case 'подлый':
+                case 'подлая':
+                case 'подлое':
+                    return 2;  
+                case 'порочный':
+                case 'порочная':
+                case 'порочное':
+                    return 3;
+                case 'себе на уме':
+                    return 4;
+                case 'порядочный':
+                case 'порядочная':
+                case 'порядочное':
+                    return 5;
+                case 'благородный':
+                case 'благородная':
+                case 'благородное':
+                    return 6;
+                case 'хозяин своего слова':
+                case 'хозяйка своего слова':
+                    return 7; 
+                 
+                default:
+                    return 0;
+            }         
+        }
+
+        public static function getPeace($tmp) { 
+            switch ($tmp) {
+                case 'скорый на расправу':
+                case 'скорая на расправу':
+                case 'скорое на расправу':
+                    return 1;
+                case 'вспыльчивый':
+                case'вспыльчивая':
+                case 'вспыльчивое':
+                    return 2;  
+                case 'задира':
+                    return 3;
+                case 'сдержанный':
+                case 'сдержанная':
+                case 'сдержаное':
+                    return 4;
+                case 'доброхот':
+                    return 5;
+                case 'миролюбивый':
+                case 'миролюбивая':
+                case 'миролюбивое':
+                    return 6;
+                case 'гуманист':
+                    return 7; 
+                 
+                default:
+                    return 0;
+            }         
+        }
     }
 
     class Messages {

@@ -239,7 +239,7 @@
 
             $index++;
             $result[$index] = array();
-            if (isset($this -> value['clan_id']) && isset($this -> value['clan_name'])) {
+            if (isset($this -> value['clan_id']) && isset($this -> value['clan_name']) && $this -> value['clan_id'] < 100500) {
                 $raw_result = PrepareToView::createUrl("http://the-tale.org/accounts/clans/".$this -> value['clan_id'],$this -> value['clan_name']);
             } else
                 $raw_result = "";
@@ -346,13 +346,17 @@
             $index++;
             $result[$index] = array();
             if (isset($this -> value['peacefulness']) && isset($this -> value['peacefulness_verbose']) && isset($this -> value['honor']) && isset($this -> value['honor_verbose'])) {
-                if ($this -> value['peacefulness'] > 0)
+                if (Dictionary::getPeace($this -> value['peacefulness_verbose']) == 4)
+                    $raw_result = PrepareToView::createImg("frontier.png",$this -> value['peacefulness_verbose']);
+                else if ($this -> value['peacefulness'] > 0)
                     $raw_result = PrepareToView::createImg("good.png",$this -> value['peacefulness_verbose']);
                 else 
                     $raw_result = PrepareToView::createImg("bad.png",$this -> value['peacefulness_verbose']);
                 array_push($result[$index], $raw_result);
                 unset($raw_result);
-                if ($this -> value['honor'] > 0)
+                if (Dictionary::getHonor($this -> value['honor_verbose']) == 4)
+                    $raw_result = PrepareToView::createImg("frontier.png",$this -> value['honor_verbose']);
+                else if ($this -> value['honor'] > 0)
                     $raw_result = PrepareToView::createImg("good.png",$this -> value['honor_verbose']);
                 else 
                     $raw_result = PrepareToView::createImg("bad.png",$this -> value['honor_verbose']);
@@ -419,7 +423,7 @@
 
         public function getClan() {
             if (isset($this -> value['clan_id'])) {
-                $result['clan'] = $this -> value['clan_id'];
+                $result['clan'] = ($this -> value['clan_id'] < 100500) ? $this -> value['clan_id'] : 0;
                 $result['lvl'] = $this -> value['level'];
                 return $result;
             }
@@ -466,9 +470,10 @@
         }
 
         public function getHabits() {
-            if (isset($this -> value['peacefulness']) && isset($this -> value['honor'])) {
-                $result['peace'] = $this -> value['peacefulness'];
-                $result['honor'] = $this -> value['honor'];
+            if (isset($this -> value['peacefulness_verbose']) && isset($this -> value['honor_verbose'])) {
+                $result['peace'] = Dictionary::getPeace($this -> value['peacefulness_verbose']);
+                $result['honor'] = Dictionary::getHonor($this -> value['honor_verbose']);
+                $result['lvl'] = $this -> value['level'];
                 return $result;
             }
             return 0;
