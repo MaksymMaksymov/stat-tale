@@ -73,13 +73,13 @@
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($this -> value['data']['positive_job'])) ? $this -> value['data']['positive_job'] : "";
+            $raw_result = (isset($this -> value['data']['positive_job']) && isset($this -> value['data']['positive_last'])) ? PrepareToView::createText("Min БК: ".$this -> value['data']['positive_last'], $this -> value['data']['positive_job']) : "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($this -> value['data']['negative_job'])) ? $this -> value['data']['negative_job'] : "";
+            $raw_result = (isset($this -> value['data']['negative_job']) && isset($this -> value['data']['negative_last'])) ? PrepareToView::createText("Min БК: ".$this -> value['data']['negative_last'], $this -> value['data']['negative_job']) : "";
             array_push($result[$index], $raw_result);
 
             return $result; 
@@ -116,6 +116,18 @@
                 return $result;
             }
             return 0;
+        }
+
+        static public function getLastCirclePower($heroes_power) {
+            $result['positive'] = 0;
+            foreach ($heroes_power['positive'] as $i => $positive) 
+                if ($result['positive'] == 0 || $result['positive'] > $positive)
+                    $result['positive'] = Round($positive, 0);
+            $result['negative'] = 0;
+            foreach ($heroes_power['negative'] as $i => $negative)
+                if ($result['negative'] == 0 || $result['negative'] < $negative)
+                $result['negative'] = Round($negative, 0);
+            return $result;
         }
 
 		function __destruct() {}
