@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Май 22 2018 г., 19:58
+-- Время создания: Июл 05 2018 г., 10:42
 -- Версия сервера: 10.1.26-MariaDB
 -- Версия PHP: 7.1.8
 
@@ -86,7 +86,9 @@ CREATE TABLE `masters` (
   `job_effect` int(11) DEFAULT NULL,
   `job_name` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `positive_job` int(11) DEFAULT NULL,
-  `negative_job` int(11) DEFAULT NULL
+  `negative_job` int(11) DEFAULT NULL,
+  `positive_last` int(11) DEFAULT NULL,
+  `negative_last` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -126,7 +128,9 @@ CREATE TABLE `places` (
   `job_effect` int(11) DEFAULT NULL,
   `job_name` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `positive_job` int(11) DEFAULT NULL,
-  `negative_job` int(11) DEFAULT NULL
+  `negative_job` int(11) DEFAULT NULL,
+  `positive_last` int(11) DEFAULT NULL,
+  `negative_last` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
