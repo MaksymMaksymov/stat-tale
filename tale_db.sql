@@ -50,7 +50,7 @@ CREATE TABLE `heroes` (
   `honor_verbose` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `money` int(11) DEFAULT NULL,
   `strength` int(11) DEFAULT NULL,
-  `virt_strength` int(11) NOT NULL,
+  `virt_strength` int(11) DEFAULT NULL,
   `physic` int(11) DEFAULT NULL,
   `magic` int(11) DEFAULT NULL,
   `rare_equip_title` varchar(100) COLLATE utf8_bin DEFAULT NULL,
