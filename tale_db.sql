@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Июл 05 2018 г., 10:42
+-- Время создания: Сен 29 2018 г., 10:03
 -- Версия сервера: 10.1.26-MariaDB
 -- Версия PHP: 7.1.8
 
@@ -50,6 +50,7 @@ CREATE TABLE `heroes` (
   `honor_verbose` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `money` int(11) DEFAULT NULL,
   `strength` int(11) DEFAULT NULL,
+  `virt_strength` int(11) NOT NULL,
   `physic` int(11) DEFAULT NULL,
   `magic` int(11) DEFAULT NULL,
   `rare_equip_title` varchar(100) COLLATE utf8_bin DEFAULT NULL,
