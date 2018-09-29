@@ -56,6 +56,9 @@
                     case "money": 
                         $arr_to_sort[$key] = $value -> getMoney();
                         break;
+                    case "virt_strength": 
+                        $arr_to_sort[$key] = $value -> getVirtualStrength();
+                        break;
                     case "strength": 
                         $arr_to_sort[$key] = $value -> getStrength();
                         break;
