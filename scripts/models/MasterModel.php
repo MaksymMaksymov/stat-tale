@@ -61,6 +61,21 @@
                 return false;
         }
 
+        public static function dbSelectByPlaceId($id)
+        {
+            $mysqli = $GLOBALS["mysqli"];
+            $result = $mysqli->query("SELECT id FROM masters WHERE city_id=".$id);
+            if ($result === false) {
+                return false;
+            } else {
+                $ids = array();
+                while ($row = $result->fetch_assoc()) {
+                    array_push($ids, $row['id']);
+                }
+                return $ids;
+            }
+        }
+
         public function dbInsert($arrayData) {
             if ($arrayData == null || !isset($arrayData['id'])) return false;
 
@@ -276,6 +291,16 @@
                 return $this -> value['power_outer'];
             }
             return 0;
+        }
+
+        public static function getNameById($id) {
+            $mysqli = $GLOBALS["mysqli"];
+            $result = $mysqli->query("SELECT name FROM masters WHERE id=".$id);
+            $row = $result->fetch_assoc();
+            if (isset($row)) {
+                return $row['name'];
+            } else
+                return "-";
         }
 
 		function __destruct() {}
