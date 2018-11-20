@@ -14,7 +14,7 @@
 	$PLACES_URL_LIST = $HOST.$PLACES_PATH."?api_version=".$PLACES_VERSION."&api_client=".$API_CLIENT;
 
 	$PLACES_DETAILED_PATH = "game/places/<place>/api/show";
-	$PLACES_DETAILED_VERSION = "2";
+	$PLACES_DETAILED_VERSION = "2.2";
 	$PLACES_URL_DETAILED = $HOST.$PLACES_DETAILED_PATH."?api_version=".$PLACES_DETAILED_VERSION."&api_client=".$API_CLIENT;
 
 	$MASTERS_PATH = "game/persons/<person>/api/show";
