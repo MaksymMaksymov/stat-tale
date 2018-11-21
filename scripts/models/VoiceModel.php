@@ -84,7 +84,7 @@
                         $result[$index]['count'] += 1; 
                         array_push($result[$index]['heroes'], PrepareToView::createUrl("http://the-tale.org/accounts/".$value['angel_id'],$value['angel_name']));
                     } else {
-                        $result[$index] = array("clan" => PrepareToView::createUrl("http://the-tale.org/accounts/clans/".$value['clan_id'],$value['clan_name']), "count" => 1, "heroes" => array(PrepareToView::createUrl("http://the-tale.org/accounts/".$value['angel_id'],$value['angel_name'])));
+                        $result[$index] = array("clan" => PrepareToView::createUrl("http://the-tale.org/clans/".$value['clan_id'],$value['clan_name']), "count" => 1, "heroes" => array(PrepareToView::createUrl("http://the-tale.org/accounts/".$value['angel_id'],$value['angel_name'])));
                     }
                 }
             }
