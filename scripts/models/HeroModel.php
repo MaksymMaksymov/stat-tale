@@ -240,7 +240,7 @@
 
             $index++;
             $result[$index] = array();
-            if (isset($this -> value['clan_id']) && isset($this -> value['clan_name']) && $this -> value['clan_id'] < 100500) {
+            if (isset($this -> value['clan_id']) && isset($this -> value['clan_name'])) {
                 $raw_result = PrepareToView::createUrl("http://the-tale.org/clans/".$this -> value['clan_id'],$this -> value['clan_name']);
             } else
                 $raw_result = "";
@@ -449,7 +449,7 @@
 
         public function getClan() {
             if (isset($this -> value['clan_id'])) {
-                $result['clan'] = ($this -> value['clan_id'] < 100500) ? $this -> value['clan_id'] : 0;
+                $result['clan'] = $this -> value['clan_id'];
                 $result['lvl'] = $this -> value['level'];
                 return $result;
             }
