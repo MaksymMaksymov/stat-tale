@@ -7,7 +7,7 @@
 	//method_arguments — аргументы, необходимые методу.
 	
 	$HOST = "https://the-tale.org/";
-	$API_CLIENT = "1-0.3.25.5"; // use https://the-tale.org/api/info?api_version=1.0&api_client=1-0.3.25.5 to find current
+	$API_CLIENT = "stattale-1"; 
 
 	$PLACES_PATH = "game/places/api/list";
 	$PLACES_VERSION = "1.1";
@@ -22,7 +22,7 @@
 	$MASTERS_URL =  $HOST.$MASTERS_PATH."?api_version=".$MASTERS_VERSION."&api_client=".$API_CLIENT;
 
 	$HEROES_PATH = "game/api/info";
-	$HEROES_VERSION = "1.8";
+	$HEROES_VERSION = "1.9";
 	$HEROES_URL =  $HOST.$HEROES_PATH."?api_version=".$HEROES_VERSION."&api_client=".$API_CLIENT."&account=<account>";
 
 	$ANGELS_PATH = "accounts/<account>/api/show";
