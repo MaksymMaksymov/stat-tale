@@ -97,5 +97,4 @@
     $get_info -> main($arr_ids);
         
     include "../views/PlacesView.php";
-    // include "../views/vitalik/MyPlaces.php";
 ?>
