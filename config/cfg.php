@@ -7,7 +7,7 @@
 	//method_arguments — аргументы, необходимые методу.
 	
 	$HOST = "https://the-tale.org/";
-	$API_CLIENT = "stattale-1"; 
+	$API_CLIENT = "stattale-1";
 
 	$PLACES_PATH = "game/places/api/list";
 	$PLACES_VERSION = "1.1";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Сен 29 2018 г., 10:03
+-- Время создания: x-x-x
 -- Версия сервера: 10.1.26-MariaDB
 -- Версия PHP: 7.1.8
 
@@ -137,6 +137,34 @@ CREATE TABLE `places` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `emissaries`
+--
+
+CREATE TABLE `emissaries` (
+  `id` int(11) NOT NULL,
+  `name` varchar(250) COLLATE utf8_bin NOT NULL,
+  `race` int(11) DEFAULT NULL,
+  `gender` int(11) DEFAULT NULL,
+  `ability` int(11) DEFAULT NULL,
+  `health` int(11) DEFAULT NULL,
+  `power` int(11) DEFAULT NULL,
+  `status` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `clan_name` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `clan_id` int(11) DEFAULT NULL,
+  `city_id` int(11) DEFAULT NULL,
+  `warfare` int(11) DEFAULT NULL,
+  `cultural_science` int(11) DEFAULT NULL,
+  `politival_science` int(11) DEFAULT NULL,
+  `religious_studies` int(11) DEFAULT NULL,
+  `sociology` int(11) DEFAULT NULL,
+  `covert_operations` int(11) DEFAULT NULL,
+  `technologies` int(11) DEFAULT NULL,
+  `economy` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `places_history`
 --
 
@@ -189,6 +217,12 @@ ALTER TABLE `masters`
 -- Индексы таблицы `places`
 --
 ALTER TABLE `places`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `emissaries`
+--
+ALTER TABLE `emissaries`
   ADD PRIMARY KEY (`id`);
 
 --

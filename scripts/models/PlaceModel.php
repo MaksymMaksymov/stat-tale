@@ -148,6 +148,7 @@
 	            $db_values .= ",culture_title=N'".$sta.$job.$pers.$city.$oth."'";
 	        }
 	        $db_values .= (isset($get_arr_attributes[34])) ? ",area=".$get_arr_attributes[34] : "";
+            $db_values .= (isset($get_arr_attributes[35])) ? ",trade=".$get_arr_attributes[35] : "";
             $db_values .= (isset($get_arr_attributes[0])) ? ",size=".$get_arr_attributes[0] : "";
             $db_values .= (isset($get_arr_attributes[22])) ? ",economy=".$get_arr_attributes[22] : "";
 
@@ -261,7 +262,7 @@
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
-            $index++;
+            /*$index++;
             $result[$index] = array();
             if (isset($this -> value['safety']) && isset($this -> value['transport'])) {
                 $time = (160 / $this -> value['safety'] * 100 - 150) / ($this -> value['transport']*0.1 / 100);
@@ -284,7 +285,7 @@
             } else 
                 $raw_result = "";
             array_push($result[$index], $raw_result);
-            unset($raw_result);
+            unset($raw_result);*/
 
             $index++;
             $result[$index] = array();
@@ -310,6 +311,12 @@
             $index++;
             $result[$index] = array();
             $raw_result = (isset($this -> value['economy'])) ? $this -> value['economy'] : "";
+            array_push($result[$index], $raw_result);
+            unset($raw_result);
+
+            $index++;
+            $result[$index] = array();
+            $raw_result = (isset($this -> value['trade'])) ? $this -> value['trade'] : "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
@@ -553,13 +560,18 @@
             return 0;
         }
 
-        public function getTime() {
-            if (isset($this -> value['safety']) && isset($this -> value['transport'])) {
+        public function getTime() { // it is trade actually
+            if (isset($this -> value['trade'])) {
+                $result['frontier'] = (isset($this -> value['frontier']) && (!$this -> value['frontier'])) ? 1 : 0;
+                $result['attr'] = $this -> value['trade'];
+                return $result;
+            }
+            /*if (isset($this -> value['safety']) && isset($this -> value['transport'])) {
                 $result['frontier'] = (isset($this -> value['frontier']) && (!$this -> value['frontier'])) ? 1 : 0;
                 $time = Round((160 / $this -> value['safety'] * 100 - 150) / ($this -> value['transport']*0.1 / 100),0);
                 $result['attr'] = -$time;
                 return $result;
-            }
+            }*/
             return 0;
         }
 

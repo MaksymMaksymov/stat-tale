@@ -135,6 +135,61 @@
             }
         }
 
+        public static function getRaceAndGender($race_title) {
+            $race_title = trim($race_title);
+            if ($race_title == "мужчина") {
+                $tmp["race"] = 0;
+                $tmp["gender"] = 0;
+                return $tmp;
+            }
+            if ($race_title == "эльф") {
+                $tmp["race"] = 1;
+                $tmp["gender"] = 0;
+                return $tmp;
+            }
+            if ($race_title == "орк") {
+                $tmp["race"] = 2;
+                $tmp["gender"] = 0;
+                return $tmp;
+            }
+            if ($race_title == "гоблин") {
+                $tmp["race"] = 3;
+                $tmp["gender"] = 0;
+                return $tmp;
+            }
+            if ($race_title == "дварф") {
+                $tmp["race"] = 4;
+                $tmp["gender"] = 0;
+                return $tmp;
+            }
+            if ($race_title == "женщина") {
+                $tmp["race"] = 0;
+                $tmp["gender"] = 1;
+                return $tmp;
+            }
+            if ($race_title == "эльфийка") {
+                $tmp["race"] = 1;
+                $tmp["gender"] = 1;
+                return $tmp;
+            }
+            if ($race_title == "оркесса") {
+                $tmp["race"] = 2;
+                $tmp["gender"] = 1;
+                return $tmp;
+            }
+            if ($race_title == "гоблинша") {
+                $tmp["race"] = 3;
+                $tmp["gender"] = 1;
+                return $tmp;
+            }
+            if ($race_title == "дварфийка") {
+                $tmp["race"] = 4;
+                $tmp["gender"] = 1;
+                return $tmp;
+            }
+            return false;
+        }
+
         public static function getJobEffect($effect) {
             switch ($effect) {
                 case 1:

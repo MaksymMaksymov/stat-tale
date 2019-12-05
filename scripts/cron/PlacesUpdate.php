@@ -10,17 +10,18 @@
         exit();
 
     $array_of_ids = array();
-    if (isset($arr_all_places['data']['places'])) {                      
-        for ($i = 1; $i <= count($arr_all_places['data']['places']); $i++) {
+    if (isset($arr_all_places['data']['places'])) {                     
+        $i=0;
+        foreach ($arr_all_places['data']['places'] as $key => $value)  {
             $place_array = array();
-            $place_array['id'] = $arr_all_places['data']['places'][$i]['id'];
-            $place_array['specialization'] = $arr_all_places['data']['places'][$i]['specialization'];
+            $place_array['id'] = $value['id'];
+            $place_array['specialization'] = $value['specialization'];
             if (count($place_array) > 0) {
                 array_push($array_of_ids, $place_array);
             }   
         }       
     }
-
+    
     PlaceModel::dbSelectAll();
     foreach ($array_of_ids as $key => $value) {
         $place = new PlaceModel();
