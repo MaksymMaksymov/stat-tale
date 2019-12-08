@@ -52,6 +52,10 @@
         $find = strpos($result,"<td>", $find + 1);
         $found = strpos($result,"<i", $find + 1);
         $emissary["ability"] = substr($result, $find + 4, $found - $find - 4);
+        if (strpos($emissary["ability"],",", 0)) {
+            $emissary["ability"] = substr($emissary["ability"], 0, strpos($emissary["ability"],",", 0));
+            var_dump($emissary["ability"]);
+        }
 
         $find = strpos($result,"военное дело", $found + 1);
         $find = strpos($result,"<td>", $find + 1);
