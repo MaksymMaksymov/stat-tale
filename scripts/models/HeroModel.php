@@ -109,7 +109,7 @@
             $db_values .= (!isset($arrayData['account']['hero']['base']['race'])) ? "" : ",race=".$arrayData['account']['hero']['base']['race'];
             $db_values .= (!isset($arrayData['account']['hero']['base']['level'])) ? "" : ",level=".$arrayData['account']['hero']['base']['level'];
             $db_values .= (!isset($arrayData['account']['hero']['base']['experience_to_level']) || !isset($arrayData['account']['hero']['base']['experience'])) ? "" : ",exp=".($arrayData['account']['hero']['base']['experience_to_level'] - $arrayData['account']['hero']['base']['experience']);
-            $db_values .= (!isset($arrayData['angel']['permissions']['can_affect_game'])) ? "" : ",power=".Round($arrayData['angel']['ratings']['politics_power']['value']*100,0);
+            $db_values .= (!isset($arrayData['angel']['permissions']['can_affect_game']) && !isset($arrayData['angel']['ratings']['politics_power']['value'])) ? "" : ",power=".Round($arrayData['angel']['ratings']['politics_power']['value']*100,0);
             $db_values .= (!isset($arrayData['account']['hero']['companion']['name'])) ? "" : ",companion=N'".str_replace("'","\'",$arrayData['account']['hero']['companion']['name'])."'";
             $db_values .= (!isset($arrayData['account']['hero']['habits']['peacefulness']['raw'])) ? "" : ",peacefulness=".$arrayData['account']['hero']['habits']['peacefulness']['raw'];
             $db_values .= (!isset($arrayData['account']['hero']['habits']['peacefulness']['verbose'])) ? "" : ",peacefulness_verbose=N'".$arrayData['account']['hero']['habits']['peacefulness']['verbose']."'";
