@@ -121,6 +121,7 @@ CREATE TABLE `places` (
   `area` int(11) DEFAULT NULL,
   `size` int(11) DEFAULT NULL,
   `economy` int(11) DEFAULT NULL,
+  `trade` int(11) NOT NULL,
   `politic_power` float DEFAULT NULL,
   `power_outer` int(11) DEFAULT NULL,
   `power_outer_fraction` float DEFAULT NULL,
