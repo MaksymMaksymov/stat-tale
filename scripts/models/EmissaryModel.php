@@ -29,6 +29,38 @@
             } 
         }
 
+        public static function dbSelectAllDeleted()
+        {
+            $mysqli = $GLOBALS["mysqli"];
+            $result = $mysqli->query("SELECT id FROM emissaries WHERE status LIKE N'%Вне игры%'");
+            
+            if ($result === false) {
+                return false;
+            } else {
+                $ids = array();
+                while ($row = $result->fetch_assoc()) {
+                    array_push($ids, $row['id']);
+                }
+                return $ids;
+            } 
+        }
+
+        public static function dbSelectAllAlive()
+        {
+            $mysqli = $GLOBALS["mysqli"];
+            $result = $mysqli->query("SELECT id FROM emissaries WHERE status LIKE N'%Работает%'");
+            
+            if ($result === false) {
+                return false;
+            } else {
+                $ids = array();
+                while ($row = $result->fetch_assoc()) {
+                    array_push($ids, $row['id']);
+                }
+                return $ids;
+            } 
+        }
+
 		public function dbSelectById()
         {
             $mysqli = $GLOBALS["mysqli"];

@@ -12,10 +12,12 @@
 	include_once("../config/cfg.php");
 	
 	$mysqli = $GLOBALS["mysqli"];
-    $result = $mysqli->query("SELECT COUNT(clan_id),clan_name
-	FROM emissaries
-	GROUP BY clan_id
-	ORDER BY COUNT(clan_id) DESC, clan_id");
+    $result = $mysqli->query("
+    	SELECT COUNT(clan_id),clan_name
+		FROM emissaries
+		WHERE status LIKE N'%Работает%' 
+		GROUP BY clan_id 
+		ORDER BY COUNT(clan_id) DESC, clan_id");
 	echo "<table>";
     echo "<tr><th>Кол-во</th><th>Ги</th>";
 	while ($row = $result->fetch_assoc()) {

@@ -9,7 +9,11 @@
            
         public function getArrayToParse($array_of_ids = null) {
             if ($array_of_ids == null) {
-                $array_of_ids = EmissaryModel::dbSelectAll();
+                if (isset($_REQUEST["all"])) {
+                    $array_of_ids = EmissaryModel::dbSelectAll();
+                } else {
+                    $array_of_ids = EmissaryModel::dbSelectAllAlive();
+                }
             }
             
             $this -> model_array = array();
