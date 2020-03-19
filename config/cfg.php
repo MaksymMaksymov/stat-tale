@@ -14,11 +14,11 @@
 	$PLACES_URL_LIST = $HOST.$PLACES_PATH."?api_version=".$PLACES_VERSION."&api_client=".$API_CLIENT;
 
 	$PLACES_DETAILED_PATH = "game/places/<place>/api/show";
-	$PLACES_DETAILED_VERSION = "2.2";
+	$PLACES_DETAILED_VERSION = "2.3";
 	$PLACES_URL_DETAILED = $HOST.$PLACES_DETAILED_PATH."?api_version=".$PLACES_DETAILED_VERSION."&api_client=".$API_CLIENT;
 
 	$MASTERS_PATH = "game/persons/<person>/api/show";
-	$MASTERS_VERSION = "1.1";
+	$MASTERS_VERSION = "1.2";
 	$MASTERS_URL =  $HOST.$MASTERS_PATH."?api_version=".$MASTERS_VERSION."&api_client=".$API_CLIENT;
 
 	$HEROES_PATH = "game/api/info";

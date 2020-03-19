@@ -156,7 +156,7 @@
             	$db_values .= ",persons=N'".str_replace("'","\'",$this -> getPersonsList($arrayData['persons']))."'";
             }
 
-            $db_values .= (!isset($arrayData['politic_power']['power']['fraction'])) ? "" : ",politic_power=".Round($arrayData['politic_power']['power']['fraction']*100,2);
+            /*$db_values .= (!isset($arrayData['politic_power']['power']['fraction'])) ? "" : ",politic_power=".Round($arrayData['politic_power']['power']['fraction']*100,2);
             $db_values .= (!isset($arrayData['politic_power']['power']['outer']['value'])) ? "" : ",power_outer=".$arrayData['politic_power']['power']['outer']['value'];
             $db_values .= (!isset($arrayData['politic_power']['power']['outer']['fraction'])) ? "" : ",power_outer_fraction=".Round($arrayData['politic_power']['power']['outer']['fraction']*100,2);
             $db_values .= (!isset($arrayData['politic_power']['power']['inner']['value'])) ? "" : ",power_inner=".$arrayData['politic_power']['power']['inner']['value'];
@@ -169,7 +169,7 @@
                 $get_last = JobModel::getLastCirclePower($arrayData['politic_power']['heroes']);
                 $db_values .= (!isset($get_last['positive'])) ? "" : ",positive_last=".$get_last['positive'];
                 $db_values .= (!isset($get_last['negative'])) ? "" : ",negative_last=".$get_last['negative'];
-            }
+            }*/
 
             $mysqli = $GLOBALS["mysqli"];
             $query = $mysqli->query("UPDATE places SET ".$db_values." WHERE id=".$this -> value["id"]);

@@ -13,7 +13,8 @@
             if ($type == "master")
                 $result = $mysqli->query("SELECT * FROM masters WHERE id=".$id);
             else
-                $result = $mysqli->query("SELECT * FROM places WHERE id=".$id);
+                return false;
+                /*$result = $mysqli->query("SELECT * FROM places WHERE id=".$id);*/
             
             $ids = array();
             if (!isset($result) || $result === false) {
