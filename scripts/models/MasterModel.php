@@ -115,11 +115,11 @@
             $db_values .= (!isset($arrayData['job']['name'])) ? "" : ",job_name=N'".str_replace("'","\'",$arrayData['job']['name'])."'";
             $db_values .= (!isset($arrayData['job'])) ? "" : ",positive_job=".($arrayData['job']['power_required'] - $arrayData['job']['positive_power']);
             $db_values .= (!isset($arrayData['job'])) ? "" : ",negative_job=".($arrayData['job']['power_required'] - $arrayData['job']['negative_power']);
-            if (isset($arrayData['politic_power']['heroes'])) {
+            /*if (isset($arrayData['politic_power']['heroes'])) {
                 $get_last = JobModel::getLastCirclePower($arrayData['politic_power']['heroes']);
                 $db_values .= (!isset($get_last['positive'])) ? "" : ",positive_last=".$get_last['positive'];
                 $db_values .= (!isset($get_last['negative'])) ? "" : ",negative_last=".$get_last['negative'];
-            }
+            }*/
 
             $mysqli = $GLOBALS["mysqli"];
             $query = $mysqli->query("UPDATE masters SET ".$db_values." WHERE id=".$this -> value["id"]);
