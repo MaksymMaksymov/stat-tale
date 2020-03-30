@@ -104,7 +104,7 @@ processRegionResponse(response, "map");
     sprites = [];
     var loadSprites = 0;
     var sprite = new Image();
-    sprite.src = "./images/map_ressurect_anim.png";
+    sprite.src = "./images/map.png";
     sprite.mapType = map;
     sprite.addEventListener('load', function() {
         loadSprites++;
