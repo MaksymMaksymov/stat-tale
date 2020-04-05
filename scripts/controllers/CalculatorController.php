@@ -153,9 +153,9 @@
         $cur_place_id = $_POST["place"];
         $cur_place = PlaceModel::getNameById($cur_place_id);
         $place = PlaceModel::getPlaceById($cur_place_id);
-        $_POST["size"] = $place["size"];
-        $_POST["economy"] = $place["economy"];
-        $_POST["trade"] = $place["trade"];
+        $_POST["size"] = $place["size"] - 1;
+        $_POST["economy"] = $place["economy"] - 1;
+        $_POST["trade"] = $place["trade"] - 1;
         $_POST["area"] = $place["area"];
         $_POST["frontier"] = ($place["frontier"]) ? true : null;
         $_POST["spec"] = Dictionary::getSpecId($place["specialization"]);
