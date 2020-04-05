@@ -100,10 +100,32 @@
 								echo (isset($data['value'])) ? $data['value'] : "";
 							echo "</div>";
 						echo "</div>";
+					} else if ($data['type'] == "select") {
+     					if (isset($data['value'])) {
+     						echo "<select name='".$data['name']."' class='get-data' title='".$data['title']."' >";
+     						foreach ($data['value'] as $key => $value) {
+						        echo "<option value='".$key."'";
+						        if ($data['selected'] == $key) echo " selected='selected'";
+						        echo ">".$value."</option>";
+						      } 
+     						echo "</select>";
+     					}
+					} else if ($data['type'] == "number") {
+     					if (isset($data['value'])) {
+     						echo "<input type='number' name='".$data['name']."' id='".$data['name']."' title='".$data['title']."' value='".$data['value']."' min='".$data['min']."' max='".$data['max']."'/>";
+     					}
 					} else if ($data['type'] == "text") {
 						if (isset($data['value'])) {
 							if (isset($data['title'])) {
 								echo "<font title='".$data['title']."'>".$data['value']."</font>";
+							} else 
+								echo $data['value'];
+						} else
+							var_dump($data);
+					} else if ($data['type'] == "text-red") {
+						if (isset($data['value'])) {
+							if (isset($data['title'])) {
+								echo "<font title='".$data['title']."' color='red'>".$data['value']."</font>";
 							} else 
 								echo $data['value'];
 						} else
@@ -156,7 +178,7 @@
         }
 
         public static function getFooter() {
-            echo "<hr/><footer><span>Copyright by</span> <a href='http://the-tale.org/accounts/56706?referral=56706'>Mefi</a> <span>&copy 2018</span></footer>";
+            echo "<hr/><footer><span>Copyright by</span> <a href='http://the-tale.org/accounts/56706?referral=56706'>Mefi</a> <span>&copy 2018-2020</span></footer>";
         }
 
         public static function getTablePage($info,$table_name,$arr_classes,$arr_headers) {
@@ -167,6 +189,14 @@
 		    View::getTableData($table_name,$arr_classes,$array_out);
 		    View::getFooterTable();
 		    View::getFormEnd();
+        }
+
+        public static function getTablePageCalc($info,$table_name,$arr_classes,$arr_headers) {
+		    View::getHeaderTable($table_name,$arr_classes,$arr_headers);
+        	$array_out = array();
+		    View::getModelData($info -> model_array,$array_out);
+		    View::getTableData($table_name,$arr_classes,$array_out);
+		    View::getFooterTable();
         }
 
         public static function getTwoTablePage($info,$table_name,$arr_classes,$arr_headers) {

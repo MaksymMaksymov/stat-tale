@@ -31,6 +31,22 @@
                 return $ids;
             } 
         }
+
+        public static function dbSelectAllNames()
+        {
+            $mysqli = $GLOBALS["mysqli"];
+            $result = $mysqli->query("SELECT id, name FROM places ORDER BY name");
+            
+            if ($result === false) {
+                return false;
+            } else {
+                $ids = array("0" => "...");
+                while ($row = $result->fetch_assoc()) {
+                    $ids[$row['id']] = $row['name'];
+                }
+                return $ids;
+            } 
+        }
         
         public function dbUpdateValues($arrayByCurl) {
             if (!CheckStatus::check($arrayByCurl)) return false;
@@ -644,6 +660,16 @@
             $row = $result->fetch_assoc();
             if (isset($row)) {
                 return $row['name'];
+            } else
+                return "-";
+        }
+
+        public static function getPlaceById($id) {
+            $mysqli = $GLOBALS["mysqli"];
+            $result = $mysqli->query("SELECT * FROM places WHERE id=".$id);
+            $row = $result->fetch_assoc();
+            if (isset($row)) {
+                return $row;
             } else
                 return "-";
         }

@@ -186,3 +186,13 @@
 	left: 0;
 	right: 0;
 }
+
+select.get-data, input  {
+	text-align: right;
+    border-radius: 0;
+    border: 0;
+    background: transparent;
+    padding: 1px;
+    margin: 1px;
+    width: 95%;
+}
