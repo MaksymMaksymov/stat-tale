@@ -326,7 +326,7 @@
 		}
 
 		public static function setSelectCorrection($name, $current, $title) {
-			return PrepareToView::createNumber($name, $current, $title, -100, 200);	
+			return PrepareToView::createNumber($name, $current, $title, -400, 400);	
 		}
 
 		public static function setAutoInfluence($size, $spec_profs) {

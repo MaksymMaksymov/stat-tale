@@ -6,16 +6,16 @@
 ?>
 <script type="text/javascript">
   $(document).ready(function() {
-    $('.get-data').click(function() {
-          document.getElementById('calc_form').submit();
-        });
-  });
-  var area = document.getElementById("area");
-  input.addEventListener("keyup", function(event) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
+    $('.get-data').on('change', function() {
       document.getElementById('calc_form').submit();
-    }
+    });
+
+    input.addEventListener("keyup", function(event) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById('calc_form').submit();
+      }
+    });
   });
 </script>
 <body>

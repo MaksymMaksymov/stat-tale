@@ -110,7 +110,7 @@
                     $spec_result = CalculatorModel::setAutoInfluence($cur_size, $spec_profs);
                     $model -> value["spec_points"] = 0;
                     for ($i = 1; $i <= 6; $i++) {
-                        if (isset($this -> model_array[$i - 1]) && isset($this -> model_array[$i - 1] -> value["profession"][$model -> value["current"]]) && $this -> model_array[$i - 1] -> value["profession"][$model -> value["current"]] == $spec_result[$i - 1]["value"]) {
+                        if (isset($this -> model_array[$i - 1]) && isset($this -> model_array[$i - 1] -> value["profession"][$model -> value["current"]]) && isset($spec_result[$i - 1]["value"]) && $this -> model_array[$i - 1] -> value["profession"][$model -> value["current"]] == $spec_result[$i - 1]["value"]) {
                             $this -> model_array[$i - 1] -> value["profession"]["influence"] = $spec_result[$i - 1]["influence"];
                             $model -> value["spec_points"] += $spec_result[$i - 1]["influence"] * $spec_result[$i - 1]["value"] / 100;
                         }
