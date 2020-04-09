@@ -21,7 +21,6 @@
         }       
     }
 
-
     foreach ($array_of_ids as $key => $value) {
         $place = new PlaceModel();
         $tmp_url =  str_replace("<place>", $value['id'], $GLOBALS["PLACES_URL_DETAILED"]);
@@ -29,4 +28,6 @@
         $arr_places['data']['specialization'] = $value['specialization'];
         $result = $place -> dbUpdateValues($arr_places);
     }
+
+    header('Location: ../controllers/PlacesController.php?updated', true);
 ?>

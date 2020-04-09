@@ -14,4 +14,6 @@
             $arr_masters = $curlGet -> getInformation($tmp_url);
             $result = $master -> dbUpdateValues($arr_masters);
         }
+
+    header('Location: ../controllers/MastersController.php?updated', true);
 ?>
