@@ -74,13 +74,13 @@
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($this -> value['data']['positive_job']) && isset($this -> value['data']['positive_last'])) ? PrepareToView::createText("Min БК: ".$this -> value['data']['positive_last'], $this -> value['data']['positive_job']) : "";
+            $raw_result = (isset($this -> value['data']['positive_job']) /*&& isset($this -> value['data']['positive_last'])*/) ? PrepareToView::createText(""/*"Min БК: ".$this -> value['data']['positive_last']*/, $this -> value['data']['positive_job']) : "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
             $index++;
             $result[$index] = array();
-            $raw_result = (isset($this -> value['data']['negative_job']) && isset($this -> value['data']['negative_last'])) ? PrepareToView::createText("Min БК: ".$this -> value['data']['negative_last'], $this -> value['data']['negative_job']) : "";
+            $raw_result = (isset($this -> value['data']['negative_job']) /*&& isset($this -> value['data']['negative_last'])*/) ? PrepareToView::createText(""/*"Min БК: ".$this -> value['data']['negative_last']*/, $this -> value['data']['negative_job']) : "";
             array_push($result[$index], $raw_result);
 
             return $result; 

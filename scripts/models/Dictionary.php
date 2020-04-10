@@ -234,7 +234,7 @@
                 case 8:
                     return "Опыт";     
                 case 9:
-                    return "Энергия";
+                    return "Карты";
                 case 10:
                     return "Культура";
             }  
