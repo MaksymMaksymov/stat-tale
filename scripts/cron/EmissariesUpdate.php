@@ -97,4 +97,6 @@
 
         $result = $update -> dbUpdateValues($emissary);
     }
+
+    header('Location: ../controllers/EmissariesController.php?updated', true);
 ?>

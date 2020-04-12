@@ -186,3 +186,28 @@
 	left: 0;
 	right: 0;
 }
+
+select.get-data, input {
+	text-align: right;
+    border-radius: 0;
+    border: 0;
+    background: transparent;
+    padding: 1px;
+    margin: 1px;
+    width: 95%;
+}
+
+button.update_btn {
+  background-color: #A5DBF9; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+button.update_btn:hover {
+	background-color: #9FA9F0; 
+}

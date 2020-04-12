@@ -30,8 +30,8 @@
 	class View {
 		function __construct() {}
 
-		public static function getForm($class,$direction) {
-			echo "<form id='tbl_form' action='' method='post'>";
+		public static function getForm($class,$direction,$href) {
+			echo "<form id='tbl_form' action='".$href."' method='post'>";
 			echo "<div id='hidden_inputs'>";
 		 		echo "<input id='class' type='hidden' name='class' value='".$class."' />";
 		 		echo "<input id='direction' type='hidden' name='direction' value='".$direction."' />";
@@ -39,7 +39,7 @@
 		}
 
 		public static function getFormEnd() {
-			echo "<button type='submit' style='display: none;''></button>";
+			echo "<button type='submit' style='display: none;'></button>";
             echo "</form>";
         }
 
@@ -100,10 +100,32 @@
 								echo (isset($data['value'])) ? $data['value'] : "";
 							echo "</div>";
 						echo "</div>";
+					} else if ($data['type'] == "select") {
+     					if (isset($data['value'])) {
+     						echo "<select name='".$data['name']."' class='get-data' title='".$data['title']."' >";
+     						foreach ($data['value'] as $key => $value) {
+						        echo "<option value='".$key."'";
+						        if ($data['selected'] == $key) echo " selected='selected'";
+						        echo ">".$value."</option>";
+						      } 
+     						echo "</select>";
+     					}
+					} else if ($data['type'] == "number") {
+     					if (isset($data['value'])) {
+     						echo "<input type='number' name='".$data['name']."' id='".$data['name']."' title='".$data['title']."' value='".$data['value']."' min='".$data['min']."' max='".$data['max']."'/>";
+     					}
 					} else if ($data['type'] == "text") {
 						if (isset($data['value'])) {
 							if (isset($data['title'])) {
 								echo "<font title='".$data['title']."'>".$data['value']."</font>";
+							} else 
+								echo $data['value'];
+						} else
+							var_dump($data);
+					} else if ($data['type'] == "text-red") {
+						if (isset($data['value'])) {
+							if (isset($data['title'])) {
+								echo "<font title='".$data['title']."' color='red'>".$data['value']."</font>";
 							} else 
 								echo $data['value'];
 						} else
@@ -156,11 +178,11 @@
         }
 
         public static function getFooter() {
-            echo "<hr/><footer><span>Copyright by</span> <a href='http://the-tale.org/accounts/56706?referral=56706'>Mefi</a> <span>&copy 2018</span></footer>";
+            echo "<hr/><footer><span>Copyright by</span> <a href='http://the-tale.org/accounts/56706?referral=56706'>Mefi</a> <span>&copy 2018-2020</span></footer>";
         }
 
-        public static function getTablePage($info,$table_name,$arr_classes,$arr_headers) {
-		    View::getForm((isset($_REQUEST['class'])) ? $_REQUEST['class'] : "",(isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false");
+        public static function getTablePage($info,$table_name,$arr_classes,$arr_headers,$href) {
+		    View::getForm((isset($_REQUEST['class'])) ? $_REQUEST['class'] : "",(isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false",$href);
 		    View::getHeaderTable($table_name,$arr_classes,$arr_headers);
         	$array_out = array();
 		    View::getModelData($info -> model_array,$array_out);
@@ -169,8 +191,16 @@
 		    View::getFormEnd();
         }
 
-        public static function getTwoTablePage($info,$table_name,$arr_classes,$arr_headers) {
-		    View::getForm((isset($_REQUEST['class'])) ? $_REQUEST['class'] : "",(isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false");
+        public static function getTablePageCalc($info,$table_name,$arr_classes,$arr_headers) {
+		    View::getHeaderTable($table_name,$arr_classes,$arr_headers);
+        	$array_out = array();
+		    View::getModelData($info -> model_array,$array_out);
+		    View::getTableData($table_name,$arr_classes,$array_out);
+		    View::getFooterTable();
+        }
+
+        public static function getTwoTablePage($info,$table_name,$arr_classes,$arr_headers,$href) {
+		    View::getForm((isset($_REQUEST['class'])) ? $_REQUEST['class'] : "",(isset($_REQUEST['direction'])) ? $_REQUEST['direction'] : "false",$href);
 		    View::getHeaderTable($table_name,$arr_classes,$arr_headers);
         	$array_out = array();
 		    View::getModelData($info -> model_array,$array_out);
@@ -226,6 +256,22 @@
 			    echo "</table>";
 			}
 			echo "</div>";
+        }
+
+        public static function getUpdateButton($href) {
+        	echo "<br/><p><span style='font-size:12px;'>Обновление может занять несколько минут</span>";
+			echo "<form id='tbl_form' action='".$href."' method='post'>";
+			echo "<button class='update_btn' type='submit'>Обновить</button>";
+            echo "</form>";
+            View::checkUpdated();
+        }
+
+        public static function checkUpdated() {
+        	if (isset($_GET['updated'])) {
+        		echo "<script type='text/javascript'>";
+        		echo "alert('Данные обновлены');";
+        		echo "</script>";
+        	}
         }
 
         function __destruct() {}

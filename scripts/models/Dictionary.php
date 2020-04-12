@@ -75,6 +75,31 @@
             }  
         }
 
+        public static function getSpecId($specialization) {
+            switch ($specialization) {
+                case 0:
+                    return "spec_tc";
+                case 1:
+                    return "spec_gr";
+                case 2:
+                    return "spec_f";
+                case 3:
+                    return "spec_pc";
+                case 4:
+                    return "spec_p";
+                case 5:           
+                    return "spec_k";          
+                case 6:
+                    return "spec_tu";      
+                case 7:
+                    return "spec_v";     
+                case 8:
+                    return "spec_sg";     
+                case 9:
+                    return "-1";
+            }  
+        }
+
         public static function getRace($gender, $race) {         
             if ($gender == 0) {
                 if ($race == 0) {                
@@ -209,7 +234,7 @@
                 case 8:
                     return "Опыт";     
                 case 9:
-                    return "Энергия";
+                    return "Карты";
                 case 10:
                     return "Культура";
             }  
@@ -276,6 +301,34 @@
                 default:
                     return 0;
             }         
+        }
+
+        public static function getSizeCoef($size) {
+            switch ($size) {
+                case '1':
+                    return 0.59;
+                case '2':
+                    return 1.18;
+                case '3':
+                    return 1.52;
+                case '4':
+                    return 1.76;
+                case '5':
+                    return 1.95;
+                case '6':
+                    return 2.11;
+                case '7':
+                    return 2.24;
+                case '8':
+                    return 2.35;
+                case '9':
+                    return 2.45;
+                case '10':
+                    return 2.54;
+
+                default:
+                    return 0.59;
+            }
         }
     }
 

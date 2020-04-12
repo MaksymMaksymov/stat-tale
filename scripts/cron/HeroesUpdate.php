@@ -54,4 +54,6 @@
             $result = $hero -> dbUpdateValues($arr_heroes);
         }
     }
+
+    header('Location: ../controllers/HeroesController.php?updated', true);
 ?>
