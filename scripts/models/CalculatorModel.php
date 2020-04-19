@@ -54,6 +54,14 @@
             return $this;
 		}
 
+        public function setBarter($id, $production, $transport, $safety, $culture) {
+            $this -> value["id"] = $id;
+            $this -> value["barter"]["production"] = $production;
+            $this -> value["barter"]["transport"] = $transport;
+            $this -> value["barter"]["safety"] = $safety;
+            $this -> value["barter"]["culture"] = $culture;
+        }
+
 		public function setValueSum($profession) {
 			$this -> value["profession"]["stability"] += $profession["stability"];
 			$this -> value["profession"]["freedom"] += $profession["freedom"];
@@ -63,6 +71,14 @@
 			$this -> value["profession"]["culture"] += $profession["culture"];
             return $this;	
 		}
+
+        public function setValueSumBarters($production, $transport, $safety, $culture) {
+            $this -> value["profession"]["production"] += $production*50;
+            $this -> value["profession"]["transport"] += $transport*3.125;
+            $this -> value["profession"]["safety"] += $safety*0.625;
+            $this -> value["profession"]["culture"] += $culture*3.75;
+            return $this;   
+        }
 
 		public function setTradeOrEconomy($current) {
 			$this -> value["profession"]["production"] += $current*33;
@@ -93,7 +109,7 @@
 			$this -> value["profession"]["production"] -= $current*2;
 		}
 
-		public function setCoreectionValues($production, $stability) {
+		public function setCorrectionValues($production, $stability) {
 			$this -> value["profession"]["production"] += $production;
 			$this -> value["profession"]["stability"] += $stability;
 		}
@@ -208,6 +224,8 @@
             	} else if (isset($this -> value['specs']) && isset($this -> value['current'])) {
                 		$raw_result = PrepareToView::createSelect("spec", $this -> value['specs'], $this -> value['current'], "Выберете специализацию");
                 } else if ($this -> value['id'] == 8) {
+                        $raw_result = "Обмены";
+                } else if ($this -> value['id'] == 9) {
                 		$raw_result = "Итого";
                 }
             } else
@@ -218,7 +236,7 @@
             $index++;
             $result[$index] = array();
             if (isset($this -> value['profession']['stability'])) {
-            	$raw_result = PrepareToView::createText("",Round($this -> value['profession']['stability'],2));
+            	$raw_result = PrepareToView::createText("Стабильность",Round($this -> value['profession']['stability'],2));
         	} else
                 $raw_result = "";
             array_push($result[$index], $raw_result);
@@ -227,7 +245,7 @@
             $index++;
             $result[$index] = array();
             if (isset($this -> value['profession']['freedom'])) {
-            	$raw_result = PrepareToView::createText("",Round($this -> value['profession']['freedom'],2));
+            	$raw_result = PrepareToView::createText("Свобода",Round($this -> value['profession']['freedom'],2));
         	} else
                 $raw_result = "";
             array_push($result[$index], $raw_result);
@@ -236,17 +254,22 @@
             $index++;
             $result[$index] = array();
             if (isset($this -> value['profession']['production'])) {
-            	$raw_result = PrepareToView::createText("",Round($this -> value['profession']['production'],2));
-        	} else
+            	$raw_result = PrepareToView::createText("Продукция",Round($this -> value['profession']['production'],2));
+        	} else if (isset($this -> value["barter"]["production"])) {
+                $raw_result = $this -> setBarters("production_barter", 50, $this -> value["barter"]["production"]);
+            } else
                 $raw_result = "";
+        
             array_push($result[$index], $raw_result);
             unset($raw_result);
 
             $index++;
             $result[$index] = array();
             if (isset($this -> value['profession']['transport'])) {
-            	$raw_result = PrepareToView::createText("",Round($this -> value['profession']['transport'],2));
-        	} else
+            	$raw_result = PrepareToView::createText("Транспорт",Round($this -> value['profession']['transport'],2));
+        	} else if (isset($this -> value["barter"]["transport"])) {
+                $raw_result = $this -> setBarters("transport_barter", 3.125, $this -> value["barter"]["transport"]);
+            } else
                 $raw_result = "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
@@ -254,8 +277,10 @@
             $index++;
             $result[$index] = array();
             if (isset($this -> value['profession']['safety'])) {
-            	$raw_result = PrepareToView::createText("",Round($this -> value['profession']['safety'],2));
-        	} else
+            	$raw_result = PrepareToView::createText("Безопасность",Round($this -> value['profession']['safety'],2));
+        	} else if (isset($this -> value["barter"]["safety"])) {
+                $raw_result = $this -> setBarters("safety_barter", 0.625, $this -> value["barter"]["safety"]);
+            } else
                 $raw_result = "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
@@ -263,8 +288,10 @@
             $index++;
             $result[$index] = array();
             if (isset($this -> value['profession']['culture'])) {
-            	$raw_result = PrepareToView::createText("",Round($this -> value['profession']['culture'],2));
-        	} else
+            	$raw_result = PrepareToView::createText("Культура",Round($this -> value['profession']['culture'],2));
+        	} else if (isset($this -> value["barter"]["culture"])) {
+                $raw_result = $this -> setBarters("culture_barter", 3.75, $this -> value["barter"]["culture"]);
+            } else
                 $raw_result = "";
             array_push($result[$index], $raw_result);
             unset($raw_result);
@@ -396,6 +423,15 @@
             $council["building"] = $building_count;
             return $council;
 		}
+
+        public function setBarters($name, $step, $current) {
+            $index = array(0 => 0);
+            for ($i = -12; $i <= 12; $i++) { 
+                if ($i == 0) continue;
+                $index[$i] = Round($i*$step,2);
+            }
+            return PrepareToView::createSelect($name, $index, $current, "Выберете сколько получит обменом");
+        }
 
 		function __destruct() {}
 	}

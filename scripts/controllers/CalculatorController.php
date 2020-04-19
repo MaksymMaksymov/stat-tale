@@ -121,13 +121,25 @@
                 unset($model);
 
                 $model = new CalculatorModel();
-                $model -> setValueDefault(8);
+                $model -> setBarter(8,
+                                    (isset($_POST["production_barter"])) ? $_POST["production_barter"] : 0,
+                                    (isset($_POST["transport_barter"])) ? $_POST["transport_barter"] : 0,
+                                    (isset($_POST["safety_barter"])) ? $_POST["safety_barter"] : 0,
+                                    (isset($_POST["culture_barter"])) ? $_POST["culture_barter"] : 0);
+                array_push($this -> model_array, $model);
+                unset($model);
+
+                $model = new CalculatorModel();
+                $model -> setValueDefault(9);
                 for ($i = 1; $i <= 6; $i++) {
                     if (isset($this -> model_array[$i - 1]) && $this -> model_array[$i - 1] -> value["id"] == $i && isset($this -> model_array[$i - 1] -> value["profession"]))
                     $model -> setValueSum($this -> model_array[$i - 1] -> value["profession"]);
                 }
-                if (isset($this -> model_array[6]) && $this -> model_array[6] -> value["id"] == $i && isset($this -> model_array[6] -> value["profession"]))
-                    $model -> setValueSum($this -> model_array[6] -> value["profession"]);
+                if (isset($this -> model_array[7]) && isset($this -> model_array[7] -> value["barter"]))
+                    $model -> setValueSumBarters($this -> model_array[7] -> value["barter"]["production"],
+                                                 $this -> model_array[7] -> value["barter"]["transport"],
+                                                 $this -> model_array[7] -> value["barter"]["safety"],
+                                                 $this -> model_array[7] -> value["barter"]["culture"]);
                 $model -> setSize((isset($_POST["size"])) ? $_POST["size"] + 1 : 1);
                 $model -> setTradeOrEconomy((isset($_POST["economy"])) ? $_POST["economy"] + 1 : 1);
                 $model -> setTradeOrEconomy((isset($_POST["trade"])) ? $_POST["trade"] + 1 : 1);
@@ -136,7 +148,7 @@
                 $model -> setBuilding((isset($_POST["building"])) ? $_POST["building"] : 0);
                 $model -> setCaravan((isset($_POST["caravan"])) ? $_POST["caravan"] : 0);
                 if ((isset($_POST["production"])) && (isset($_POST["stability"])))
-                    $model -> setCoreectionValues($_POST["production"],$_POST["stability"]);
+                    $model -> setCorrectionValues($_POST["production"],$_POST["stability"]);
 
                 $model -> setValueStabilityCorrection();
                 array_push($this -> model_array, $model);
@@ -160,6 +172,10 @@
         $_POST["frontier"] = ($place["frontier"]) ? true : null;
         $_POST["spec"] = Dictionary::getSpecId($place["specialization"]);
         $master_post = CalculatorModel::setMastersByPlaceId($cur_place_id);
+        $_POST["production_barter"] = 0;
+        $_POST["transport_barter"] = 0;
+        $_POST["safety_barter"] = 0;
+        $_POST["culture_barter"] = 0;
         if (isset($master_post)) {
             for ($i = 1; $i <= 6; $i++) {
                 if (isset($master_post[$i-1])) {
