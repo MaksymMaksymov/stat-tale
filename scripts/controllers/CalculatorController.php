@@ -112,6 +112,7 @@
                     for ($i = 1; $i <= 6; $i++) {
                         if (isset($this -> model_array[$i - 1]) && isset($this -> model_array[$i - 1] -> value["profession"][$model -> value["current"]]) && isset($spec_result[$i - 1]["value"]) && $this -> model_array[$i - 1] -> value["profession"][$model -> value["current"]] == $spec_result[$i - 1]["value"]) {
                             $this -> model_array[$i - 1] -> value["profession"]["influence"] = $spec_result[$i - 1]["influence"];
+                            $this -> model_array[$i - 1] -> value["profession"]["spec"] = $spec_result[$i - 1]["value"];
                             $model -> value["spec_points"] += $spec_result[$i - 1]["influence"] * $spec_result[$i - 1]["value"] / 100;
                         }
                     }

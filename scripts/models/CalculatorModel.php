@@ -298,11 +298,11 @@
 
             $index++;
             $result[$index] = array();
-            if (isset($this -> value['profession']['influence'])) {
+            if (isset($this -> value['profession']['influence']) && isset($this -> value['profession']['spec'])) {
             	if ($this -> value['profession']['influence'] == 0) {
-            		$raw_result = PrepareToView::createTextRed("",Round($this -> value['profession']['influence'],2)."%");
+            		$raw_result = PrepareToView::createTextRed($this -> value['profession']['spec'],Round($this -> value['profession']['influence'],2)."%");
             	} else {
-            		$raw_result = PrepareToView::createText("",Round($this -> value['profession']['influence'],2)."%");
+            		$raw_result = PrepareToView::createText($this -> value['profession']['spec'],Round($this -> value['profession']['influence'],2)."%");
             	}
             	array_push($result[$index], $raw_result);
         	} else {}
