@@ -94,6 +94,82 @@
 
     $arr_ids = null;
     $get_info = new PlacesController();
+
+    $get_tags = ""; 
+    if (isset($_GET["cia"])) {
+        $arr_ids[16] = 16;
+        $arr_ids[17] = 17;
+        $arr_ids[18] = 18;
+        $arr_ids[22] = 22;
+        $arr_ids[52] = 52;
+        $arr_ids[53] = 53;
+        $get_tags .= "&cia";
+    }
+    if (isset($_GET["tn"])) {
+        $arr_ids[2] = 2;
+        $arr_ids[3] = 3;
+        $arr_ids[9] = 9;
+        $arr_ids[10] = 10;
+        $arr_ids[11] = 11;
+        $arr_ids[12] = 12;
+        $arr_ids[13] = 13;
+        $arr_ids[14] = 14;
+        $arr_ids[15] = 15;
+        $arr_ids[16] = 16;
+        $arr_ids[17] = 17;
+        $arr_ids[18] = 18;
+        $arr_ids[22] = 22;
+        $arr_ids[44] = 44;
+        $get_tags .= "&tn";
+    }
+    if (isset($_GET["corp"])) {
+        $arr_ids[3] = 3;
+        $arr_ids[13] = 13;
+        $arr_ids[16] = 16;
+        $arr_ids[22] = 22;
+        $arr_ids[38] = 38;
+        $arr_ids[39] = 39;
+        $arr_ids[46] = 46;
+        $arr_ids[48] = 48;
+        $arr_ids[49] = 49;
+        $get_tags .= "&corp";
+    }
+    if (isset($_GET["ar"])) {
+        $arr_ids[2] = 2;
+        $arr_ids[8] = 8;
+        $arr_ids[9] = 9;
+        $arr_ids[10] = 10;
+        $arr_ids[20] = 20;
+        $arr_ids[25] = 25;
+        $arr_ids[28] = 28;
+        $arr_ids[29] = 29;
+        $arr_ids[30] = 30;
+        $arr_ids[42] = 42;
+        $arr_ids[43] = 43;
+        $get_tags .= "&ar";
+    }
+    if (isset($_GET["orda"])) {
+        $arr_ids[1] = 1;
+        $arr_ids[4] = 4;
+        $arr_ids[5] = 5;
+        $arr_ids[6] = 6;
+        $arr_ids[7] = 7;
+        $arr_ids[32] = 32;
+        $get_tags .= "&orda";
+    }
+
+    if (isset($_GET["ars"])) {
+        $arr_ids[21] = 21;
+        $arr_ids[24] = 24;
+        $arr_ids[27] = 27;
+        $arr_ids[35] = 35;
+        $arr_ids[36] = 36;
+        $arr_ids[37] = 37;
+        $arr_ids[47] = 47;
+        $arr_ids[55] = 55;
+        $get_tags .= "&ars";
+    }
+
     $get_info -> main($arr_ids);
         
     include "../views/PlacesView.php";
