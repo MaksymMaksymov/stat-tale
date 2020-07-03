@@ -102,8 +102,8 @@
             $db_values .= (!isset($arrayData['profession'])) ? "" : ",profession=".$arrayData['profession'];
             $db_values .= (!isset($arrayData['gender'])) ? "" : ",gender=".$arrayData['gender'];
             $db_values .= (!isset($arrayData['race'])) ? "" : ",race=".$arrayData['race'];
-            $db_values .= (!isset($arrayData['attributes']['effects'][0]['name'])) ? "" : ",practic=N'".str_replace("'","\'",$arrayData['attributes']['effects'][0]['name'])."'";
-            $db_values .= (!isset($arrayData['attributes']['effects'][1]['name'])) ? "" : ",cosmetic=N'".str_replace("'","\'",$arrayData['attributes']['effects'][1]['name'])."'";
+            $db_values .= (!isset($arrayData['attributes']['effects'][7]['name'])) ? "" : ",practic=N'".str_replace("'","\'",$arrayData['attributes']['effects'][7]['name'])."'";
+            $db_values .= (!isset($arrayData['attributes']['effects'][6]['name'])) ? "" : ",cosmetic=N'".str_replace("'","\'",$arrayData['attributes']['effects'][6]['name'])."'";
             $db_values .= (!isset($arrayData['building'])) ? ",building=false" : ",building=true";
             $db_values .= (!isset($arrayData['building']['integrity'])) ? "" : ",integrity=".Round($arrayData['building']['integrity']*100,2);
             $db_values .= (!isset($arrayData['politic_power']['power']['fraction'])) ? "" : ",politic_power=".Round($arrayData['politic_power']['power']['fraction']*100,0);
