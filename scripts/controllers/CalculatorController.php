@@ -132,7 +132,7 @@
 
                 $model = new CalculatorModel();
                 $model -> setValueDefault(9);
-                for ($i = 1; $i <= 6; $i++) {
+                for ($i = 1; $i <= 7; $i++) { // 7 is spec
                     if (isset($this -> model_array[$i - 1]) && $this -> model_array[$i - 1] -> value["id"] == $i && isset($this -> model_array[$i - 1] -> value["profession"]))
                     $model -> setValueSum($this -> model_array[$i - 1] -> value["profession"]);
                 }
