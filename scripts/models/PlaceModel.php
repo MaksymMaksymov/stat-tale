@@ -47,6 +47,22 @@
                 return $ids;
             } 
         }
+
+        public static function dbSelectAllTradesAndEcomomy()
+        {
+            $mysqli = $GLOBALS["mysqli"];
+            $result = $mysqli->query("SELECT id, trade, economy FROM places ORDER BY name");
+            
+            if ($result === false) {
+                return false;
+            } else {
+                $ids = array("0" => "...");
+                while ($row = $result->fetch_assoc()) {
+                    $ids[$row['id']] = array($row['trade'], $row['economy']);
+                }
+                return $ids;
+            } 
+        }
         
         public function dbUpdateValues($arrayByCurl) {
             if (!CheckStatus::check($arrayByCurl)) return false;

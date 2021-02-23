@@ -128,7 +128,7 @@ for ($i = 0; $i < 10; $i++) {
 	else $page_from = 1;
 	if (isset($_REQUEST["page_to".$i])) $page_to = $_REQUEST["page_to".$i];
 	else $page_to = 1;
-	if (isset($_REQUEST["city".$i]) && $_REQUEST["city".$i] != 54 && $_REQUEST["city".$i] < 56 && $_REQUEST["city".$i] > 0) {
+	if (isset($_REQUEST["city".$i]) && $_REQUEST["city".$i] != 54 && $_REQUEST["city".$i] < 66 && $_REQUEST["city".$i] > 0) {
 	    $hronology[$i] = checkCity($_REQUEST["city".$i], $page_from, $page_to);
 	} else {
 		$last_index = $i;

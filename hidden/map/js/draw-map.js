@@ -45,20 +45,24 @@ function drawMap0_1(data, map) {
             }
         }
     }
-	/*
+	
+    /*отрисовка названия городов + данные*/
     ctx.font = "14px monospace";
     ctx.textAlign = "center";
     for (let id in data.places) {
         let place = data.places[id];
+        let trade_economy = data.trade_economy[id][0] + "/" + data.trade_economy[id][1];
         let textX = (place.pos.x + 0.5) * tileSize;
         let textY = (place.pos.y + 1.45) * tileSize;
-        let te = ctx.measureText(place.name);
+        let textName = trade_economy + " " + place.name;
+        let te = ctx.measureText(textName);
         ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
         ctx.fillRect(textX - te.width / 2 - 5, textY - 15, te.width + 10, 20);
         ctx.fillStyle = '#dddddd';
-        ctx.fillText(place.name, textX, textY);
+        ctx.fillText(textName, textX, textY);
     }
-	*/
+    /*конец отрисовки*/
+	
 }
 
 function processRegionResponse(responseData, map) {
@@ -70,10 +74,10 @@ function processRegionResponse(responseData, map) {
 }
 
 function drawMap() {
-var node = document.getElementById('map-data'),
-textContent = node.innerHTML;
-var response = JSON.parse(textContent);
-processRegionResponse(response, "map");
+    var node = document.getElementById('map-data'),
+    textContent = node.innerHTML;
+    var response = JSON.parse(textContent);
+    processRegionResponse(response, "map");
 /*
     var xhr = new XMLHttpRequest();
     xhr.open("get", "https://the-tale.org/game/map/api/region?api_client=map-v0.4&api_version=0.1", true);
