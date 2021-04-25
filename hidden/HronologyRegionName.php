@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>История города</title>
+    <title>История имён</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 </head>
 
@@ -88,7 +88,7 @@ function checkCity($city_id, $from, $to) {
             $text_result = substr($result, $text + 6, $text_end - $text - 6);
             if (isset($_REQUEST["date"]))
             	$time_result = convertDate($time_result);
-			if (isset($page_hronology[$time_result])) 
+            if (isset($page_hronology[$time_result])) 
                 $page_hronology[$time_result] = $text_result."<br />".$page_hronology[$time_result];
             else $page_hronology[$time_result] = $text_result;
         } while (true);
@@ -97,7 +97,7 @@ function checkCity($city_id, $from, $to) {
         	$hronology[$key] = $value;
         }
 	}
-
+    
     return $hronology;
 }
 
@@ -125,6 +125,7 @@ function compareDate($first, $second) {
 
 $hronology = array();
 $last_index = 0;
+$name = (isset($_REQUEST["name"])) ? $_REQUEST["name"] : "имя";
 for ($i = 0; $i < 10; $i++) { 
 	if (isset($_REQUEST["page_from".$i])) $page_from = $_REQUEST["page_from".$i];
 	else $page_from = 1;
@@ -158,8 +159,10 @@ if (isset($_REQUEST["date"])) {
 	} while($oldest_index != $last_index);
 	echo "[list]<br />";
 	foreach ($history as $data => $chronicle) {
-		echo "[*][b]".$data."[/b]<br/>";
-		echo $chronicle."<br/>";
+        if (strpos($chronicle, $name)) {
+		    echo "[*][b]".$data."[/b]<br/>";
+		    echo $chronicle."<br/>";
+        }
 	}
 	echo "[/list]";
 }
@@ -167,8 +170,10 @@ else {
 	for ($i = 0; $i < $last_index; $i++) { 
 		if (isset($hronology[$i])) {
 			foreach ($hronology[$i] as $data => $chronicle) {
-				echo "<b>".$data."</b><br/>";
-				echo $chronicle."<br/>";
+				if (strpos($chronicle, $name)) {
+                    echo "[*][b]".$data."[/b]<br/>";
+                    echo $chronicle."<br/>";
+                }
 			}
 			echo "<br />==================<br /><br />";
 		}

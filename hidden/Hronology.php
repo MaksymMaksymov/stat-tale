@@ -9,6 +9,8 @@
 <?php
 error_reporting(0);
 
+// probably out of date
+
 include_once("../config/cfg.php");
 include_once("../scripts/models/GetInfoByURLModel.php");
 include_once("../scripts/models/PlaceModel.php");

@@ -51,10 +51,10 @@ function drawMap0_1(data, map) {
     ctx.textAlign = "center";
     for (let id in data.places) {
         let place = data.places[id];
-        let trade_economy = data.trade_economy[id][0] + "/" + data.trade_economy[id][1];
+        let trade_economy = data.trade_economy[id][0];// + "/" + data.trade_economy[id][1];
         let textX = (place.pos.x + 0.5) * tileSize;
         let textY = (place.pos.y + 1.45) * tileSize;
-        let textName = trade_economy + " " + place.name;
+        let textName = trade_economy;// + " " + place.name;
         let te = ctx.measureText(textName);
         ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
         ctx.fillRect(textX - te.width / 2 - 5, textY - 15, te.width + 10, 20);
