@@ -178,7 +178,7 @@
         }
 
         public static function getFooter() {
-            echo "<hr/><footer><span>Copyright by</span> <a href='http://the-tale.org/accounts/56706?referral=56706'>Mefi</a> <span>&copy 2018-2020</span></footer>";
+            echo "<hr/><footer><span>Copyright by</span> <a href='http://the-tale.org/accounts/56706?referral=56706'>Mefi</a> <span>&copy 2018-2021</span></footer>";
         }
 
         public static function getTablePage($info,$table_name,$arr_classes,$arr_headers,$href) {

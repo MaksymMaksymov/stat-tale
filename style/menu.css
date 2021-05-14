@@ -1,81 +1,77 @@
 body {
-	background-color: #EAF0F0;
-	font-size: 15px;
-	font-family: 'Roboto', sans-serif;
-	min-height: 98vh;
-  	display: flex;
-  	flex-direction: column;
-  	align-items: center;
+    background-color: #EAF0F0;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+    min-height: 98vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 header {
-	width: 100%;
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-	margin-bottom: 10px;
-	background-color: #333333;
-	height: 29px;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 10px;
+    background-color: #333333;
+    height: 29px;
 }
 
 header img {
-	display: flex;
-	align-items: flex-end;
-	z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    z-index: 100;
 }
 
 hr {
-	color: black;
-	width: 90%;
+    color: black;
+    width: 90%;
 }
 
 footer {
-	display: flex;
-	justify-content: center;
-	padding-top: 15px;
-	color: black;
-	background-color: inherit;
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+    color: black;
+    background-color: inherit;
 }
 
 footer span {
-  	margin: 0 5px;
+    margin: 0 5px;
 }
 
 #desktop {
-	display: flex;
+    display: flex;
 }
 
 .bar {
-	display: flex;
+    display: flex;
 }
 
 .bar ul {
-	display: inline-flex;
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
+    display: inline-flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 .bar li {
-	color: #333333;
-	cursor: pointer;
-	font-weight: lighter;
-	padding: 5px 20px 0px 20px;
-	text-align: center;
-	letter-spacing: 1px;
-	transition: all .2s ease-in-out;
+    color: #333333;
+    cursor: pointer;
+    font-weight: lighter;
+    padding: 5px 20px 0px 20px;
+    text-align: center;
+    letter-spacing: 1px;
+    transition: all .2s ease-in-out;
 }
 
 .bar li:hover a {
-	color: #ffffff;
-	font-weight: bold;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 .bar li a {
-	color: #999999;
-	text-decoration: none;
+    color: #999999;
+    text-decoration: none;
 }
-
-
-
-

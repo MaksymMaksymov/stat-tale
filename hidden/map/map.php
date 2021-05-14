@@ -6,9 +6,9 @@
    </head>
    <body>
    	  <div id="map-data" style="display: none;"><?php
-   	  	include_once("../../scripts/models/GetInfoByURLModel.php");
+   	  include_once("../../scripts/models/GetInfoByURLModel.php");
         include_once("../../scripts/models/PlaceModel.php");
-   	  	$url = "https://the-tale.org/game/map/api/region?api_client=map-v0.4&api_version=0.1";
+   	  $url = "https://the-tale.org/game/map/api/region?api_client=map-v0.4&api_version=0.1";
         $curlGet = new GetInfoByURLModel();
         $result = $curlGet -> getInformation($url);
         $trade_economy = PlaceModel::dbSelectAllTradesAndEcomomy();
