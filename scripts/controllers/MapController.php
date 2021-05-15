@@ -4,6 +4,7 @@
 
 	class MapController {
         public $template_data;
+        private $neighbours;
 
         function __construct() {}
 
@@ -12,24 +13,92 @@
             $result = $curlGet -> getInformation("https://the-tale.org/game/map/api/region?api_client=map-v0.4&api_version=0.1");
             // $trade_economy = PlaceModel::dbSelectAllTradesAndEcomomy();
             // $result["data"]["region"]["trade_economy"] = $trade_economy;
-            if ((isset($_REQUEST['mode'])) && $_REQUEST['mode'] == "extended") {
-                $result["data"]["region"]["draw_info"] = $this -> convertToExtended($result["data"]["region"]["draw_info"]);
-                $result["data"]["region"]["width"] = $result["data"]["region"]["width"] * 3;
-                $result["data"]["region"]["height"] = $result["data"]["region"]["height"] * 3;
-            }
             $this -> template_data = $result["data"]["region"];
+            if ((isset($_REQUEST['mode'])) && $_REQUEST['mode'] == "extended") {
+                $this -> checkCellNeigbours();
+                $this -> convertToExtended();
+                $this -> template_data["width"] *= 3;
+                $this -> template_data["height"] *= 3;
+            }
         }
 
-        public function convertToExtended($data) {
+        public function checkCellNeigbours() {
+            foreach($this -> template_data["draw_info"] as $x => $row) {
+                foreach($row as $y => $cell) {
+                    $this -> neighbours[$x][$y] = 0;
+                    foreach($cell as $index => $sprite) {
+                        if ($sprite[0] >= 15 && $sprite[0] <= 43) {
+                            for ($i = -1; $i < 2; $i++) {
+                                if ($x + $i < 0 || $x + $i >= $this -> template_data["width"]) {
+                                    continue;
+                                } 
+                                for ($j = -1; $j < 2; $j++) {
+                                    if ($y + $j < 0 || $y + $j >= $this -> template_data["height"]) {
+                                        continue;
+                                    }
+                                    if ($this -> template_data["draw_info"][$x + $i][$y + $j][0][0] == $sprite[0]) {
+                                        $this -> neighbours[$x][$y]++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public function convertToExtended() {
             $newData = array();
-            foreach($data as $x => $row) {
+            foreach($this -> template_data["draw_info"] as $x => $row) {
                 foreach($row as $y => $cell) {
                     for ($i = 0; $i < 3; $i++) {
                         for ($j = 0; $j < 3; $j++) {
                             $newData[$x*3 + $i][$y*3 + $j] = array();
                             foreach($cell as $index => $sprite) {
                                 switch($sprite[0]) {
-
+                                    case 15: // terrain
+                                    case 16:
+                                    case 17:
+                                    case 18:
+                                    case 19:
+                                    case 20:
+                                    case 21:
+                                    case 22:
+                                    case 23:
+                                    case 24:
+                                    case 25:
+                                    case 26:
+                                    case 27:
+                                    case 28:
+                                    case 29:
+                                    case 30:
+                                    case 31:
+                                    case 32:
+                                    case 33:
+                                    case 34:
+                                    case 35:
+                                    case 36:
+                                    case 37:
+                                    case 38:
+                                    case 39:
+                                    case 40:
+                                    case 41:
+                                    case 42:
+                                    case 43:
+                                        if ($i == 1 && $j == 1) {
+                                            array_push($newData[$x*3 + $i][$y*3 + $j], $sprite);
+                                        } else {
+                                            if ($x + $i - 2 < 0 || $x + $i - 2 >= $this -> template_data["width"] 
+                                                || $y + $j - 2 < 0 || $y + $j - 2 >= $this -> template_data["height"]
+                                                || $this -> template_data["draw_info"][$x + $i - 2][$y + $j - 2][0] == $sprite) {
+                                                    array_push($newData[$x*3 + $i][$y*3 + $j], $sprite);
+                                            } else if ($this -> neighbours[$x][$y] >= $this -> neighbours[$x + $i - 2][$y + $j - 2]) {
+                                                array_push($newData[$x*3 + $i][$y*3 + $j], $sprite);
+                                            } else {
+                                                array_push($newData[$x*3 + $i][$y*3 + $j], $this -> template_data["draw_info"][$x + $i - 2][$y + $j - 2][0]);
+                                            }
+                                        }
+                                        break;
                                     case 44: // cities
                                     case 45:
                                     case 46:
@@ -133,7 +202,7 @@
                     }
                 }
             }
-            return $newData;
+            $this -> template_data["draw_info"] = $newData;
         }
 
         function __destruct() {}
