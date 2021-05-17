@@ -43,9 +43,9 @@ class MapDrawer {
             for (let w = 0; w < data.width; w++) {
                 if (typeof data.draw_info !== 'undefined') {
                     let cellSprites = data.draw_info[h][w];
-                    for (let s = 0; s < cellSprites.length; s++) {
-                        ctx.drawImage(this.getSprite(cellSprites[s]), w * this._tileSize, h * this._tileSize, this._tileSize, this._tileSize);
-                    }
+                    cellSprites.forEach(sprite => {
+                        ctx.drawImage(this.getSprite(sprite), w * this._tileSize, h * this._tileSize, this._tileSize, this._tileSize);
+                    });
                 } else {
                     alert("Undefined API!");
                     return;

@@ -73,6 +73,19 @@
                 return false;
         }
 
+        public static function dbCountEmissariesByClanId($clanId)
+        {
+            $mysqli = $GLOBALS["mysqli"];
+            $result = $mysqli->query("
+                        SELECT COUNT(clan_id) as num
+                        FROM emissaries
+                        WHERE status LIKE N'%Работает%' 
+                        AND clan_id=".$clanId." 
+                        GROUP BY clan_id");
+            $row = $result->fetch_assoc();
+            return $row["num"];
+        }
+
 		public function dbUpdateValues($arrayByCurl) {
             $this -> value['id'] = $arrayByCurl['id'];
 
