@@ -90,11 +90,62 @@
         }
 
         private function convertCity(&$data, $x, $y, $sprite) {
+            if ($sprite[0] % 4 != 0) {
+                for ($i = 0; $i < 3; $i++) {
+                    for ($j = 0; $j < 3; $j++) {
+                        if ($i == 1 && $j == 1) {
+                            if (isset($data[$x*3 + 1][$y*3 + 1][1]) && $data[$x*3 + 1][$y*3 + 1][1][0] >= 64 && $data[$x*3 + 1][$y*3 + 1][1][0] <= 69) {
+                                array_splice($data[$x*3 + 1][$y*3 + 1], 1, 1);
+                            }
+                            continue;
+                        }
+                        $cityTier = ($sprite[0] - 44) % 4;
+                        $cityRace = floor(($sprite[0] - 44) / 4);
+                        $citySpriteFound = 103 + ($cityTier-1)*4 + $cityRace*12*2;
+                        if ($sprite[0] % 4 != 1) {
+                            $this -> replaceBiomToNew($data[$x*3 + $i][$y*3 + $j][0], $data[$x*3 + 1][$y*3 + 1][0]);
+                        }
+                        if ($j % 2 == 0) {
+                            array_push($data[$x*3 + $i][$y*3 + $j], ($j == 0) ? array($citySpriteFound + 3, 0) : array($citySpriteFound + 2, 0));
+                        }
+                        if ($i % 2 == 0) {
+                            array_push($data[$x*3 + $i][$y*3 + $j], ($i == 0) ? array($citySpriteFound + 1, 0) : array($citySpriteFound + 4, 0));
+                        }
+                        if ($i == 1) {
+                            if ($j == 0 && isset($data[$x*3 + 1][$y*3 + 0][1]) && $data[$x*3 + 1][$y*3 + 0][1][0] == 67) {
+                                $this -> replaceBiomToNew($data[$x*3 + 1][$y*3 + 0][1], array(69, 180));
+                                if (isset($data[$x*3 + 1][$y*3 + 0][2]) && $data[$x*3 + 1][$y*3 + 0][2][0] == $citySpriteFound + 3) {
+                                    $this -> replaceBiomToNew($data[$x*3 + 1][$y*3 + 0][2], array($citySpriteFound + 15, 0));
+                                }
+                            } else if ($j == 2 && isset($data[$x*3 + 1][$y*3 + 2][1]) && $data[$x*3 + 1][$y*3 + 2][1][0] == 67) {
+                                $this -> replaceBiomToNew($data[$x*3 + 1][$y*3 + 2][1], array(69, 0));
+                                if (isset($data[$x*3 + 1][$y*3 + 2][2]) && $data[$x*3 + 1][$y*3 + 2][2][0] == $citySpriteFound + 2) {
+                                    $this -> replaceBiomToNew($data[$x*3 + 1][$y*3 + 2][2], array($citySpriteFound + 14, 0));
+                                }
+                            }
+                        } else if ($j == 1) {
+                            if ($i == 0 && isset($data[$x*3][$y*3 + 1][1]) && $data[$x*3][$y*3 + 1][1][0] == 66) {
+                                $this -> replaceBiomToNew($data[$x*3][$y*3 + 1][1], array(69, 270));
+                                if (isset($data[$x*3][$y*3 + 1][2]) && $data[$x*3][$y*3 + 1][2][0] == $citySpriteFound + 1) {
+                                    $this -> replaceBiomToNew($data[$x*3][$y*3 + 1][2], array($citySpriteFound + 13, 0));
+                                }
+                            } else if ($i == 2 && isset($data[$x*3 + 2][$y*3 + 1][1]) && $data[$x*3 + 2][$y*3 + 1][1][0] == 66) {
+                                $this -> replaceBiomToNew($data[$x*3 + 2][$y*3 + 1][1], array(69, 90));
+                                if (isset($data[$x*3 + 2][$y*3 + 1][2]) && $data[$x*3 + 2][$y*3 + 1][2][0] == $citySpriteFound + 4) {
+                                    $this -> replaceBiomToNew($data[$x*3 + 2][$y*3 + 1][2], array($citySpriteFound + 16, 0));
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            $this -> setCityTemplateBySprite($data, $x, $y, $sprite);
+        }
+
+        private function setCityTemplateBySprite(&$data, $x, $y, $sprite) {
             for ($i = 0; $i < 3; $i++) {
                 for ($j = 0; $j < 3; $j++) {
-                    if (!isset($data[$x*3 + $i][$y*3 + $j])) {
-                        $data[$x*3 + $i][$y*3 + $j] = array();
-                    }
                     switch($sprite[0]) {
                         case 44:
                         case 48:
@@ -112,9 +163,10 @@
                         case 61:
                             if ($i == 1 && $j == 1) {
                                 array_push($data[$x*3 + $i][$y*3 + $j], $this -> EmissaryCastleInCityByCoords($x, $y, $sprite));
-                            } else if ($i == 0 && $j == 1 || $i == 0 && $j == 2 || $i == 1 && $j == 0 || $i == 2 && $j == 1) {
-                                $this -> resolveNotEmptyCell($data[$x*3 + $i][$y*3 + $j][0]);
-                                array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-1, 0));
+                            }  else {
+                                if (!$this -> checkNotEmptyBiomCell($data[$x*3 + $i][$y*3 + $j][0])) {
+                                    array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-($x + $y + $i + $j) % 2, 0));
+                                }
                             }
                             break;
                         case 46:
@@ -124,12 +176,9 @@
                         case 62:
                             if ($i == 1 && $j == 1) {
                                 array_push($data[$x*3 + $i][$y*3 + $j], $this -> EmissaryCastleInCityByCoords($x, $y, $sprite));
-                            } else if ($i == 0 && $j == 0 || $i == 1 && $j == 2 || $i == 2 && $j == 0 || $i == 2 && $j == 1) {
-                                $this -> resolveNotEmptyCell($data[$x*3 + $i][$y*3 + $j][0]);
-                                array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-1, 0));
                             } else {
                                 $this -> resolveNotEmptyCell($data[$x*3 + $i][$y*3 + $j][0]);
-                                array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-2, 0));
+                                array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-($x + $y + $i + $j) % 3, 0));
                             }
                             break;
                         case 47:
@@ -139,45 +188,13 @@
                         case 63:
                             if ($i == 1 && $j == 1) {
                                 array_push($data[$x*3 + $i][$y*3 + $j], $this -> EmissaryCastleInCityByCoords($x, $y, $sprite));
-                            } else if ($i == 0 && $j == 2 || $i == 1 && $j == 0 || $i == 2 && $j == 1) {
-                                $this -> resolveNotEmptyCell($data[$x*3 + $i][$y*3 + $j][0]);
-                                array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-1, 0));
-                            } else if ($i == 0 && $j == 1 || $i == 2 && $j == 0) {
-                                $this -> resolveNotEmptyCell($data[$x*3 + $i][$y*3 + $j][0]);
-                                array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-2, 0));
                             } else {
                                 $this -> resolveNotEmptyCell($data[$x*3 + $i][$y*3 + $j][0]);
-                                array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-3, 0));
+                                array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-($x + $y + $i + $j) % 4, 0));
                             }
                             break;
                         default:
                             break;
-                    }
-                }
-            }
-            if ($sprite[0] != 44 && $sprite[0] != 48 && $sprite[0] != 52 && $sprite[0] != 56 && $sprite[0] != 60) {
-                for ($i = 0; $i < 3; $i++) {
-                    for ($j = 0; $j < 3; $j++) {
-                        if ($i == 1 && $j == 1) {
-                            if (isset($data[$x*3 + 1][$y*3 + 1][1]) && $data[$x*3 + 1][$y*3 + 1][1][0] >= 64 && $data[$x*3 + 1][$y*3 + 1][1][0] <= 69) {
-                                array_splice($data[$x*3 + 1][$y*3 + 1], 1, 1);
-                            }
-                            continue;
-                        }
-                        $this -> replaceBiomToNew($data[$x*3 + $i][$y*3 + $j][0], $data[$x*3 + 1][$y*3 + 1][0]);
-                        if ($i == 1) {
-                            if ($j == 0 && isset($data[$x*3 + 1][$y*3 + 0][1]) && $data[$x*3 + 1][$y*3 + 0][1][0] == 67) {
-                                $this -> replaceBiomToNew($data[$x*3 + 1][$y*3 + 0][1], array(69, 180));
-                            } else if (isset($data[$x*3 + 1][$y*3 + 2][1]) && $data[$x*3 + 1][$y*3 + 2][1][0] == 67) {
-                                $this -> replaceBiomToNew($data[$x*3 + 1][$y*3 + 2][1], array(69, 0));
-                            }
-                        } else if ($j == 1) {
-                            if ($i == 0 && isset($data[$x*3][$y*3 + 1][1]) && $data[$x*3][$y*3 + 1][1][0] == 66) {
-                                $this -> replaceBiomToNew($data[$x*3][$y*3 + 1][1], array(69, 270));
-                            } else if (isset($data[$x*3 + 2][$y*3 + 1][1]) && $data[$x*3 + 2][$y*3 + 1][1][0] == 66) {
-                                $this -> replaceBiomToNew($data[$x*3 + 2][$y*3 + 1][1], array(69, 90));
-                            }
-                        }
                     }
                 }
             }
@@ -304,6 +321,10 @@
 
         private function replaceBiomToNew(&$biom, $newSprite) {
             $biom = $newSprite;
+        }
+
+        private function checkNotEmptyBiomCell($cell) {
+            return $cell[0] >= 25 && $cell[0] <= 40 || $cell[0] == 17 || $cell[0] == 18;
         }
 
         private function resolveNotEmptyCell(&$cell) {

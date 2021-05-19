@@ -19,7 +19,7 @@
 		<p>Есть и <a href="http://docs.the-tale.org/ru/stable/3rd_party.html">другие проекты</a> иных Хранителей Пандоры.</p>
 	</div>
 	<form id="map_ext_form" action="MapController.php" method="POST">
-		<input type="hidden" id="sprite" name="sprite" value="map_alternative_2_noborder">
+		<input type="hidden" id="sprite" name="sprite" value="map_alternative_2_noborder_ext">
 		<input type="hidden" id="mode" name="mode" value="extended">
 	</form>
 
