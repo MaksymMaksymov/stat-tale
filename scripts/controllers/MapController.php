@@ -18,6 +18,7 @@
             if ((isset($_REQUEST['mode'])) && $_REQUEST['mode'] == "extended") {
                 $this -> checkCellNeigbours();
                 $this -> convertToExtended();
+                $this -> smoothBiomCells();
                 $this -> template_data["width"] *= 3;
                 $this -> template_data["height"] *= 3;
             }
@@ -136,7 +137,6 @@
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -346,7 +346,7 @@
                     case 27:
                     case 35:
                     case 38:
-                        $cell[0] = 41;
+                        $cell[0] = 24;
                         break;
                     case 28:
                         $cell[0] = 43;
@@ -366,6 +366,98 @@
                         $cell[0] = 21;
                         break;
                 }
+            }
+        }
+
+        private function smoothBiomCells() {
+            for ($x = 0; $x < $this -> template_data["width"]; $x++) {
+                for ($y = 0; $y < $this -> template_data["height"]; $y++) {
+                    for ($i = 0; $i < 3; $i++) {
+                        for ($j = 0; $j < 3; $j++) {
+                            $this -> checkAngleNeighbours($x*3 + $i, $y*3 + $j);
+                        }
+                    }
+                }
+            }
+        }
+
+        private function checkAngleNeighbours($x, $y) {
+            for ($i = 0; $i <= 2; $i+=2) {
+                for ($j = 0; $j <= 2; $j+=2) {
+                    if ($x + $i - 1 < 0 || $x + $i - 1 >= $this -> template_data["width"] * 3
+                        || $y + $j - 1 < 0 || $y + $j - 1 >= $this -> template_data["height"] * 3) {
+                        continue;
+                    }
+                    // biom is first sprite - [0]
+                    if ($this -> template_data["draw_info"][$x][$y][0] == $this -> template_data["draw_info"][$x + $i - 1][$y + $j - 1][0]) {
+                        continue;
+                    }
+                    $smoothSprite = $this -> prepareSmoothSpriteByNeighbour($this -> template_data["draw_info"][$x + $i - 1][$y + $j - 1][0]);
+                    if ($this -> template_data["draw_info"][$x][$y][0] == $this -> template_data["draw_info"][$x][$y + $j - 1][0] 
+                        || $smoothSprite != $this -> prepareSmoothSpriteByNeighbour($this -> template_data["draw_info"][$x][$y + $j - 1][0])) {
+                        continue;
+                    }
+                    if ($this -> template_data["draw_info"][$x][$y][0] == $this -> template_data["draw_info"][$x + $i - 1][$y][0] 
+                        || $smoothSprite != $this -> prepareSmoothSpriteByNeighbour($this -> template_data["draw_info"][$x + $i - 1][$y][0])) {
+                        continue;
+                    }
+                    if ($i == 0) {
+                        array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array(array($smoothSprite, ($j == 0) ? 0 : 90)));
+                    } else {
+                        array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array(array($smoothSprite, ($j == 0) ? 270 : 180)));
+                    }
+                }
+            }
+        }
+
+        private function prepareSmoothSpriteByNeighbour($neighbourSprite) {
+            switch($neighbourSprite[0]) {
+                case 17:
+                case 18:
+                case 42:
+                    return 230;
+                    break;
+                case 25:
+                case 36:
+                case 41:
+                    return 231;
+                    break;
+                case 26:
+                case 34:
+                case 37:
+                case 23:
+                    return 224;
+                    break;
+                case 27:
+                case 35:
+                case 38:
+                case 24:
+                    return 226;
+                    break;
+                case 28:
+                case 43:
+                    return 232;
+                    break;
+                case 29:
+                case 33:
+                case 40:
+                case 22:
+                    return 229;
+                    break;
+                case 30:
+                case 19:
+                    return 225;
+                    break;
+                case 31:
+                case 20:
+                    return 227;
+                    break;
+                case 32:
+                case 21:
+                    return 228;
+                    break;
+                default:
+                    return 0;
             }
         }
 
