@@ -18,6 +18,7 @@
             if ((isset($_REQUEST['mode'])) && $_REQUEST['mode'] == "extended") {
                 $this -> checkCellNeigbours();
                 $this -> convertToExtended();
+                $this -> addExtraLore();
                 $this -> smoothBiomCells();
                 $this -> template_data["width"] *= 3;
                 $this -> template_data["height"] *= 3;
@@ -67,6 +68,119 @@
                 }
             }
             $this -> template_data["draw_info"] = $newData;
+        }
+
+        private function addExtraLore() { // hard-code! :D
+            /*$pathFromUJtoSL = "";
+            foreach($this -> template_data["roads"] as $x => $road) {
+                if ($road["point_1_id"] == 3 && $road["point_2_id"] == 39) {
+                    $pathFromUJtoSL = $road["path"];
+                    break;
+                }
+            }*/
+            include_once("map/Rails.php");
+            if (isset($railsPath)) {
+                foreach(json_decode($railsPath) as $id => $road) {
+                    $this -> drawRailPath($this -> convertPathToExt($road->path), $road->y, $road->x);
+                }
+            }
+        }
+
+        private function convertPathToExt($path) {
+            $result = $path[0].$path[0];
+            for($i = 1; $i < strlen($path); $i++) {
+                for($j = 0; $j < 3; $j++) {
+                    $result.=$path[$i];
+                }
+            }
+            return $result;
+        }
+        
+        private function drawRailPath($path, $x, $y) {
+            // var_dump($x.",".$y.",".$path);
+            $x = $x*3 + 1;
+            $y = $y*3 + 1;
+            $this -> moveRoadByTemplate($path[0], $x, $y);
+            $this -> replaceRoadToNew($x, $y, array(235, $this -> rotateEndByTemplate($path[0])));
+            $this -> moveRoadByTemplate($path[0], $x, $y);
+            for($i = 1; $i < strlen($path) - 1; $i++) {
+                $this -> replaceRoadToNew($x, $y, $this -> getSpriteByTemplate($path[$i-1].$path[$i]));
+                $this -> moveRoadByTemplate($path[$i], $x, $y);
+            }
+            $this -> replaceRoadToNew($x, $y, array(235, $this -> rotateEndByTemplate($path[strlen($path) - 1]) - 180));
+        }
+
+        private function moveRoadByTemplate($template, &$x, &$y) {
+            switch($template) {
+                case "r":
+                    $y++;
+                    break;
+                case "l":
+                    $y--;
+                    break;
+                case "u":
+                    $x--;
+                    break;
+                case "d":
+                    $x++;
+                    break;
+            }
+        }
+
+        private function rotateEndByTemplate($template) {
+            switch($template) {
+                case "r":
+                    return 0;
+                case "l":
+                    return 180;
+                case "u":
+                    return 270;
+                case "d":
+                    return 90;
+                default:
+                    return 0;
+            }
+        }
+
+        private function getSpriteByTemplate($template) {
+            switch($template) {
+                case "rr":
+                case "ll":
+                    return array(233, 0);
+                case "uu":
+                case "dd":
+                    return array(233, 90);
+                case "ur":
+                case "ld":
+                    return array(234, 180);
+                case "rd":
+                case "ul":
+                    return array(234, 270);
+                case "ru":
+                case "dl":
+                    return array(234, 0);
+                case "dr":
+                case "lu":
+                    return array(234, 90);
+                default:
+                    return array(234, 0);
+            }
+        }
+
+        private function replaceRoadToNew($x, $y, $sprite) {
+            if ($sprite[0] == 233 && $sprite[1] == 180) {
+                var_dump($this -> template_data["draw_info"][$x][$y][1][0]);
+            } 
+            if (isset($this -> template_data["draw_info"][$x][$y][1])) {
+                if ($sprite[0] == $this -> template_data["draw_info"][$x][$y][1][0] + 166 && $sprite[1] == $this -> template_data["draw_info"][$x][$y][1][1]
+                    || $sprite[1] == 90 && $sprite[0] == $this -> template_data["draw_info"][$x][$y][1][0] + 167) {
+                        $this -> replaceBiomToNew($this -> template_data["draw_info"][$x][$y][1], $sprite);
+                        return;
+                }
+                array_splice($this -> template_data["draw_info"][$x][$y], 2, 0, array($sprite));
+                return;
+            }
+            array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array($sprite));
         }
 
         private function convertTerrain(&$data, $x, $y, $sprite) {
