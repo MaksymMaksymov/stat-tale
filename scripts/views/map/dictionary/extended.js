@@ -957,5 +957,28 @@ var spritePos = {
         "name": "railway-end",
         "x": "10",
         "y": "2"
+    },
+    "236": {
+        "x": "10",
+        "y": "5"
+    },
+    "237": {
+        "x": "11",
+        "y": "5"
+    },
+    "238": {
+        "name": "road-diagonal-north",
+        "x": "0",
+        "y": "20"
+    },
+    "239": {
+        "name": "road-diagonal-south",
+        "x": "1",
+        "y": "20"
+    },
+    "240": {
+        "name": "road-diagonal-tail",
+        "x": "2",
+        "y": "20"
     }
 };

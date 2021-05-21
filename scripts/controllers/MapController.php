@@ -19,6 +19,7 @@
                 $this -> checkCellNeigbours();
                 $this -> convertToExtended();
                 $this -> addExtraLore();
+                $this -> addTailsToTurnRoads();
                 $this -> smoothBiomCells();
                 $this -> template_data["width"] *= 3;
                 $this -> template_data["height"] *= 3;
@@ -70,14 +71,155 @@
             $this -> template_data["draw_info"] = $newData;
         }
 
-        private function addExtraLore() { // hard-code! :D
-            /*$pathFromUJtoSL = "";
-            foreach($this -> template_data["roads"] as $x => $road) {
-                if ($road["point_1_id"] == 3 && $road["point_2_id"] == 39) {
-                    $pathFromUJtoSL = $road["path"];
-                    break;
+        private function addExtraLore() {
+            $this -> addRivers();
+            $this -> addRails();
+        }
+
+        private function addRivers() {
+            include_once("map/Rivers.php");
+            if (isset($riversPath)) {
+                $map = array();
+                foreach(json_decode($riversPath) as $id => $river) {
+                    $this -> prepareRiverMap($map, $river->path, $river->y, $river->x);
                 }
-            }*/
+                foreach($map as $x => $row) {
+                    foreach($row as $y => $cell) {
+                        $this -> drawRiverPath($x, $y, $cell);
+                    }
+                }
+            }
+        }
+
+        private function prepareRiverMap(&$map, $path, $x, $y) {
+            if (strlen($path) < 3) {
+                return;
+            }
+            $this -> movePathByTemplate($path[0], $x, $y);
+            $this -> setRiverTiles($map, $x, $y, array(103, $this -> rotateEndByTemplate($path[0])));
+            $this -> movePathByTemplate($path[0], $x, $y);
+            for($i = 1; $i < strlen($path) - 1; $i++) {
+                $this -> setRiverTiles($map, $x, $y, $this -> getRiverSpriteByTemplate($path[$i-1].$path[$i]));
+                $this -> movePathByTemplate($path[$i], $x, $y);
+            }
+            if ($path[strlen($path) - 1] != $path[strlen($path) - 2]) {
+                $this -> setRiverTiles($map, $x, $y, $this -> getRiverSpriteByTemplate($path[strlen($path) - 2].$path[strlen($path) - 1]));
+                $this -> movePathByTemplate($path[strlen($path) - 1], $x, $y);
+            }
+            $this -> setRiverTiles($map, $x, $y, array(103, $this -> rotateEndByTemplate($path[strlen($path) - 1]) - 180));
+        }
+
+        private function setRiverTiles(&$riverMap, $x, $y, $sprite) {
+            if (isset($riverMap[$x][$y])) {
+                if ($riverMap[$x][$y][0] == $sprite[0] && $riverMap[$x][$y][1] == $sprite[1]) {
+                    return;
+                }
+                $riverMap[$x][$y] = $this -> uniteRiverSprites($riverMap[$x][$y], $sprite);
+            } else {
+                $riverMap[$x][$y] = $sprite;
+            }
+        }
+
+        private function uniteRiverSprites($first, $second) { // silly code
+            if ($first[0] == 98 || $second[0] == 98) {
+                return array(98, 0);
+            }
+            if ($first[0] == 99 || $second[0] == 99) {
+                if ($first[0] == 99 && $second[0] == 99) {
+                    return array(98, 0);
+                }
+                $threesome = ($first[0] == 99) ? $first : $second;
+                $other = ($first[0] == 99) ? $second : $first;
+                if ($other[0] == 102 && (($threesome[1] + 180) % 360 == $other[1] || ($threesome[1] + 270) % 360 == $other[1]) 
+                    || $other[0] == 100 && $threesome[1] % 180 == 0 
+                    || $other[0] == 101 && $threesome[1] % 180 == 90) {
+                        return array(98, 0);
+                }
+                return $first;
+            }
+            if ($first[0] == 100 && $second[0] == 101 || $first[0] == 101 && $second[0] == 100) {
+                return array(98, 0);
+            }
+            if ($first[0] == 100 && $second[0] == 102 || $second[0] == 100 && $first[0] == 102) {
+                $turn = ($first[0] == 102) ? $first : $second;
+                if ($turn[1] == 0 || $turn[1] == 270) {
+                    return array(99, 270);
+                } else {
+                    return array(99, 90);
+                }
+            }
+            if ($first[0] == 101 && $second[0] == 102 || $second[0] == 101 && $first[0] == 102) {
+                $turn = ($first[0] == 102) ? $first : $second;
+                if ($turn[1] == 0 || $turn[1] == 180) {
+                    return array(99, 0);
+                } else {
+                    return array(99, 180);
+                }
+            }
+            if ($first[0] == 103 || $second[0] == 103) {
+                return ($first[0] == 103) ? $second : $first;
+            }
+            if ($first[0] == 102 && $second[0] == 102) {
+                if (($first[1] + $second[1])% 180 == 0) {
+                    return array(98, 0);
+                }
+                $smaller = ($first[1] < $second[1]) ? $first[1] : $second[1];
+                if ($smaller == 0) { 
+                    $smaller = ($first[1] == 270 || $second[1] == 270) ? 270 : 0;
+                }
+                return array(99, $smaller);
+            }
+            var_dump("undefined river unite");
+            return first;
+        }
+
+        private function getRiverSpriteByTemplate($template) {
+            switch($template) {
+                case "rr":
+                case "ll":
+                    return array(101, 0);
+                case "uu":
+                case "dd":
+                    return array(100, 0);
+                case "ur":
+                case "ld":
+                    return array(102, 180);
+                case "rd":
+                case "ul":
+                    return array(102, 270);
+                case "ru":
+                case "dl":
+                    return array(102, 0);
+                case "dr":
+                case "lu":
+                    return array(102, 90);
+                default:
+                    return array(100, 0);
+            }
+        }
+        
+        private function drawRiverPath($x, $y, $sprite) {
+            if (isset($this -> template_data["draw_info"][$x][$y][1]) 
+                && $this -> template_data["draw_info"][$x][$y][1][0] >= 64 
+                && $this -> template_data["draw_info"][$x][$y][1][0] <= 69) {
+                    if ($sprite[0] == 100 && $this -> template_data["draw_info"][$x][$y][1][0] == 67) {
+                        $this -> replaceBiomToNew($this -> template_data["draw_info"][$x][$y][1], array(237, 0));
+                        array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array($sprite));
+                        return;
+                    }
+                    if ($sprite[0] == 101 && $this -> template_data["draw_info"][$x][$y][1][0] == 66) {
+                        $this -> replaceBiomToNew($this -> template_data["draw_info"][$x][$y][1], array(236, 0));
+                        array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array($sprite));
+                        return;
+                    }
+                    // nothing to do, no resolve; we can swap biom to river tile
+                    return;
+            }
+            $this -> resolveNotEmptyCell($this -> template_data["draw_info"][$x][$y][0]);
+            array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array($sprite));
+        }
+
+        private function addRails() {
             include_once("map/Rails.php");
             if (isset($railsPath)) {
                 foreach(json_decode($railsPath) as $id => $road) {
@@ -97,32 +239,31 @@
         }
         
         private function drawRailPath($path, $x, $y) {
-            // var_dump($x.",".$y.",".$path);
             $x = $x*3 + 1;
             $y = $y*3 + 1;
-            $this -> moveRoadByTemplate($path[0], $x, $y);
-            $this -> replaceRoadToNew($x, $y, array(235, $this -> rotateEndByTemplate($path[0])));
-            $this -> moveRoadByTemplate($path[0], $x, $y);
+            $this -> movePathByTemplate($path[0], $x, $y);
+            $this -> replaceRoadToRail($x, $y, array(235, $this -> rotateEndByTemplate($path[0])));
+            $this -> movePathByTemplate($path[0], $x, $y);
             for($i = 1; $i < strlen($path) - 1; $i++) {
-                $this -> replaceRoadToNew($x, $y, $this -> getSpriteByTemplate($path[$i-1].$path[$i]));
-                $this -> moveRoadByTemplate($path[$i], $x, $y);
+                $this -> replaceRoadToRail($x, $y, $this -> getRailSpriteByTemplate($path[$i-1].$path[$i]));
+                $this -> movePathByTemplate($path[$i], $x, $y);
             }
-            $this -> replaceRoadToNew($x, $y, array(235, $this -> rotateEndByTemplate($path[strlen($path) - 1]) - 180));
+            $this -> replaceRoadToRail($x, $y, array(235, $this -> rotateEndByTemplate($path[strlen($path) - 1]) - 180));
         }
 
-        private function moveRoadByTemplate($template, &$x, &$y) {
+        private function movePathByTemplate($template, &$x, &$y) {
             switch($template) {
                 case "r":
-                    $y++;
+                    if ($y + 1 < $this -> template_data["height"] * 3) { $y++; }
                     break;
                 case "l":
-                    $y--;
+                    if ($y - 1 >= 0) { $y--; }
                     break;
                 case "u":
-                    $x--;
+                    if ($x - 1 >= 0) { $x--; }
                     break;
                 case "d":
-                    $x++;
+                    if ($x + 1 < $this -> template_data["width"] * 3) { $x++; }
                     break;
             }
         }
@@ -142,7 +283,7 @@
             }
         }
 
-        private function getSpriteByTemplate($template) {
+        private function getRailSpriteByTemplate($template) {
             switch($template) {
                 case "rr":
                 case "ll":
@@ -167,10 +308,7 @@
             }
         }
 
-        private function replaceRoadToNew($x, $y, $sprite) {
-            if ($sprite[0] == 233 && $sprite[1] == 180) {
-                var_dump($this -> template_data["draw_info"][$x][$y][1][0]);
-            } 
+        private function replaceRoadToRail($x, $y, $sprite) {
             if (isset($this -> template_data["draw_info"][$x][$y][1])) {
                 if ($sprite[0] == $this -> template_data["draw_info"][$x][$y][1][0] + 166 && $sprite[1] == $this -> template_data["draw_info"][$x][$y][1][1]
                     || $sprite[1] == 90 && $sprite[0] == $this -> template_data["draw_info"][$x][$y][1][0] + 167) {
@@ -386,13 +524,23 @@
                             break;
                         case 68:
                             if ($i == 1 && $j == 1) {
-                                array_push($data[$x*3 + $i][$y*3 + $j], $sprite);
+                                break;
                             } else if ($j == 1 && ($sprite[1]/90 < 2 && $i == 0 || $sprite[1]/90 >= 2 && $i == 2)) {
                                 $this -> resolveNotEmptyCell($data[$x*3 + $i][$y*3 + $j][0]);
-                                array_push($data[$x*3 + $i][$y*3 + $j], array(66, 0));
+                                if ($i == 0 && $sprite[1] == 0 || $i == 2 && $sprite[1] == 180) {
+                                    array_push($data[$x*3 + $i][$y*3 + $j], array(238, ($sprite[1] + 180) % 360));
+                                } else {
+                                    array_push($data[$x*3 + $i][$y*3 + $j], array(239, ($sprite[1] + 90) % 360));
+                                }
+                                // array_push($data[$x*3 + $i][$y*3 + $j], array(66, 0));
                             } else if ($i == 1 && ($sprite[1]/90 % 3 == 0 && $j == 0 || $sprite[1]/90 % 3 != 0 && $j == 2)) {
                                 $this -> resolveNotEmptyCell($data[$x*3 + $i][$y*3 + $j][0]);
-                                array_push($data[$x*3 + $i][$y*3 + $j], array(67, 0));
+                                if ($j == 0 && $sprite[1] == 270 || $j == 2 && $sprite[1] == 90) {
+                                    array_push($data[$x*3 + $i][$y*3 + $j], array(238, ($sprite[1] + 180) % 360));
+                                } else {
+                                    array_push($data[$x*3 + $i][$y*3 + $j], array(239, ($sprite[1] + 90) % 360));
+                                }
+                                // array_push($data[$x*3 + $i][$y*3 + $j], array(67, 0));
                             }
                             break;
                         case 69:
@@ -479,6 +627,29 @@
                     case 32:
                         $cell[0] = 21;
                         break;
+                }
+            }
+        }
+
+        private function addTailsToTurnRoads() {
+            for ($x = 0; $x < $this -> template_data["width"]; $x++) {
+                for ($y = 0; $y < $this -> template_data["height"]; $y++) {
+                    $this -> checkLineNeighbours($x*3 + 1, $y*3 + 1);
+                }
+            }
+        }
+
+        private function checkLineNeighbours($x, $y) {
+            for ($i = -1; $i < 2; $i+=2) {
+                if (isset($this -> template_data["draw_info"][$x + $i][$y][1]) && $this -> template_data["draw_info"][$x + $i][$y][1][0] == 239) {
+                    array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array(array(240, $this -> template_data["draw_info"][$x + $i][$y][1][1])));
+                    break;
+                }
+            }
+            for ($i = -1; $i < 2; $i+=2) {
+                if (isset($this -> template_data["draw_info"][$x][$y + $i][1]) && $this -> template_data["draw_info"][$x][$y + $i][1][0] == 239) {
+                    array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array(array(240, $this -> template_data["draw_info"][$x][$y + $i][1][1])));
+                    break;
                 }
             }
         }
