@@ -8,22 +8,22 @@ $riversPath = '{
     "2": {
         "x": 56,
         "y": 9,
-        "path":"llllllllllldlldldlldlldllldllllllllululuuuuuruuuuuululllllllllluuu"
+        "path":"llllllllllldlldldllwlwllwllllllnlnuuuueuuuuuunlllllllllluuu"
     },
     "3": {
         "x": 56,
         "y": 9,
-        "path":"lllllllllllddldldldldldldlddddddlllllldddddllllddddddddldldlddldldldllllllulululllll"
+        "path":"lllllllllllddldldldldldldwdddddwlllllwddddwlllwdddddddldldlddldldldllllllnunlllll"
     },
     "4": {
         "x": 138,
         "y": 95,
-        "path":"ddldldldldlddrrdddrrdrrrrdrdrdrdrdrdrrdrdrdrd"
+        "path":"dwdwdwdwdddrrdddrrdrrrsrsrsrsrdrdrsdsddddsdsd"
     },
     "5": {
         "x": 138,
         "y": 95,
-        "path":"ddldldldldlddldlldddlllddlllddlldlllllulllullluulllulldldddrddrrddrrddddlllddlldldlddrdrddddddldlddldld"
+        "path":"dwdwdwdwdllddldlldddllwlwlwdllwllnllnllnullnlwddsdsrdsrddddlllddlldldlddrdrddddddlwdwdwd"
     }
 }';
 ?>

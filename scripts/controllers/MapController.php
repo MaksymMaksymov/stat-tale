@@ -6,6 +6,7 @@
 	class MapController {
         public $template_data;
         private $neighbours;
+        private $dogNailRiverMap;
 
         function __construct() {}
 
@@ -21,6 +22,7 @@
                 $this -> addExtraLore();
                 $this -> addTailsToTurnRoads();
                 $this -> smoothBiomCells();
+                $this -> fillTreeCells();
                 $this -> template_data["width"] *= 3;
                 $this -> template_data["height"] *= 3;
             }
@@ -88,6 +90,13 @@
                         $this -> drawRiverPath($x, $y, $cell);
                     }
                 }
+                if (isset($dogNailRiverMap)) {
+                    foreach($dogNailRiverMap as $x => $row) {
+                        foreach($row as $y => $cell) {
+                            $this -> drawRiverPath($x, $y, $cell);
+                        }
+                    }
+                }
             }
         }
 
@@ -110,6 +119,13 @@
         }
 
         private function setRiverTiles(&$riverMap, $x, $y, $sprite) {
+            if ($sprite[0] == 241 && $sprite[0] == 242) {
+                if (!isset($dogNailRiverMap[$x][$y])) {
+                    $dogNailRiverMap[$x][$y] = array();
+                }
+                array_push($dogNailRiverMap[$x][$y], $sprite);
+                return;
+            }
             if (isset($riverMap[$x][$y])) {
                 if ($riverMap[$x][$y][0] == $sprite[0] && $riverMap[$x][$y][1] == $sprite[1]) {
                     return;
@@ -193,6 +209,30 @@
                 case "dr":
                 case "lu":
                     return array(102, 90);
+                case "re":
+                case "wl": 
+                    return array(242, 90);
+                case "rs":
+                case "nl":
+                    return array(241, 90);
+                case "un":
+                case "sd":
+                    return array(242, 0);
+                case "ue":
+                case "wd":
+                    return array(241, 0);
+                case "ln":
+                case "sr":
+                    return array(241, 270);
+                case "lw":
+                case "er":
+                    return array(242, 270);
+                case "dw":
+                case "eu":
+                    return array(241, 180);
+                case "ds":
+                case "nu":
+                    return array(242, 180);
                 default:
                     return array(100, 0);
             }
@@ -200,8 +240,10 @@
         
         private function drawRiverPath($x, $y, $sprite) {
             if (isset($this -> template_data["draw_info"][$x][$y][1]) 
-                && $this -> template_data["draw_info"][$x][$y][1][0] >= 64 
-                && $this -> template_data["draw_info"][$x][$y][1][0] <= 69) {
+                && ($this -> template_data["draw_info"][$x][$y][1][0] >= 64 
+                && $this -> template_data["draw_info"][$x][$y][1][0] <= 69 
+                || $this -> template_data["draw_info"][$x][$y][1][0] == 239
+                || $this -> template_data["draw_info"][$x][$y][1][0] == 240)) {
                     if ($sprite[0] == 100 && $this -> template_data["draw_info"][$x][$y][1][0] == 67) {
                         $this -> replaceBiomToNew($this -> template_data["draw_info"][$x][$y][1], array(237, 0));
                         array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array($sprite));
@@ -264,6 +306,18 @@
                     break;
                 case "d":
                     if ($x + 1 < $this -> template_data["width"] * 3) { $x++; }
+                    break;
+                case "n":
+                    if ($x - 1 >= 0 && $y - 1 >= 0) { $x--; $y--; }
+                    break;
+                case "e":
+                    if ($x - 1 >= 0 && $y + 1 < $this -> template_data["height"] * 3) { $x--; $y++;  }
+                    break;
+                case "s":
+                    if ($x + 1 < $this -> template_data["width"] * 3  && $y + 1 < $this -> template_data["height"] * 3) { $x++; $y++;  }
+                    break;
+                case "w":
+                    if ($x + 1 < $this -> template_data["width"] * 3 && $y - 1 >= 0) { $x++; $y--; }
                     break;
             }
         }
@@ -641,17 +695,25 @@
 
         private function checkLineNeighbours($x, $y) {
             for ($i = -1; $i < 2; $i+=2) {
-                if (isset($this -> template_data["draw_info"][$x + $i][$y][1]) && $this -> template_data["draw_info"][$x + $i][$y][1][0] == 239) {
-                    array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array(array(240, $this -> template_data["draw_info"][$x + $i][$y][1][1])));
-                    break;
+                if ($this -> checkTurn239inCell($x, $y, $x + $i, $y)) {
+                    return;
                 }
             }
             for ($i = -1; $i < 2; $i+=2) {
-                if (isset($this -> template_data["draw_info"][$x][$y + $i][1]) && $this -> template_data["draw_info"][$x][$y + $i][1][0] == 239) {
-                    array_splice($this -> template_data["draw_info"][$x][$y], 1, 0, array(array(240, $this -> template_data["draw_info"][$x][$y + $i][1][1])));
-                    break;
+                if ($this -> checkTurn239inCell($x, $y, $x, $y + $i)) {
+                    return;
                 }
             }
+        }
+
+        private function checkTurn239inCell($x0, $y0, $x, $y) {
+            foreach($this -> template_data["draw_info"][$x][$y] as $index => $cell) {
+                if ($cell[0] == 239) {
+                    array_splice($this -> template_data["draw_info"][$x0][$y0], 1, 0, array(array(240, $cell[1])));
+                    return true;
+                }
+            }
+            return false;
         }
 
         private function smoothBiomCells() {
@@ -743,6 +805,42 @@
                     break;
                 default:
                     return 0;
+            }
+        }
+
+        private function fillTreeCells() {
+            for ($x = 0; $x < $this -> template_data["width"]; $x++) {
+                for ($y = 0; $y < $this -> template_data["height"]; $y++) {
+                    for ($i = 0; $i < 3; $i++) {
+                        for ($j = 0; $j < 3; $j++) {
+                            if (isset($this -> template_data["draw_info"][$x*3 + $i][$y*3 + $j][0]) 
+                                && $this -> template_data["draw_info"][$x*3 + $i][$y*3 + $j][0][0] >= 25
+                                && $this -> template_data["draw_info"][$x*3 + $i][$y*3 + $j][0][0] <= 29) {
+                                $this -> checkTreeNeighbours($x*3 + $i, $y*3 + $j, $this -> template_data["draw_info"][$x*3 + $i][$y*3 + $j][0][0]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private function checkTreeNeighbours($x, $y, $sprite) {
+            $spritePart = ($sprite - 25)*4 + 243;
+            $indexPart = 1;
+            if (isset($this -> template_data["draw_info"][$x - 1][$y][0]) && $this -> template_data["draw_info"][$x - 1][$y][0][0] == $sprite) {
+                array_splice($this -> template_data["draw_info"][$x][$y], $indexPart, 0, array(array($spritePart, 0)));
+                $indexPart++;
+            }
+            $spritePart++;
+            for ($i = 1; $i > -2; $i-=2) {
+                if (isset($this -> template_data["draw_info"][$x][$y + $i][0]) && $this -> template_data["draw_info"][$x][$y + $i][0][0] == $sprite) {
+                    array_splice($this -> template_data["draw_info"][$x][$y], $indexPart, 0, array(array($spritePart, 0)));
+                    $indexPart++;
+                }
+                $spritePart++;
+            }
+            if (isset($this -> template_data["draw_info"][$x + 1][$y][0]) && $this -> template_data["draw_info"][$x + 1][$y][0][0] == $sprite) {
+                array_splice($this -> template_data["draw_info"][$x][$y], $indexPart, 0, array(array($spritePart, 0)));
             }
         }
 
