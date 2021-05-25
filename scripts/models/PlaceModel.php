@@ -63,6 +63,18 @@
                 return $ids;
             } 
         }
+
+        public static function dbSelectRaceByName($name) {
+            $mysqli = $GLOBALS["mysqli"];
+            $result = $mysqli->query("SELECT demographics FROM places WHERE name LIKE N'%".$name."%'");
+            
+            if ($result === false) {
+                return false;
+            } else {
+                $row = $result->fetch_assoc();
+                return $row['demographics'];
+            } 
+        }
         
         public function dbUpdateValues($arrayByCurl) {
             if (!CheckStatus::check($arrayByCurl)) return false;

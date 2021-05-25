@@ -2,6 +2,7 @@
     include_once("../models/GetInfoByURLModel.php");
     include_once("../models/PlaceModel.php");
     include_once("../models/EmissaryModel.php");
+    include_once("../models/Dictionary.php");
 
 	class MapController {
         public $template_data;
@@ -398,6 +399,11 @@
 
         private function convertCity(&$data, $x, $y, $sprite) {
             if ($sprite[0] % 4 != 0) {
+                $cityTier = ($sprite[0] - 44) % 4;
+                $cityRace = floor(($sprite[0] - 44) / 4);
+                $citySpriteFound = 103 + ($cityTier-1)*4 + $cityRace*12*2;
+                $mainRace = Dictionary::getRaceByDemografic(PlaceModel::dbSelectRaceByName($this -> findCityNameByCoods($x, $y)));
+
                 for ($i = 0; $i < 3; $i++) {
                     for ($j = 0; $j < 3; $j++) {
                         if ($i == 1 && $j == 1) {
@@ -406,9 +412,6 @@
                             }
                             continue;
                         }
-                        $cityTier = ($sprite[0] - 44) % 4;
-                        $cityRace = floor(($sprite[0] - 44) / 4);
-                        $citySpriteFound = 103 + ($cityTier-1)*4 + $cityRace*12*2;
                         if ($sprite[0] % 4 != 1) {
                             $this -> replaceBiomToNew($data[$x*3 + $i][$y*3 + $j][0], $data[$x*3 + 1][$y*3 + 1][0]);
                         }
@@ -446,10 +449,14 @@
                     }
                 }
             }
-            $this -> setCityTemplateBySprite($data, $x, $y, $sprite);
+            if (isset($mainRace) && isset($cityTier)) {
+                $this -> setCityTemplateBySprite($data, $x, $y, $sprite, array(44 + $mainRace * 4 + $cityTier, 0));
+            } else {
+                $this -> setCityTemplateBySprite($data, $x, $y, $sprite, $sprite);
+            }
         }
 
-        private function setCityTemplateBySprite(&$data, $x, $y, $sprite) {
+        private function setCityTemplateBySprite(&$data, $x, $y, $sprite, $sprite2) {
             for ($i = 0; $i < 3; $i++) {
                 for ($j = 0; $j < 3; $j++) {
                     switch($sprite[0]) {
@@ -471,7 +478,9 @@
                                 array_push($data[$x*3 + $i][$y*3 + $j], $this -> EmissaryCastleInCityByCoords($x, $y, $sprite));
                             }  else {
                                 if (!$this -> checkNotEmptyBiomCell($data[$x*3 + $i][$y*3 + $j][0])) {
-                                    array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-($x + $y + $i + $j) % 2, 0));
+                                    array_push($data[$x*3 + $i][$y*3 + $j], (($sprite[0] + $sprite2[0] + $i + $j) % 3 == 0) 
+                                        ? array($sprite[0]-($x + $y + $i + $j) % 2, 0)
+                                        : array($sprite2[0]-($x + $y + $i + $j) % 2, 0));
                                 }
                             }
                             break;
@@ -484,7 +493,9 @@
                                 array_push($data[$x*3 + $i][$y*3 + $j], $this -> EmissaryCastleInCityByCoords($x, $y, $sprite));
                             } else {
                                 $this -> resolveNotEmptyCell($data[$x*3 + $i][$y*3 + $j][0]);
-                                array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-($x + $y + $i + $j) % 3, 0));
+                                array_push($data[$x*3 + $i][$y*3 + $j], (($sprite[0] + $sprite2[0] + $i + $j) % 3 == 0) 
+                                        ? array($sprite[0]-($x + $y + $i + $j) % 3, 0)
+                                        : array($sprite2[0]-($x + $y + $i + $j) % 3, 0));
                             }
                             break;
                         case 47:
@@ -496,7 +507,9 @@
                                 array_push($data[$x*3 + $i][$y*3 + $j], $this -> EmissaryCastleInCityByCoords($x, $y, $sprite));
                             } else {
                                 $this -> resolveNotEmptyCell($data[$x*3 + $i][$y*3 + $j][0]);
-                                array_push($data[$x*3 + $i][$y*3 + $j], array($sprite[0]-($x + $y + $i + $j) % 4, 0));
+                                array_push($data[$x*3 + $i][$y*3 + $j], (($sprite[0] + $sprite2[0] + $i + $j) % 3 == 0) 
+                                        ? array($sprite[0]-($x + $y + $i + $j) % 4, 0)
+                                        : array($sprite2[0]-($x + $y + $i + $j) % 4, 0));
                             }
                             break;
                         default:
@@ -530,6 +543,16 @@
             foreach($this -> template_data["places"] as $id => $city) {
                 if ($city["pos"]["y"] == $x && $city["pos"]["x"] == $y) {
                     return (isset($city["clan_protector"]["id"])) ? $city["clan_protector"]["id"] : 0;
+                }
+            }
+            return 0;
+        }
+
+        
+        private function findCityNameByCoods($x, $y) {
+            foreach($this -> template_data["places"] as $id => $city) {
+                if ($city["pos"]["y"] == $x && $city["pos"]["x"] == $y) {
+                    return (isset($city["name"])) ? $city["name"] : false;
                 }
             }
             return 0;

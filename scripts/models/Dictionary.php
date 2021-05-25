@@ -215,6 +215,25 @@
             return false;
         }
 
+        public static function getRaceByDemografic($race_title) {
+            $race_title = trim($race_title);
+            if ($race_title == "Люди") {
+                return 0;
+            }
+            if ($race_title == "Эльфы") {
+                return 2; // tile number
+            }
+            if ($race_title == "Орки") {
+                return 4;
+            }
+            if ($race_title == "Гоблины") {
+                return 3;
+            }
+            if ($race_title == "Дварфы") {
+                return 1;
+            }
+        }
+
         public static function getJobEffect($effect) {
             switch ($effect) {
                 case 1:
