@@ -1,19 +1,19 @@
 <?php
 $riversPath = '{
     "1": {
-        "x": 50,
-        "y": 0,
-        "path":"ddddddddddddddddddddddllldddllldddddddddrrrrruuurrrrrrrrruuuuurrrrruuuurruuuuuuurrrrrruuuuuuuurrruuu"
+        "x": 59,
+        "y": 9,
+        "path":"lllllllldddddddddddddddllldddllldddddddddrrrrruuurrrrrrrrruuuuurrrrruuuurruuuuuuurrrrrruuuuuuuurrruuu"
     },
     "2": {
-        "x": 56,
+        "x": 59,
         "y": 9,
-        "path":"llllllllllldlldldllwlwllwllllllnlnuuuueuuuuuunlllllllllluuu"
+        "path":"lllllllllllllwdldldllwlwllwllllllnlnuuuueuuuuuunlllllllllluuu"
     },
     "3": {
-        "x": 56,
+        "x": 59,
         "y": 9,
-        "path":"lllllllllllddldldldldldldwdddddwlllllwddddwlllwdddddddldldlddldldldllllllnunlllll"
+        "path":"lllllllllllllwdldldldldldldwdddddwlllllwddddwlllwdddddddldldlddldldldllllllnunlllll"
     },
     "4": {
         "x": 138,

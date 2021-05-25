@@ -54,20 +54,19 @@ class MapDrawer {
         }
 
         /*draw data*/
-        /*ctx.font = "14px monospace";
+        ctx.font = "14px monospace";
         ctx.textAlign = "center";
         for (let id in data.places) {
             let place = data.places[id];
-            let trade_economy = data.trade_economy[id][0]; // + "/" + data.trade_economy[id][1];
-            let textX = (place.pos.x + 0.5) * tileSize * 3;
-            let textY = (place.pos.y + 1.45) * tileSize * 3;
-            let textName = trade_economy; // + " " + place.name;
+            let textX = (data.width > 70) ? (place.pos.x + 0.5) * this._tileSize * 3 : (place.pos.x + 0.5) * this._tileSize;
+            let textY = (data.width > 70) ? (place.pos.y + 1.34) * this._tileSize * 3 : (place.pos.y + 1.45) * this._tileSize;
+            let textName = place.name;
             let te = ctx.measureText(textName);
             ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
             ctx.fillRect(textX - te.width / 2 - 5, textY - 15, te.width + 10, 20);
             ctx.fillStyle = '#dddddd';
             ctx.fillText(textName, textX, textY);
-        }*/
+        }
     }
 
     getSprite(cellSprite) {

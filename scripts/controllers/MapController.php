@@ -14,8 +14,6 @@
         public function main() {         
             $curlGet = new GetInfoByURLModel();
             $result = $curlGet -> getInformation("https://the-tale.org/game/map/api/region?api_client=map-v0.4&api_version=0.1");
-            // $trade_economy = PlaceModel::dbSelectAllTradesAndEcomomy();
-            // $result["data"]["region"]["trade_economy"] = $trade_economy;
             $this -> template_data = $result["data"]["region"];
             if ((isset($_REQUEST['mode'])) && $_REQUEST['mode'] == "extended") {
                 $this -> checkCellNeigbours();
@@ -167,7 +165,7 @@
             }
             if ($first[0] == 101 && $second[0] == 102 || $second[0] == 101 && $first[0] == 102) {
                 $turn = ($first[0] == 102) ? $first : $second;
-                if ($turn[1] == 0 || $turn[1] == 180) {
+                if ($turn[1] == 0 || $turn[1] == 90) {
                     return array(99, 0);
                 } else {
                     return array(99, 180);
@@ -187,7 +185,7 @@
                 return array(99, $smaller);
             }
             var_dump("undefined river unite");
-            return first;
+            return $first;
         }
 
         private function getRiverSpriteByTemplate($template) {
