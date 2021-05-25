@@ -420,24 +420,28 @@
                             array_push($data[$x*3 + $i][$y*3 + $j], ($i == 0) ? array($citySpriteFound + 1, 0) : array($citySpriteFound + 4, 0));
                         }
                         if ($i == 1) {
-                            if ($j == 0 && isset($data[$x*3 + 1][$y*3 + 0][1]) && $data[$x*3 + 1][$y*3 + 0][1][0] == 67) {
+                            if ($j == 0 && isset($data[$x*3 + 1][$y*3 + 0][1]) && 
+                                ($data[$x*3 + 1][$y*3 + 0][1][0] == 67 || $data[$x*3 + 1][$y*3][1][0] == 238 || $data[$x*3 + 1][$y*3][1][0] == 239)) {
                                 $this -> replaceBiomToNew($data[$x*3 + 1][$y*3 + 0][1], array(69, 180));
-                                if (isset($data[$x*3 + 1][$y*3 + 0][2]) && $data[$x*3 + 1][$y*3 + 0][2][0] == $citySpriteFound + 3) {
+                                if (isset($data[$x*3 + 1][$y*3][2]) && $data[$x*3 + 1][$y*3][2][0] == $citySpriteFound + 3) {
                                     $this -> replaceBiomToNew($data[$x*3 + 1][$y*3 + 0][2], array($citySpriteFound + 15, 0));
                                 }
-                            } else if ($j == 2 && isset($data[$x*3 + 1][$y*3 + 2][1]) && $data[$x*3 + 1][$y*3 + 2][1][0] == 67) {
+                            } else if ($j == 2 && isset($data[$x*3 + 1][$y*3 + 2][1]) && 
+                                ($data[$x*3 + 1][$y*3 + 2][1][0] == 67 || $data[$x*3 + 1][$y*3 + 2][1][0] == 238 || $data[$x*3 + 1][$y*3 + 2][1][0] == 239)) {
                                 $this -> replaceBiomToNew($data[$x*3 + 1][$y*3 + 2][1], array(69, 0));
                                 if (isset($data[$x*3 + 1][$y*3 + 2][2]) && $data[$x*3 + 1][$y*3 + 2][2][0] == $citySpriteFound + 2) {
                                     $this -> replaceBiomToNew($data[$x*3 + 1][$y*3 + 2][2], array($citySpriteFound + 14, 0));
                                 }
                             }
                         } else if ($j == 1) {
-                            if ($i == 0 && isset($data[$x*3][$y*3 + 1][1]) && $data[$x*3][$y*3 + 1][1][0] == 66) {
+                            if ($i == 0 && isset($data[$x*3][$y*3 + 1][1]) && 
+                                ($data[$x*3][$y*3 + 1][1][0] == 66  || $data[$x*3][$y*3 + 1][1][0] == 238 || $data[$x*3][$y*3 + 1][1][0] == 239)) {
                                 $this -> replaceBiomToNew($data[$x*3][$y*3 + 1][1], array(69, 270));
                                 if (isset($data[$x*3][$y*3 + 1][2]) && $data[$x*3][$y*3 + 1][2][0] == $citySpriteFound + 1) {
                                     $this -> replaceBiomToNew($data[$x*3][$y*3 + 1][2], array($citySpriteFound + 13, 0));
                                 }
-                            } else if ($i == 2 && isset($data[$x*3 + 2][$y*3 + 1][1]) && $data[$x*3 + 2][$y*3 + 1][1][0] == 66) {
+                            } else if ($i == 2 && isset($data[$x*3 + 2][$y*3 + 1][1]) && 
+                                ($data[$x*3 + 2][$y*3 + 1][1][0] == 66  || $data[$x*3 + 2][$y*3 + 1][1][0] == 238 || $data[$x*3 + 2][$y*3 + 1][1][0] == 239)) {
                                 $this -> replaceBiomToNew($data[$x*3 + 2][$y*3 + 1][1], array(69, 90));
                                 if (isset($data[$x*3 + 2][$y*3 + 1][2]) && $data[$x*3 + 2][$y*3 + 1][2][0] == $citySpriteFound + 4) {
                                     $this -> replaceBiomToNew($data[$x*3 + 2][$y*3 + 1][2], array($citySpriteFound + 16, 0));
