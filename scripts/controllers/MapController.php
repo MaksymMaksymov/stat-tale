@@ -73,11 +73,11 @@
         }
 
         private function addExtraLore() {
-            $this -> addRivers();
+            $this -> addRiversAndLakes();
             $this -> addRails();
         }
 
-        private function addRivers() {
+        private function addRiversAndLakes() {
             include_once("map/Rivers.php");
             if (isset($riversPath)) {
                 $map = array();
@@ -94,6 +94,18 @@
                         foreach($row as $y => $cell) {
                             $this -> drawRiverPath($x, $y, $cell);
                         }
+                    }
+                }
+            }
+            if (isset($lakeBioms)) {
+                foreach(json_decode($lakeBioms) as $id => $cell) {
+                    $this -> replaceBiomToNew($this -> template_data["draw_info"][$cell->y][$cell->x][0], array(16, 0));
+                    if (isset($this -> template_data["draw_info"][$cell->y][$cell->x][1]) 
+                        && ($this -> template_data["draw_info"][$cell->y][$cell->x][1] >= 98
+                        && $this -> template_data["draw_info"][$cell->y][$cell->x][1] <= 103 
+                        || $this -> template_data["draw_info"][$cell->y][$cell->x][1] == 241
+                        || $this -> template_data["draw_info"][$cell->y][$cell->x][1] == 242)) {
+                            array_splice($this -> template_data[$cell->y][$cell->x], 1, 1);
                     }
                 }
             }
@@ -784,6 +796,9 @@
 
         private function prepareSmoothSpriteByNeighbour($neighbourSprite) {
             switch($neighbourSprite[0]) {
+                case 16:
+                    return 263;
+                    break;
                 case 17:
                 case 18:
                 case 42:

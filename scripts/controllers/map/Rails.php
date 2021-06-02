@@ -8,7 +8,7 @@ $railsPath = '{
     "2": {
         "x": 41,
         "y": 30,
-        "path":"uuururuuru"
+        "path":"uuurruuuru"
     },
     "3": {
         "x": 44,
