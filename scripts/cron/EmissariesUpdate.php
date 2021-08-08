@@ -8,6 +8,7 @@
     for ($index = 1; ; $index++) {
         if (!empty($array_deleted_ids) && $index == $array_deleted_ids[0]) {
             array_shift($array_deleted_ids);
+            continue;
         }
 
         $url = "https://the-tale.org/game/emissaries/".$index;

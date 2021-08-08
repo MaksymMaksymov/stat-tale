@@ -32,7 +32,7 @@
         public static function dbSelectAllDeleted()
         {
             $mysqli = $GLOBALS["mysqli"];
-            $result = $mysqli->query("SELECT id FROM emissaries WHERE status LIKE N'%Вне игры%'");
+            $result = $mysqli->query("SELECT id FROM emissaries WHERE status LIKE N'%убит%' OR N'%уволен%'");
             
             if ($result === false) {
                 return false;
