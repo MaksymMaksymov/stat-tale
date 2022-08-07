@@ -18,7 +18,7 @@
     <div id="tale-map-wrap">
         <canvas id="tale-map"></canvas>
     </div>
-    <script src="../views/map/draw-map.js"></script>
+    <script src="../views/<?php echo ($mode==="hex") ? "maphex" : "map" ?>/draw-map.js"  ></script>
 
   	<?php
         View::getFooter();

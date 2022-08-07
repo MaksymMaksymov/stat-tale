@@ -8,8 +8,11 @@
   			curl_setopt($curl, CURLOPT_URL, $url);  
   			curl_setopt($curl, CURLOPT_HEADER, 0);				
   			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); 
-          
- 			  $data = curl_exec($curl);          
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        
+ 			  $data = curl_exec($curl);  
+
+        if(!$data) var_dump(curl_error($curl));        
   	    curl_close($curl);      
             
         $res_data = json_decode($data, true);
@@ -23,7 +26,8 @@
         curl_setopt($curl, CURLOPT_URL, $url);  
         curl_setopt($curl, CURLOPT_HEADER, 0);        
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); 
-          
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        
         $data = curl_exec($curl);          
         curl_close($curl);      
             
